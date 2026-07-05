@@ -1,0 +1,211 @@
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+import { UsersService } from '../users/users.service';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
+
+export const UserRole = {
+  SugarDaddy: 'SUGAR_DADDY',
+  SugarBaby: 'SUGAR_BABY',
+  Admin: 'ADMIN',
+} as const;
+
+type UserRole = (typeof UserRole)[keyof typeof UserRole];
+
+@Injectable()
+export class AuthService {
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly usersService: UsersService,
+  ) {}
+
+  async register(registerDto: RegisterDto) {
+    const passwordHash = await bcrypt.hash(registerDto.password, 10);
+    const lookingFor = registerDto.lookingFor ?? registerDto.interest;
+    const role = this.resolveRole(
+      registerDto.role ?? registerDto.profileType ?? lookingFor,
+    );
+
+    const user = await this.usersService.create({
+      username: registerDto.username.toLowerCase(),
+      email: registerDto.email.toLowerCase(),
+      passwordHash,
+      role,
+      gender: registerDto.profileType,
+      lookingFor,
+      birthDate: registerDto.birthDate
+        ? new Date(`${registerDto.birthDate}T00:00:00.000Z`)
+        : undefined,
+      country: registerDto.country,
+      state: registerDto.state,
+      city: registerDto.city,
+      whatsapp: registerDto.whatsapp,
+      telegram: registerDto.telegram,
+      instagram: registerDto.instagram,
+      appearance: {
+        bodyType: registerDto.bodyType,
+        ethnicity: registerDto.ethnicity,
+        hairColor: registerDto.hairColor,
+        eyeColor: registerDto.eyeColor,
+        heightCm: registerDto.heightCm,
+      },
+      preferences: {
+        source: registerDto.source,
+        termsAccepted: registerDto.termsAccepted,
+        smoke: registerDto.smoke,
+        drink: registerDto.drink,
+        relationship: registerDto.relationship,
+        children: registerDto.children,
+        education: registerDto.education,
+        occupation: registerDto.occupation,
+      },
+      approvalStatus: 'APPROVED',
+      photos: registerDto.profilePhotos.map((photo, index) => ({
+        dataUrl: photo.dataUrl,
+        fileName: photo.fileName,
+        mimeType: photo.mimeType,
+        sortOrder: index + 1,
+      })),
+    });
+
+    return this.buildAuthResponse(user);
+  }
+
+  async login(loginDto: LoginDto) {
+    const identifier = (
+      loginDto.identifier ??
+      loginDto.email ??
+      loginDto.username
+    )?.toLowerCase();
+
+    if (!identifier) {
+      throw new BadRequestException('Email or username is required');
+    }
+
+    const user = identifier.includes('@')
+      ? await this.usersService.findByEmail(identifier)
+      : await this.usersService.findByUsername(identifier);
+
+    if (!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const passwordMatches = await bcrypt.compare(
+      loginDto.password,
+      user.passwordHash,
+    );
+
+    if (!passwordMatches) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if (
+      user.role === UserRole.SugarBaby &&
+      user.approvalStatus !== 'APPROVED'
+    ) {
+      throw new UnauthorizedException('Profile is pending manual approval');
+    }
+
+    return this.buildAuthResponse({
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      gender: user.gender,
+      lookingFor: user.lookingFor,
+      birthDate: user.birthDate,
+      country: user.country,
+      state: user.state,
+      city: user.city,
+      whatsapp: user.whatsapp,
+      telegram: user.telegram,
+      instagram: user.instagram,
+      approvalStatus: user.approvalStatus,
+      reviewedAt: user.reviewedAt,
+      createdAt: user.createdAt,
+    });
+  }
+
+  async adminLogin(loginDto: LoginDto) {
+    const authResponse = await this.login(loginDto);
+
+    if (authResponse.user.role !== UserRole.Admin) {
+      throw new UnauthorizedException('Admin access required');
+    }
+
+    return authResponse;
+  }
+
+  private buildAuthResponse(user: {
+    id: string;
+    username: string;
+    email: string;
+    role: string | null;
+    gender: string | null;
+    lookingFor: string | null;
+    birthDate: Date | null;
+    country: string | null;
+    state: string | null;
+    city: string | null;
+    whatsapp: string | null;
+    telegram: string | null;
+    instagram: string | null;
+    approvalStatus: string;
+    reviewedAt: Date | null;
+    createdAt: Date | null;
+  }) {
+    const accessToken = this.jwtService.sign({
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    });
+
+    return {
+      accessToken,
+      user,
+    };
+  }
+
+  private resolveRole(answer?: string | null): UserRole | undefined {
+    if (!answer) {
+      return undefined;
+    }
+
+    const normalizedAnswer = answer
+      .trim()
+      .toLowerCase()
+      .replace(/[_\s]+/g, '-');
+
+    if (
+      [
+        'sugar-daddy',
+        'sugardaddy',
+        'sugar-mommy',
+        'sugarmommy',
+        'daddy',
+        'mommy',
+      ].includes(normalizedAnswer)
+    ) {
+      return UserRole.SugarDaddy;
+    }
+
+    if (
+      [
+        'sugar-baby',
+        'sugarbaby',
+        'sugar-baby-woman',
+        'sugar-baby-man',
+        'baby',
+      ].includes(normalizedAnswer)
+    ) {
+      return UserRole.SugarBaby;
+    }
+
+    return undefined;
+  }
+}

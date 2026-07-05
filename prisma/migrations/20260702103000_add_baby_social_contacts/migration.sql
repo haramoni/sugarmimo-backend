@@ -1,0 +1,4 @@
+ALTER TABLE `users`
+  ADD COLUMN `whatsapp` VARCHAR(30) NULL,
+  ADD COLUMN `telegram` VARCHAR(80) NULL,
+  ADD COLUMN `instagram` VARCHAR(80) NULL;
