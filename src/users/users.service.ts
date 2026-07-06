@@ -190,6 +190,10 @@ export class UsersService {
     }
 
     const { appearance, preferences, photos, ...userData } = data;
+    const approvalStatus =
+      userData.role === UserRole.SugarBaby
+        ? 'PENDING'
+        : userData.approvalStatus;
     const hasAppearance =
       appearance &&
       Object.values(appearance).some(
@@ -205,6 +209,7 @@ export class UsersService {
     return this.prisma.user.create({
       data: {
         ...userData,
+        approvalStatus,
         appearance: hasAppearance
           ? {
               create: appearance,
@@ -375,7 +380,9 @@ export class UsersService {
       select: this.publicProfileSelect(),
     });
 
-    return profile ? this.sanitizePublicProfile(profile, viewer.username) : null;
+    return profile
+      ? this.sanitizePublicProfile(profile, viewer.username)
+      : null;
   }
 
   async updateProfile(id: string, data: UpdateUserProfileInput) {
@@ -593,14 +600,16 @@ export class UsersService {
     ).slice(0, 50);
   }
 
-  private sanitizePublicProfile<T extends {
-    whatsapp: string | null;
-    telegram: string | null;
-    instagram: string | null;
-    preferences: {
-      preferences: unknown;
-    } | null;
-  }>(profile: T, viewerUsername?: string) {
+  private sanitizePublicProfile<
+    T extends {
+      whatsapp: string | null;
+      telegram: string | null;
+      instagram: string | null;
+      preferences: {
+        preferences: unknown;
+      } | null;
+    },
+  >(profile: T, viewerUsername?: string) {
     const preferences = profile.preferences?.preferences;
     const visibleContactChannels =
       preferences &&
@@ -622,8 +631,9 @@ export class UsersService {
 
     return {
       ...profile,
-      whatsapp: canViewContacts && visibleContactChannels.includes('whatsapp')
-        ? profile.whatsapp
+      whatsapp:
+        canViewContacts && visibleContactChannels.includes('whatsapp')
+          ? profile.whatsapp
         : null,
       telegram: canViewContacts && visibleContactChannels.includes('telegram')
         ? profile.telegram

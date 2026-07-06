@@ -31,6 +31,27 @@ export declare class AuthService {
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
+    } | {
+        requiresApproval: boolean;
+        accessToken: string;
+        user: {
+            id: string;
+            username: string;
+            email: string;
+            role: string | null;
+            gender: string | null;
+            lookingFor: string | null;
+            birthDate: Date | null;
+            country: string | null;
+            state: string | null;
+            city: string | null;
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+            approvalStatus: string;
+            reviewedAt: Date | null;
+            createdAt: Date | null;
+        };
     }>;
     login(loginDto: LoginDto): Promise<{
         accessToken: string;
@@ -75,5 +96,6 @@ export declare class AuthService {
         };
     }>;
     private buildAuthResponse;
+    private getInitialApprovalStatus;
     private resolveRole;
 }

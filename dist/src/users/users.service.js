@@ -110,6 +110,9 @@ let UsersService = class UsersService {
             throw new common_1.ConflictException('Email or username already registered');
         }
         const { appearance, preferences, photos, ...userData } = data;
+        const approvalStatus = userData.role === UserRole.SugarBaby
+            ? 'PENDING'
+            : userData.approvalStatus;
         const hasAppearance = appearance &&
             Object.values(appearance).some((value) => value !== undefined && value !== '');
         const filteredPreferences = Object.fromEntries(Object.entries(preferences ?? {}).filter(([, value]) => value !== undefined && value !== ''));
@@ -117,6 +120,7 @@ let UsersService = class UsersService {
         return this.prisma.user.create({
             data: {
                 ...userData,
+                approvalStatus,
                 appearance: hasAppearance
                     ? {
                         create: appearance,
@@ -271,7 +275,9 @@ let UsersService = class UsersService {
             },
             select: this.publicProfileSelect(),
         });
-        return profile ? this.sanitizePublicProfile(profile, viewer.username) : null;
+        return profile
+            ? this.sanitizePublicProfile(profile, viewer.username)
+            : null;
     }
     async updateProfile(id, data) {
         const currentUser = await this.findById(id);

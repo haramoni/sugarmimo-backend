@@ -62,7 +62,8 @@ let AuthService = class AuthService {
     async register(registerDto) {
         const passwordHash = await bcrypt.hash(registerDto.password, 10);
         const lookingFor = registerDto.lookingFor ?? registerDto.interest;
-        const role = this.resolveRole(registerDto.role ?? registerDto.profileType ?? lookingFor);
+        const role = this.resolveRole(registerDto.profileType ?? registerDto.role ?? lookingFor);
+        const approvalStatus = this.getInitialApprovalStatus(role);
         const user = await this.usersService.create({
             username: registerDto.username.toLowerCase(),
             email: registerDto.email.toLowerCase(),
@@ -96,7 +97,7 @@ let AuthService = class AuthService {
                 education: registerDto.education,
                 occupation: registerDto.occupation,
             },
-            approvalStatus: 'APPROVED',
+            approvalStatus,
             photos: registerDto.profilePhotos.map((photo, index) => ({
                 dataUrl: photo.dataUrl,
                 fileName: photo.fileName,
@@ -104,6 +105,12 @@ let AuthService = class AuthService {
                 sortOrder: index + 1,
             })),
         });
+        if (approvalStatus === 'PENDING') {
+            return {
+                ...this.buildAuthResponse(user),
+                requiresApproval: true,
+            };
+        }
         return this.buildAuthResponse(user);
     }
     async login(loginDto) {
@@ -112,6 +119,9 @@ let AuthService = class AuthService {
             loginDto.username)?.toLowerCase();
         if (!identifier) {
             throw new common_1.BadRequestException('Email or username is required');
+        }
+        if (!loginDto.password) {
+            throw new common_1.BadRequestException('Password is required');
         }
         const user = identifier.includes('@')
             ? await this.usersService.findByEmail(identifier)
@@ -163,6 +173,9 @@ let AuthService = class AuthService {
             accessToken,
             user,
         };
+    }
+    getInitialApprovalStatus(role) {
+        return role === exports.UserRole.SugarBaby ? 'PENDING' : 'APPROVED';
     }
     resolveRole(answer) {
         if (!answer) {

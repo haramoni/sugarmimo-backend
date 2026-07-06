@@ -3,9 +3,6 @@ export declare class AdminController {
     private readonly usersService;
     constructor(usersService: UsersService);
     findPendingBabies(): import("@prisma/client").Prisma.PrismaPromise<{
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -16,6 +13,9 @@ export declare class AdminController {
         country: string | null;
         state: string | null;
         city: string | null;
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         approvalStatus: string;
         createdAt: Date | null;
         photos: {

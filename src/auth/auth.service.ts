@@ -28,8 +28,9 @@ export class AuthService {
     const passwordHash = await bcrypt.hash(registerDto.password, 10);
     const lookingFor = registerDto.lookingFor ?? registerDto.interest;
     const role = this.resolveRole(
-      registerDto.role ?? registerDto.profileType ?? lookingFor,
+      registerDto.profileType ?? registerDto.role ?? lookingFor,
     );
+    const approvalStatus = this.getInitialApprovalStatus(role);
 
     const user = await this.usersService.create({
       username: registerDto.username.toLowerCase(),
@@ -64,7 +65,7 @@ export class AuthService {
         education: registerDto.education,
         occupation: registerDto.occupation,
       },
-      approvalStatus: 'APPROVED',
+      approvalStatus,
       photos: registerDto.profilePhotos.map((photo, index) => ({
         dataUrl: photo.dataUrl,
         fileName: photo.fileName,
@@ -72,6 +73,13 @@ export class AuthService {
         sortOrder: index + 1,
       })),
     });
+
+    if (approvalStatus === 'PENDING') {
+      return {
+        ...this.buildAuthResponse(user),
+        requiresApproval: true,
+      };
+    }
 
     return this.buildAuthResponse(user);
   }
@@ -85,6 +93,10 @@ export class AuthService {
 
     if (!identifier) {
       throw new BadRequestException('Email or username is required');
+    }
+
+    if (!loginDto.password) {
+      throw new BadRequestException('Password is required');
     }
 
     const user = identifier.includes('@')
@@ -169,6 +181,10 @@ export class AuthService {
       accessToken,
       user,
     };
+  }
+
+  private getInitialApprovalStatus(role?: UserRole) {
+    return role === UserRole.SugarBaby ? 'PENDING' : 'APPROVED';
   }
 
   private resolveRole(answer?: string | null): UserRole | undefined {
