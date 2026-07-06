@@ -104,6 +104,9 @@ export declare class AuthController {
         };
     }>;
     me(request: AuthenticatedRequest): import("@prisma/client").Prisma.Prisma__UserClient<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -114,9 +117,6 @@ export declare class AuthController {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
         createdAt: Date | null;
@@ -144,6 +144,9 @@ export declare class AuthController {
     matches(): void;
     matchProfile(): void;
     updateMe(request: AuthenticatedRequest, updateProfileDto: UpdateProfileDto): Promise<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -154,9 +157,6 @@ export declare class AuthController {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
         createdAt: Date | null;

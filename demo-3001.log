@@ -35,3 +35,671 @@
 [32m[Nest] 2364  - [39m06/07/2026, 10:53:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
 [32m[Nest] 2364  - [39m06/07/2026, 10:53:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
 [32m[Nest] 2364  - [39m06/07/2026, 10:53:34 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +91ms[39m
+[2J[3J[H[[90m15:50:17[0m] File change detected. Starting incremental compilation...
+
+[[90m15:50:18[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:50:18[0m] File change detected. Starting incremental compilation...
+
+[[90m15:50:19[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:50:19[0m] File change detected. Starting incremental compilation...
+
+[[90m15:50:19[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:50:20[0m] File change detected. Starting incremental compilation...
+
+[[90m15:50:20[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:50:21[0m] File change detected. Starting incremental compilation...
+
+[[90m15:50:21[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +12ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +6ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +3ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[2J[3J[H[[90m15:50:23[0m] File change detected. Starting incremental compilation...
+
+[32m[Nest] 35436  - [39m06/07/2026, 15:50:23 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +149ms[39m
+[[90m15:50:23[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 13416  - [39m06/07/2026, 15:50:25 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +77ms[39m
+[2J[3J[H[[90m15:50:48[0m] File change detected. Starting incremental compilation...
+
+[[90m15:50:49[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:50:49[0m] File change detected. Starting incremental compilation...
+
+[[90m15:50:50[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:50:50[0m] File change detected. Starting incremental compilation...
+
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +12ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +3ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9360  - [39m06/07/2026, 15:50:51 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +79ms[39m
+[2J[3J[H[[90m15:50:59[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:00[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +13ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 16020  - [39m06/07/2026, 15:51:02 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +82ms[39m
+[2J[3J[H[[90m15:51:06[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:07[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +12ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +6ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31064  - [39m06/07/2026, 15:51:08 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +88ms[39m
+[2J[3J[H[[90m15:51:12[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:13[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +11ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:14 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 35172  - [39m06/07/2026, 15:51:15 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +79ms[39m
+[2J[3J[H[[90m15:51:22[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:23[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +11ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17272  - [39m06/07/2026, 15:51:24 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +79ms[39m
+[2J[3J[H[[90m15:51:26[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:27[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +3ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 22956  - [39m06/07/2026, 15:51:28 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +79ms[39m
+[2J[3J[H[[90m15:51:29[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:30[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9404  - [39m06/07/2026, 15:51:31 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +77ms[39m
+[2J[3J[H[[90m15:51:32[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:32[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +12ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 11752  - [39m06/07/2026, 15:51:34 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +90ms[39m
+[2J[3J[H[[90m15:51:34[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:35[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:51:36[0m] File change detected. Starting incremental compilation...
+
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 12924  - [39m06/07/2026, 15:51:36 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[[90m15:51:36[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:37 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:37 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +16ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:37 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 19756  - [39m06/07/2026, 15:51:38 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +92ms[39m
+[2J[3J[H[[90m15:51:40[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:40[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:51:41[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:41[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m15:51:42[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:42[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +11ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +3ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38756  - [39m06/07/2026, 15:51:44 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +76ms[39m
+[2J[3J[H[[90m15:51:46[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:46[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +3ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25564  - [39m06/07/2026, 15:51:48 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +74ms[39m
+[2J[3J[H[[90m15:51:52[0m] File change detected. Starting incremental compilation...
+
+[[90m15:51:53[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:54 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:54 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +11ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:54 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +3ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 31784  - [39m06/07/2026, 15:51:55 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +75ms[39m
+[2J[3J[H[[90m15:52:07[0m] File change detected. Starting incremental compilation...
+
+[[90m15:52:08[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 21880  - [39m06/07/2026, 15:52:09 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +80ms[39m
+[2J[3J[H[[90m15:52:10[0m] File change detected. Starting incremental compilation...
+
+[[90m15:52:10[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +11ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 9052  - [39m06/07/2026, 15:52:12 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +74ms[39m
+[2J[3J[H[[90m17:17:13[0m] File change detected. Starting incremental compilation...
+
+[[90m17:17:13[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m17:17:14[0m] File change detected. Starting incremental compilation...
+
+[[90m17:17:15[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m17:17:16[0m] File change detected. Starting incremental compilation...
+
+[[90m17:17:16[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[2J[3J[H[[90m17:17:18[0m] File change detected. Starting incremental compilation...
+
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +13ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +6ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 3168  - [39m06/07/2026, 17:17:18 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +120ms[39m
+[[90m17:17:18[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +12ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +7ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 38964  - [39m06/07/2026, 17:17:20 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +126ms[39m
+[2J[3J[H[[90m17:25:50[0m] File change detected. Starting incremental compilation...
+
+[[90m17:25:51[0m] Found 0 errors. Watching for file changes.
+

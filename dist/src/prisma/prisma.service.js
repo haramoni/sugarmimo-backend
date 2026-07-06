@@ -23,6 +23,7 @@ let PrismaService = class PrismaService extends client_1.PrismaClient {
             user: decodeURIComponent(databaseUrl.username),
             password: decodeURIComponent(databaseUrl.password),
             database: databaseUrl.pathname.replace(/^\//, ''),
+            connectionLimit: Number(process.env.DB_CONNECTION_LIMIT ?? 2),
             allowPublicKeyRetrieval: true,
         });
         super({ adapter });

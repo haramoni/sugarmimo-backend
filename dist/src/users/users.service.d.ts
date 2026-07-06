@@ -79,6 +79,9 @@ export declare class UsersService {
     private readonly prisma;
     constructor(prisma: PrismaService);
     findByEmail(email: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -90,14 +93,14 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
         createdAt: Date | null;
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findByUsername(username: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -109,9 +112,6 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
         createdAt: Date | null;
@@ -121,6 +121,9 @@ export declare class UsersService {
         emailAvailable: boolean;
     }>;
     findById(id: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -131,9 +134,6 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
         createdAt: Date | null;
@@ -159,6 +159,9 @@ export declare class UsersService {
         }[];
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     create(data: CreateUserInput): Promise<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -169,9 +172,6 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
         createdAt: Date | null;
@@ -184,6 +184,9 @@ export declare class UsersService {
         }[];
     }>;
     findPendingBabies(): import("@prisma/client").Prisma.PrismaPromise<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -194,9 +197,6 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         approvalStatus: string;
         createdAt: Date | null;
         photos: {
@@ -216,6 +216,9 @@ export declare class UsersService {
         reviewedAt: Date | null;
     }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findMatchesForUser(viewerId: string, search?: string): Promise<({
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         role: string | null;
@@ -225,9 +228,6 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;
@@ -255,6 +255,9 @@ export declare class UsersService {
         instagram: string | null;
     })[]>;
     findMatchProfileForUser(viewerId: string, identifier: string): Promise<({
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         role: string | null;
@@ -264,9 +267,6 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;
@@ -294,6 +294,9 @@ export declare class UsersService {
         instagram: string | null;
     }) | null>;
     updateProfile(id: string, data: UpdateUserProfileInput): Promise<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
         id: string;
         username: string;
         email: string;
@@ -304,9 +307,6 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
         createdAt: Date | null;
