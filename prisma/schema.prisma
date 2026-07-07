@@ -26,7 +26,7 @@ model User {
   whatsapp     String?         @db.VarChar(30)
   telegram     String?         @db.VarChar(80)
   instagram    String?         @db.VarChar(80)
-  approvalStatus String        @default("APPROVED") @map("approval_status") @db.VarChar(30)
+  approvalStatus String        @default("PENDING") @map("approval_status") @db.VarChar(30)
   reviewedAt   DateTime?      @map("reviewed_at") @db.Timestamp(0)
   createdAt    DateTime?       @default(now()) @map("created_at") @db.Timestamp(0)
   appearance   UserAppearance?
