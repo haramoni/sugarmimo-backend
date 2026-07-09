@@ -1,7 +1,9 @@
+import { AuditService } from '../audit/audit.service';
 import { UsersService } from '../users/users.service';
 export declare class AdminController {
     private readonly usersService;
-    constructor(usersService: UsersService);
+    private readonly auditService;
+    constructor(usersService: UsersService, auditService: AuditService);
     findPendingBabies(): import("@prisma/client").Prisma.PrismaPromise<{
         whatsapp: string | null;
         telegram: string | null;
@@ -26,6 +28,25 @@ export declare class AdminController {
             mimeType: string | null;
         }[];
     }[]>;
+    findActivityLogs(limit?: string): import("@prisma/client").Prisma.PrismaPromise<({
+        user: {
+            id: string;
+            username: string;
+            email: string;
+            role: string | null;
+        } | null;
+    } & {
+        path: string;
+        id: string;
+        createdAt: Date | null;
+        userId: string | null;
+        action: string;
+        method: string;
+        statusCode: number | null;
+        ip: string | null;
+        userAgent: string | null;
+        metadata: import("@prisma/client/runtime/client").JsonValue | null;
+    })[]>;
     approveProfile(id: string): import("@prisma/client").Prisma.Prisma__UserClient<{
         id: string;
         username: string;

@@ -97,5 +97,7 @@ export declare class AuthService {
     }>;
     private buildAuthResponse;
     private getInitialApprovalStatus;
+    private normalizeRole;
+    private normalizeApprovalStatus;
     private resolveRole;
 }

@@ -37,6 +37,9 @@ const registerDto = {
   ],
 } as RegisterDto;
 
+const validPasswordHash =
+  '$2b$10$3ZsF3NdxAo4aREgoKKJpuepyUJ2Pc.3/eDT4chc5Lw2mJHg5Q.Kgq';
+
 describe('AuthService', () => {
   const jwtService = {
     sign: jest.fn(() => 'signed-token'),
@@ -128,8 +131,7 @@ describe('AuthService', () => {
   it('blocks pending Sugar Baby login', async () => {
     usersService.findByEmail.mockResolvedValue({
       ...baseUser,
-      passwordHash:
-        '$2b$10$mSLptsyvzfZ4qL9xxTHlPu6ha7UM6BjNMJ9KD7jT6/lpjuYitTNqK',
+      passwordHash: validPasswordHash,
     });
 
     await expect(
@@ -138,5 +140,27 @@ describe('AuthService', () => {
         password: 'Senha@123',
       }),
     ).rejects.toThrow(UnauthorizedException);
+  });
+
+  it('allows approved Sugar Baby login', async () => {
+    usersService.findByEmail.mockResolvedValue({
+      ...baseUser,
+      approvalStatus: 'APPROVED',
+      reviewedAt: new Date('2026-07-09T12:00:00.000Z'),
+      passwordHash: validPasswordHash,
+    });
+
+    await expect(
+      service.login({
+        identifier: 'maria@example.com',
+        password: 'Senha@123',
+      }),
+    ).resolves.toMatchObject({
+      accessToken: 'signed-token',
+      user: expect.objectContaining({
+        role: UserRole.SugarBaby,
+        approvalStatus: 'APPROVED',
+      }),
+    });
   });
 });

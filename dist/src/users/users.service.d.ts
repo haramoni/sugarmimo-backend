@@ -332,7 +332,6 @@ export declare class UsersService {
         }[];
     } | null>;
     private toSlug;
-    private getOppositeRole;
     private publicProfileSelect;
     private normalizeContactViewerUsernames;
     private sanitizePublicProfile;

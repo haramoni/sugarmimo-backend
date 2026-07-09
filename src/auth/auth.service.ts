@@ -117,8 +117,8 @@ export class AuthService {
     }
 
     if (
-      user.role === UserRole.SugarBaby &&
-      user.approvalStatus !== 'APPROVED'
+      this.normalizeRole(user.role) === UserRole.SugarBaby &&
+      this.normalizeApprovalStatus(user.approvalStatus) !== 'APPROVED'
     ) {
       throw new UnauthorizedException('Profile is pending manual approval');
     }
@@ -185,6 +185,14 @@ export class AuthService {
 
   private getInitialApprovalStatus(role?: UserRole) {
     return role === UserRole.SugarBaby ? 'PENDING' : 'APPROVED';
+  }
+
+  private normalizeRole(role?: string | null) {
+    return role?.trim().toUpperCase();
+  }
+
+  private normalizeApprovalStatus(approvalStatus?: string | null) {
+    return approvalStatus?.trim().toUpperCase();
   }
 
   private resolveRole(answer?: string | null): UserRole | undefined {

@@ -320,13 +320,7 @@ export class UsersService {
       select: { role: true, username: true },
     });
 
-    if (!viewer?.role) {
-      return [];
-    }
-
-    const targetRole = this.getOppositeRole(viewer.role);
-
-    if (!targetRole) {
+    if (viewer?.role !== UserRole.SugarBaby) {
       return [];
     }
 
@@ -335,7 +329,7 @@ export class UsersService {
     const matches = await this.prisma.user.findMany({
       where: {
         id: { not: viewerId },
-        role: targetRole,
+        role: UserRole.SugarDaddy,
         approvalStatus: 'APPROVED',
         ...(normalizedSearch
           ? {
@@ -359,10 +353,10 @@ export class UsersService {
   async findMatchProfileForUser(viewerId: string, identifier: string) {
     const viewer = await this.prisma.user.findUnique({
       where: { id: viewerId },
-      select: { username: true },
+      select: { role: true, username: true },
     });
 
-    if (!viewer?.username) {
+    if (viewer?.role !== UserRole.SugarBaby || !viewer.username) {
       return null;
     }
 
@@ -374,7 +368,7 @@ export class UsersService {
           { id: normalizedIdentifier },
           { username: normalizedIdentifier.toLowerCase() },
         ],
-        role: { in: [UserRole.SugarDaddy, UserRole.SugarBaby] },
+        role: UserRole.SugarDaddy,
         approvalStatus: 'APPROVED',
       },
       select: this.publicProfileSelect(),
@@ -527,18 +521,6 @@ export class UsersService {
       .trim()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '');
-  }
-
-  private getOppositeRole(role: string) {
-    if (role === UserRole.SugarDaddy) {
-      return UserRole.SugarBaby;
-    }
-
-    if (role === UserRole.SugarBaby) {
-      return UserRole.SugarDaddy;
-    }
-
-    return null;
   }
 
   private publicProfileSelect() {

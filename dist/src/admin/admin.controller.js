@@ -15,15 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminController = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
+const audit_service_1 = require("../audit/audit.service");
 const users_service_1 = require("../users/users.service");
 const admin_guard_1 = require("./admin.guard");
 let AdminController = class AdminController {
     usersService;
-    constructor(usersService) {
+    auditService;
+    constructor(usersService, auditService) {
         this.usersService = usersService;
+        this.auditService = auditService;
     }
     findPendingBabies() {
         return this.usersService.findPendingBabies();
+    }
+    findActivityLogs(limit = '100') {
+        return this.auditService.findLatest(Number(limit));
     }
     approveProfile(id) {
         return this.usersService.updateApprovalStatus(id, 'APPROVED');
@@ -39,6 +45,13 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "findPendingBabies", null);
+__decorate([
+    (0, common_1.Get)('activity-logs'),
+    __param(0, (0, common_1.Query)('limit')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "findActivityLogs", null);
 __decorate([
     (0, common_1.Patch)('profiles/:id/approve'),
     __param(0, (0, common_1.Param)('id')),
@@ -56,6 +69,7 @@ __decorate([
 exports.AdminController = AdminController = __decorate([
     (0, common_1.Controller)('admin'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, admin_guard_1.AdminGuard),
-    __metadata("design:paramtypes", [users_service_1.UsersService])
+    __metadata("design:paramtypes", [users_service_1.UsersService,
+        audit_service_1.AuditService])
 ], AdminController);
 //# sourceMappingURL=admin.controller.js.map

@@ -133,8 +133,8 @@ let AuthService = class AuthService {
         if (!passwordMatches) {
             throw new common_1.UnauthorizedException('Invalid credentials');
         }
-        if (user.role === exports.UserRole.SugarBaby &&
-            user.approvalStatus !== 'APPROVED') {
+        if (this.normalizeRole(user.role) === exports.UserRole.SugarBaby &&
+            this.normalizeApprovalStatus(user.approvalStatus) !== 'APPROVED') {
             throw new common_1.UnauthorizedException('Profile is pending manual approval');
         }
         return this.buildAuthResponse({
@@ -176,6 +176,12 @@ let AuthService = class AuthService {
     }
     getInitialApprovalStatus(role) {
         return role === exports.UserRole.SugarBaby ? 'PENDING' : 'APPROVED';
+    }
+    normalizeRole(role) {
+        return role?.trim().toUpperCase();
+    }
+    normalizeApprovalStatus(approvalStatus) {
+        return approvalStatus?.trim().toUpperCase();
     }
     resolveRole(answer) {
         if (!answer) {

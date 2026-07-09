@@ -42,11 +42,15 @@ let AuthController = class AuthController {
     me(request) {
         return this.usersService.findById(request.user.id);
     }
-    matches() {
-        throw new common_1.GoneException('A busca de perfis esta desativada nesta versao.');
+    matches(request, search = '') {
+        return this.usersService.findMatchesForUser(request.user.id, search);
     }
-    matchProfile() {
-        throw new common_1.GoneException('Perfis publicos estao desativados nesta versao.');
+    async matchProfile(request, identifier) {
+        const profile = await this.usersService.findMatchProfileForUser(request.user.id, identifier);
+        if (!profile) {
+            throw new common_1.NotFoundException('Perfil nao encontrado.');
+        }
+        return profile;
     }
     updateMe(request, updateProfileDto) {
         return this.usersService.updateProfile(request.user.id, updateProfileDto);
@@ -96,16 +100,20 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('matches'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('search')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "matches", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('matches/:identifier'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Param)('identifier')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", Promise)
 ], AuthController.prototype, "matchProfile", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),

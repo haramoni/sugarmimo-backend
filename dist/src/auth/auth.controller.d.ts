@@ -141,8 +141,84 @@ export declare class AuthController {
             mimeType: string | null;
         }[];
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
-    matches(): void;
-    matchProfile(): void;
+    matches(request: AuthenticatedRequest, search?: string): Promise<({
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
+        id: string;
+        username: string;
+        role: string | null;
+        gender: string | null;
+        lookingFor: string | null;
+        birthDate: Date | null;
+        country: string | null;
+        state: string | null;
+        city: string | null;
+        createdAt: Date | null;
+        appearance: {
+            bodyType: string | null;
+            ethnicity: string | null;
+            hairColor: string | null;
+            eyeColor: string | null;
+            heightCm: number | null;
+        } | null;
+        preferences: {
+            lookingFor: string | null;
+            preferences: import("@prisma/client/runtime/client").JsonValue;
+            introductionPhrase: string | null;
+            aboutMe: string | null;
+        } | null;
+        photos: {
+            id: string;
+            sortOrder: number;
+            dataUrl: string;
+            fileName: string | null;
+            mimeType: string | null;
+        }[];
+    } & {
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
+    })[]>;
+    matchProfile(request: AuthenticatedRequest, identifier: string): Promise<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
+        id: string;
+        username: string;
+        role: string | null;
+        gender: string | null;
+        lookingFor: string | null;
+        birthDate: Date | null;
+        country: string | null;
+        state: string | null;
+        city: string | null;
+        createdAt: Date | null;
+        appearance: {
+            bodyType: string | null;
+            ethnicity: string | null;
+            hairColor: string | null;
+            eyeColor: string | null;
+            heightCm: number | null;
+        } | null;
+        preferences: {
+            lookingFor: string | null;
+            preferences: import("@prisma/client/runtime/client").JsonValue;
+            introductionPhrase: string | null;
+            aboutMe: string | null;
+        } | null;
+        photos: {
+            id: string;
+            sortOrder: number;
+            dataUrl: string;
+            fileName: string | null;
+            mimeType: string | null;
+        }[];
+    } & {
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
+    }>;
     updateMe(request: AuthenticatedRequest, updateProfileDto: UpdateProfileDto): Promise<{
         whatsapp: string | null;
         telegram: string | null;

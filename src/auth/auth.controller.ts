@@ -1,9 +1,10 @@
 import {
   Body,
   Controller,
-  GoneException,
   Get,
   HttpCode,
+  NotFoundException,
+  Param,
   Patch,
   Post,
   Query,
@@ -67,14 +68,29 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('matches')
-  matches() {
-    throw new GoneException('A busca de perfis esta desativada nesta versao.');
+  matches(
+    @Req() request: AuthenticatedRequest,
+    @Query('search') search = '',
+  ) {
+    return this.usersService.findMatchesForUser(request.user.id, search);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('matches/:identifier')
-  matchProfile() {
-    throw new GoneException('Perfis publicos estao desativados nesta versao.');
+  async matchProfile(
+    @Req() request: AuthenticatedRequest,
+    @Param('identifier') identifier: string,
+  ) {
+    const profile = await this.usersService.findMatchProfileForUser(
+      request.user.id,
+      identifier,
+    );
+
+    if (!profile) {
+      throw new NotFoundException('Perfil nao encontrado.');
+    }
+
+    return profile;
   }
 
   @UseGuards(JwtAuthGuard)

@@ -227,18 +227,14 @@ let UsersService = class UsersService {
             where: { id: viewerId },
             select: { role: true, username: true },
         });
-        if (!viewer?.role) {
-            return [];
-        }
-        const targetRole = this.getOppositeRole(viewer.role);
-        if (!targetRole) {
+        if (viewer?.role !== UserRole.SugarBaby) {
             return [];
         }
         const normalizedSearch = search?.trim();
         const matches = await this.prisma.user.findMany({
             where: {
                 id: { not: viewerId },
-                role: targetRole,
+                role: UserRole.SugarDaddy,
                 approvalStatus: 'APPROVED',
                 ...(normalizedSearch
                     ? {
@@ -258,9 +254,9 @@ let UsersService = class UsersService {
     async findMatchProfileForUser(viewerId, identifier) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
-            select: { username: true },
+            select: { role: true, username: true },
         });
-        if (!viewer?.username) {
+        if (viewer?.role !== UserRole.SugarBaby || !viewer.username) {
             return null;
         }
         const normalizedIdentifier = identifier.trim().replace(/^@+/, '');
@@ -270,7 +266,7 @@ let UsersService = class UsersService {
                     { id: normalizedIdentifier },
                     { username: normalizedIdentifier.toLowerCase() },
                 ],
-                role: { in: [UserRole.SugarDaddy, UserRole.SugarBaby] },
+                role: UserRole.SugarDaddy,
                 approvalStatus: 'APPROVED',
             },
             select: this.publicProfileSelect(),
@@ -403,15 +399,6 @@ let UsersService = class UsersService {
             .trim()
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-+|-+$/g, '');
-    }
-    getOppositeRole(role) {
-        if (role === UserRole.SugarDaddy) {
-            return UserRole.SugarBaby;
-        }
-        if (role === UserRole.SugarBaby) {
-            return UserRole.SugarDaddy;
-        }
-        return null;
     }
     publicProfileSelect() {
         return {
