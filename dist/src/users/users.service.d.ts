@@ -95,6 +95,7 @@ export declare class UsersService {
         city: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
+        lastActiveAt: Date | null;
         createdAt: Date | null;
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findByUsername(username: string): import("@prisma/client").Prisma.Prisma__UserClient<{
@@ -114,7 +115,14 @@ export declare class UsersService {
         city: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
+        lastActiveAt: Date | null;
         createdAt: Date | null;
+    } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    findAuthStateById(id: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+        id: string;
+        email: string;
+        role: string | null;
+        approvalStatus: string;
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     checkAvailability(username: string, email: string): Promise<{
         usernameAvailable: boolean;
@@ -207,14 +215,14 @@ export declare class UsersService {
             mimeType: string | null;
         }[];
     }[]>;
-    updateApprovalStatus(id: string, approvalStatus: 'APPROVED' | 'REJECTED'): import("@prisma/client").Prisma.Prisma__UserClient<{
+    updateApprovalStatus(id: string, approvalStatus: 'APPROVED' | 'REJECTED'): Promise<{
         id: string;
         username: string;
         email: string;
         role: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
-    }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    }>;
     findMatchesForUser(viewerId: string, search?: string): Promise<({
         whatsapp: string | null;
         telegram: string | null;
@@ -228,6 +236,7 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
+        lastActiveAt: Date | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;
@@ -250,11 +259,32 @@ export declare class UsersService {
             mimeType: string | null;
         }[];
     } & {
+        isOnline: boolean;
         whatsapp: string | null;
         telegram: string | null;
         instagram: string | null;
     })[]>;
-    findMatchProfileForUser(viewerId: string, identifier: string): Promise<({
+    findActiveDaddySuggestions(viewerId: string, search?: string): Promise<{
+        id: string;
+        username: string;
+        state: string | null;
+        city: string | null;
+    }[]>;
+    touchPresence(userId: string): Promise<{
+        online: boolean;
+    }>;
+    findMatchProfileForUser(viewerId: string, identifier: string): Promise<{
+        interaction: {
+            liked: boolean;
+            likeId: string | null;
+            likedAt: Date | null;
+            daddyLiked: boolean;
+            daddyLikedAt: Date | null;
+            babyLiked: boolean;
+            babyLikedAt: Date | null;
+            contactsReleased: boolean;
+            contactsReleasedAt: Date | null;
+        };
         whatsapp: string | null;
         telegram: string | null;
         instagram: string | null;
@@ -267,6 +297,7 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
+        lastActiveAt: Date | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;
@@ -288,11 +319,8 @@ export declare class UsersService {
             fileName: string | null;
             mimeType: string | null;
         }[];
-    } & {
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
-    }) | null>;
+        isOnline: boolean;
+    } | null>;
     updateProfile(id: string, data: UpdateUserProfileInput): Promise<{
         whatsapp: string | null;
         telegram: string | null;
@@ -332,8 +360,11 @@ export declare class UsersService {
         }[];
     } | null>;
     private toSlug;
+    private resolveMatchRole;
     private publicProfileSelect;
     private normalizeContactViewerUsernames;
+    private filterActiveDaddyUsernames;
     private sanitizePublicProfile;
+    private isOnline;
 }
 export {};

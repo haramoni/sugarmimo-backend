@@ -1,15 +1,16 @@
 import {
   ArrayMaxSize,
-  ArrayMinSize,
   IsDateString,
   IsEmail,
   IsArray,
   IsBoolean,
+  IsIn,
   IsInt,
   IsOptional,
   IsString,
   Matches,
   Max,
+  MaxLength,
   Min,
   MinLength,
   ValidateNested,
@@ -18,15 +19,16 @@ import { Type } from 'class-transformer';
 
 class RegisterPhotoDto {
   @IsString()
+  @MaxLength(7_000_000)
   dataUrl: string;
 
   @IsOptional()
   @IsString()
   fileName?: string;
 
-  @IsOptional()
   @IsString()
-  mimeType?: string;
+  @IsIn(['image/jpeg', 'image/png', 'image/webp'])
+  mimeType: string;
 }
 
 export class RegisterDto {
@@ -143,10 +145,10 @@ export class RegisterDto {
   @IsString()
   occupation?: string;
 
+  @IsOptional()
   @IsArray()
-  @ArrayMinSize(1)
   @ArrayMaxSize(3)
   @ValidateNested({ each: true })
   @Type(() => RegisterPhotoDto)
-  profilePhotos: RegisterPhotoDto[];
+  profilePhotos?: RegisterPhotoDto[];
 }

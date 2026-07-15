@@ -26,6 +26,7 @@ __decorate([
 ], UpdateProfilePhotoDto.prototype, "id", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(7_000_000),
     __metadata("design:type", String)
 ], UpdateProfilePhotoDto.prototype, "dataUrl", void 0);
 __decorate([
@@ -34,8 +35,8 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateProfilePhotoDto.prototype, "fileName", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsIn)(['image/jpeg', 'image/png', 'image/webp']),
     __metadata("design:type", String)
 ], UpdateProfilePhotoDto.prototype, "mimeType", void 0);
 __decorate([
@@ -106,16 +107,19 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(30),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "whatsapp", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(80),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "telegram", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(80),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "instagram", void 0);
 __decorate([

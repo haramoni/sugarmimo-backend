@@ -11,6 +11,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
+import { Throttle } from '@nestjs/throttler';
 import { Request } from 'express';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
@@ -35,26 +36,27 @@ export class AuthController {
   ) {}
 
   @Post('register')
+  @Throttle({ default: { limit: 5, ttl: 60 * 60_000 } })
   @HttpCode(200)
   register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
 
   @Post('login')
+  @Throttle({ default: { limit: 10, ttl: 15 * 60_000 } })
   @HttpCode(200)
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 
   @Get('availability')
-  availability(
-    @Query('username') username = '',
-    @Query('email') email = '',
-  ) {
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
+  availability(@Query('username') username = '', @Query('email') email = '') {
     return this.usersService.checkAvailability(username, email);
   }
 
   @Post('/admin/login')
+  @Throttle({ default: { limit: 5, ttl: 15 * 60_000 } })
   @HttpCode(200)
   adminLogin(@Body() loginDto: LoginDto) {
     return this.authService.adminLogin(loginDto);
@@ -67,12 +69,28 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('presence')
+  @HttpCode(200)
+  presence(@Req() request: AuthenticatedRequest) {
+    return this.usersService.touchPresence(request.user.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('matches')
-  matches(
+  matches(@Req() request: AuthenticatedRequest, @Query('search') search = '') {
+    return this.usersService.findMatchesForUser(request.user.id, search);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('contact-viewers')
+  contactViewers(
     @Req() request: AuthenticatedRequest,
     @Query('search') search = '',
   ) {
-    return this.usersService.findMatchesForUser(request.user.id, search);
+    return this.usersService.findActiveDaddySuggestions(
+      request.user.id,
+      search,
+    );
   }
 
   @UseGuards(JwtAuthGuard)

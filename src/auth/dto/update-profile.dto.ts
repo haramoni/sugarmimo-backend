@@ -7,6 +7,7 @@ import {
   IsOptional,
   IsString,
   Max,
+  MaxLength,
   Min,
   ValidateNested,
 } from 'class-validator';
@@ -18,15 +19,16 @@ class UpdateProfilePhotoDto {
   id?: string;
 
   @IsString()
+  @MaxLength(7_000_000)
   dataUrl: string;
 
   @IsOptional()
   @IsString()
   fileName?: string;
 
-  @IsOptional()
   @IsString()
-  mimeType?: string;
+  @IsIn(['image/jpeg', 'image/png', 'image/webp'])
+  mimeType: string;
 
   @Type(() => Number)
   @IsInt()
@@ -62,14 +64,17 @@ export class UpdateProfileDto {
 
   @IsOptional()
   @IsString()
+  @MaxLength(30)
   whatsapp?: string;
 
   @IsOptional()
   @IsString()
+  @MaxLength(80)
   telegram?: string;
 
   @IsOptional()
   @IsString()
+  @MaxLength(80)
   instagram?: string;
 
   @IsOptional()

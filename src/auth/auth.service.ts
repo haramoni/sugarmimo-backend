@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { validateProfilePhotos } from '../users/profile-photo.validation';
 
 export const UserRole = {
   SugarDaddy: 'SUGAR_DADDY',
@@ -25,11 +26,28 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto) {
-    const passwordHash = await bcrypt.hash(registerDto.password, 10);
     const lookingFor = registerDto.lookingFor ?? registerDto.interest;
-    const role = this.resolveRole(
-      registerDto.profileType ?? registerDto.role ?? lookingFor,
-    );
+    const role = this.resolveRole(registerDto.profileType ?? registerDto.role);
+
+    if (!role) {
+      throw new BadRequestException('Tipo de perfil invalido.');
+    }
+
+    if (registerDto.termsAccepted !== true) {
+      throw new BadRequestException('E necessario aceitar os termos de uso.');
+    }
+
+    this.validateAdultBirthDate(registerDto.birthDate);
+
+    const photos = registerDto.profilePhotos ?? [];
+    if (role === UserRole.SugarBaby && photos.length === 0) {
+      throw new BadRequestException(
+        'Sugar Babies precisam enviar pelo menos uma foto.',
+      );
+    }
+    validateProfilePhotos(photos);
+
+    const passwordHash = await bcrypt.hash(registerDto.password, 10);
     const approvalStatus = this.getInitialApprovalStatus(role);
 
     const user = await this.usersService.create({
@@ -66,7 +84,7 @@ export class AuthService {
         occupation: registerDto.occupation,
       },
       approvalStatus,
-      photos: registerDto.profilePhotos.map((photo, index) => ({
+      photos: photos.map((photo, index) => ({
         dataUrl: photo.dataUrl,
         fileName: photo.fileName,
         mimeType: photo.mimeType,
@@ -76,8 +94,8 @@ export class AuthService {
 
     if (approvalStatus === 'PENDING') {
       return {
-        ...this.buildAuthResponse(user),
         requiresApproval: true,
+        user,
       };
     }
 
@@ -183,7 +201,7 @@ export class AuthService {
     };
   }
 
-  private getInitialApprovalStatus(role?: UserRole) {
+  private getInitialApprovalStatus(role: UserRole) {
     return role === UserRole.SugarBaby ? 'PENDING' : 'APPROVED';
   }
 
@@ -231,5 +249,29 @@ export class AuthService {
     }
 
     return undefined;
+  }
+
+  private validateAdultBirthDate(birthDate?: string) {
+    if (!birthDate) {
+      throw new BadRequestException('Data de nascimento obrigatoria.');
+    }
+
+    const parsedBirthDate = new Date(`${birthDate}T00:00:00.000Z`);
+    if (Number.isNaN(parsedBirthDate.getTime())) {
+      throw new BadRequestException('Data de nascimento invalida.');
+    }
+
+    const today = new Date();
+    const adultThreshold = new Date(
+      Date.UTC(
+        today.getUTCFullYear() - 18,
+        today.getUTCMonth(),
+        today.getUTCDate(),
+      ),
+    );
+
+    if (parsedBirthDate > adultThreshold) {
+      throw new BadRequestException('E necessario ter pelo menos 18 anos.');
+    }
   }
 }

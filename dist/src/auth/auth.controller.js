@@ -14,6 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
+const throttler_1 = require("@nestjs/throttler");
 const users_service_1 = require("../users/users.service");
 const auth_service_1 = require("./auth.service");
 const login_dto_1 = require("./dto/login.dto");
@@ -42,8 +43,14 @@ let AuthController = class AuthController {
     me(request) {
         return this.usersService.findById(request.user.id);
     }
+    presence(request) {
+        return this.usersService.touchPresence(request.user.id);
+    }
     matches(request, search = '') {
         return this.usersService.findMatchesForUser(request.user.id, search);
+    }
+    contactViewers(request, search = '') {
+        return this.usersService.findActiveDaddySuggestions(request.user.id, search);
     }
     async matchProfile(request, identifier) {
         const profile = await this.usersService.findMatchProfileForUser(request.user.id, identifier);
@@ -59,6 +66,7 @@ let AuthController = class AuthController {
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('register'),
+    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 60 * 60_000 } }),
     (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -67,6 +75,7 @@ __decorate([
 ], AuthController.prototype, "register", null);
 __decorate([
     (0, common_1.Post)('login'),
+    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 15 * 60_000 } }),
     (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -75,6 +84,7 @@ __decorate([
 ], AuthController.prototype, "login", null);
 __decorate([
     (0, common_1.Get)('availability'),
+    (0, throttler_1.Throttle)({ default: { limit: 30, ttl: 60_000 } }),
     __param(0, (0, common_1.Query)('username')),
     __param(1, (0, common_1.Query)('email')),
     __metadata("design:type", Function),
@@ -83,6 +93,7 @@ __decorate([
 ], AuthController.prototype, "availability", null);
 __decorate([
     (0, common_1.Post)('/admin/login'),
+    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 15 * 60_000 } }),
     (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -99,6 +110,15 @@ __decorate([
 ], AuthController.prototype, "me", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('presence'),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "presence", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('matches'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('search')),
@@ -106,6 +126,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "matches", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('contact-viewers'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('search')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "contactViewers", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('matches/:identifier'),

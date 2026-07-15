@@ -72,6 +72,13 @@ export class AuditInterceptor implements NestInterceptor {
     }
 
     const responseUserId = this.extractResponseUserId(outcome.responseBody);
+    const metadata: Prisma.InputJsonObject = {
+      durationMs,
+      params: request.params,
+      query: this.sanitizeObject(request.query),
+      ...this.extractTargetMetadata(request),
+      ...(outcome.errorMessage ? { errorMessage: outcome.errorMessage } : {}),
+    };
 
     void this.auditService.record({
       userId: request.user?.id ?? responseUserId,
@@ -81,13 +88,7 @@ export class AuditInterceptor implements NestInterceptor {
       statusCode,
       ip: this.extractIp(request),
       userAgent: this.toHeaderString(request.headers['user-agent']),
-      metadata: {
-        durationMs,
-        params: request.params,
-        query: this.sanitizeObject(request.query),
-        ...this.extractTargetMetadata(request),
-        ...(outcome.errorMessage ? { errorMessage: outcome.errorMessage } : {}),
-      } as Prisma.InputJsonObject,
+      metadata,
     });
   }
 
@@ -95,7 +96,10 @@ export class AuditInterceptor implements NestInterceptor {
     const routePath = this.getRoutePath(request);
     const method = request.method.toUpperCase();
 
-    if (method === 'GET' && routePath === '/auth/availability') {
+    if (
+      (method === 'GET' && routePath === '/auth/availability') ||
+      (method === 'POST' && routePath === '/auth/presence')
+    ) {
       return null;
     }
 
@@ -107,24 +111,31 @@ export class AuditInterceptor implements NestInterceptor {
       'GET /auth/me': 'CURRENT_USER_VIEWED',
       'PATCH /auth/me': 'PROFILE_UPDATED',
       'GET /auth/matches': 'MATCHES_VIEWED',
+      'GET /auth/contact-viewers': 'CONTACT_VIEWERS_SEARCHED',
       'GET /auth/matches/:identifier': 'PROFILE_VIEWED',
       'GET /admin/pending-babies': 'PENDING_PROFILES_VIEWED',
       'PATCH /admin/profiles/:id/approve': 'PROFILE_APPROVED',
       'PATCH /admin/profiles/:id/reject': 'PROFILE_REJECTED',
       'GET /admin/activity-logs': 'ACTIVITY_LOGS_VIEWED',
-      'GET /chat/conversations': 'CHAT_CONVERSATIONS_VIEWED',
-      'POST /chat/conversations': 'CHAT_CONVERSATION_STARTED',
-      'GET /chat/conversations/:conversationId/messages': 'CHAT_MESSAGES_VIEWED',
-      'POST /chat/conversations/:conversationId/messages': 'CHAT_MESSAGE_SENT',
+      'POST /interactions/likes/:babyId': 'PROFILE_LIKED',
+      'POST /interactions/baby-likes/:daddyId':
+        'DADDY_LIKED_AND_CONTACTS_RELEASED',
+      'POST /interactions/releases/:daddyId': 'CONTACTS_RELEASED',
+      'GET /interactions/notifications': 'NOTIFICATIONS_VIEWED',
+      'PATCH /interactions/notifications/:id/read': 'NOTIFICATION_READ',
     };
 
     return actions[`${method} ${routePath}`] ?? `${method} ${routePath}`;
   }
 
   private getRoutePath(request: Request) {
-    const routePath = request.route?.path as string | undefined;
+    const route: unknown = request.route;
+    const routePath =
+      route && typeof route === 'object' && 'path' in route
+        ? route.path
+        : undefined;
 
-    if (routePath?.startsWith('/')) {
+    if (typeof routePath === 'string' && routePath.startsWith('/')) {
       return routePath;
     }
 
@@ -141,14 +152,19 @@ export class AuditInterceptor implements NestInterceptor {
   }
 
   private extractIp(request: Request) {
-    const forwardedFor = this.toHeaderString(request.headers['x-forwarded-for']);
+    const forwardedFor = this.toHeaderString(
+      request.headers['x-forwarded-for'],
+    );
 
     return forwardedFor?.split(',')[0]?.trim() || request.ip || null;
   }
 
   private extractTargetMetadata(request: Request) {
     if (request.method === 'POST' && request.path.endsWith('/messages')) {
-      return { bodyKeys: this.getBodyKeys(request.body), messageBodyLogged: false };
+      return {
+        bodyKeys: this.getBodyKeys(request.body),
+        messageBodyLogged: false,
+      };
     }
 
     return {

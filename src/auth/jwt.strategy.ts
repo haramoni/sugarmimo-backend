@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import { UsersService } from '../users/users.service';
 
 export type JwtPayload = {
   sub: string;
@@ -11,7 +12,10 @@ export type JwtPayload = {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(configService: ConfigService) {
+  constructor(
+    configService: ConfigService,
+    private readonly usersService: UsersService,
+  ) {
     const secret = configService.getOrThrow<string>('JWT_SECRET');
 
     super({
@@ -21,11 +25,24 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: JwtPayload) {
+  async validate(payload: JwtPayload) {
+    const user = await this.usersService.findAuthStateById(payload.sub);
+
+    if (!user) {
+      throw new UnauthorizedException('Sessao invalida.');
+    }
+
+    if (
+      user.role?.trim().toUpperCase() === 'SUGAR_BABY' &&
+      user.approvalStatus?.trim().toUpperCase() !== 'APPROVED'
+    ) {
+      throw new UnauthorizedException('Perfil ainda nao aprovado.');
+    }
+
     return {
-      id: payload.sub,
-      email: payload.email,
-      role: payload.role,
+      id: user.id,
+      email: user.email,
+      role: user.role,
     };
   }
 }

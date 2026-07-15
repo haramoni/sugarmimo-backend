@@ -14,26 +14,38 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const passport_1 = require("@nestjs/passport");
 const passport_jwt_1 = require("passport-jwt");
+const users_service_1 = require("../users/users.service");
 let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(passport_jwt_1.Strategy) {
-    constructor(configService) {
+    usersService;
+    constructor(configService, usersService) {
         const secret = configService.getOrThrow('JWT_SECRET');
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
             secretOrKey: secret,
         });
+        this.usersService = usersService;
     }
-    validate(payload) {
+    async validate(payload) {
+        const user = await this.usersService.findAuthStateById(payload.sub);
+        if (!user) {
+            throw new common_1.UnauthorizedException('Sessao invalida.');
+        }
+        if (user.role?.trim().toUpperCase() === 'SUGAR_BABY' &&
+            user.approvalStatus?.trim().toUpperCase() !== 'APPROVED') {
+            throw new common_1.UnauthorizedException('Perfil ainda nao aprovado.');
+        }
         return {
-            id: payload.sub,
-            email: payload.email,
-            role: payload.role,
+            id: user.id,
+            email: user.email,
+            role: user.role,
         };
     }
 };
 exports.JwtStrategy = JwtStrategy;
 exports.JwtStrategy = JwtStrategy = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [config_1.ConfigService])
+    __metadata("design:paramtypes", [config_1.ConfigService,
+        users_service_1.UsersService])
 ], JwtStrategy);
 //# sourceMappingURL=jwt.strategy.js.map

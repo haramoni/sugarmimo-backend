@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const profile_photo_validation_1 = require("./profile-photo.validation");
 const UserRole = {
     SugarDaddy: 'SUGAR_DADDY',
     SugarBaby: 'SUGAR_BABY',
@@ -29,6 +30,17 @@ let UsersService = class UsersService {
     findByUsername(username) {
         return this.prisma.user.findUnique({
             where: { username },
+        });
+    }
+    findAuthStateById(id) {
+        return this.prisma.user.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                email: true,
+                role: true,
+                approvalStatus: true,
+            },
         });
     }
     async checkAvailability(username, email) {
@@ -205,7 +217,17 @@ let UsersService = class UsersService {
             },
         });
     }
-    updateApprovalStatus(id, approvalStatus) {
+    async updateApprovalStatus(id, approvalStatus) {
+        const profile = await this.prisma.user.findUnique({
+            where: { id },
+            select: { role: true },
+        });
+        if (!profile) {
+            throw new common_1.NotFoundException('Perfil nao encontrado.');
+        }
+        if (profile.role !== UserRole.SugarBaby) {
+            throw new common_1.BadRequestException('A aprovacao manual se aplica apenas a Sugar Babies.');
+        }
         return this.prisma.user.update({
             where: { id },
             data: {
@@ -225,16 +247,17 @@ let UsersService = class UsersService {
     async findMatchesForUser(viewerId, search) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
-            select: { role: true, username: true },
+            select: { role: true, username: true, approvalStatus: true },
         });
-        if (viewer?.role !== UserRole.SugarBaby) {
+        const targetRole = this.resolveMatchRole(viewer?.role);
+        if (!targetRole || viewer?.approvalStatus !== 'APPROVED') {
             return [];
         }
         const normalizedSearch = search?.trim();
         const matches = await this.prisma.user.findMany({
             where: {
                 id: { not: viewerId },
-                role: UserRole.SugarDaddy,
+                role: targetRole,
                 approvalStatus: 'APPROVED',
                 ...(normalizedSearch
                     ? {
@@ -246,17 +269,56 @@ let UsersService = class UsersService {
                     }
                     : {}),
             },
-            orderBy: { createdAt: 'desc' },
+            orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
             select: this.publicProfileSelect(),
         });
         return matches.map((match) => this.sanitizePublicProfile(match, viewer.username));
     }
+    async findActiveDaddySuggestions(viewerId, search) {
+        const viewer = await this.prisma.user.findUnique({
+            where: { id: viewerId },
+            select: { role: true, approvalStatus: true },
+        });
+        if (viewer?.role !== UserRole.SugarBaby ||
+            viewer.approvalStatus !== 'APPROVED') {
+            throw new common_1.ForbiddenException('A selecao de contatos esta disponivel para Sugar Babies aprovadas.');
+        }
+        const normalizedSearch = search?.trim().replace(/^@+/, '').slice(0, 50);
+        return this.prisma.user.findMany({
+            where: {
+                role: UserRole.SugarDaddy,
+                approvalStatus: 'APPROVED',
+                ...(normalizedSearch
+                    ? { username: { contains: normalizedSearch.toLowerCase() } }
+                    : {}),
+            },
+            orderBy: { username: 'asc' },
+            take: 8,
+            select: {
+                id: true,
+                username: true,
+                city: true,
+                state: true,
+            },
+        });
+    }
+    async touchPresence(userId) {
+        await this.prisma.user.update({
+            where: { id: userId },
+            data: { lastActiveAt: new Date() },
+            select: { id: true },
+        });
+        return { online: true };
+    }
     async findMatchProfileForUser(viewerId, identifier) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
-            select: { role: true, username: true },
+            select: { role: true, username: true, approvalStatus: true },
         });
-        if (viewer?.role !== UserRole.SugarBaby || !viewer.username) {
+        const targetRole = this.resolveMatchRole(viewer?.role);
+        if (!targetRole ||
+            viewer?.approvalStatus !== 'APPROVED' ||
+            !viewer.username) {
             return null;
         }
         const normalizedIdentifier = identifier.trim().replace(/^@+/, '');
@@ -266,20 +328,53 @@ let UsersService = class UsersService {
                     { id: normalizedIdentifier },
                     { username: normalizedIdentifier.toLowerCase() },
                 ],
-                role: UserRole.SugarDaddy,
+                role: targetRole,
                 approvalStatus: 'APPROVED',
             },
             select: this.publicProfileSelect(),
         });
-        return profile
-            ? this.sanitizePublicProfile(profile, viewer.username)
-            : null;
+        if (!profile) {
+            return null;
+        }
+        const daddyId = viewer.role === UserRole.SugarDaddy ? viewerId : profile.id;
+        const babyId = viewer.role === UserRole.SugarBaby ? viewerId : profile.id;
+        const profileLike = await this.prisma.profileLike.findUnique({
+            where: { daddyId_babyId: { daddyId, babyId } },
+            select: {
+                id: true,
+                createdAt: true,
+                daddyLikedAt: true,
+                babyLikedAt: true,
+                contactsReleasedAt: true,
+            },
+        });
+        return {
+            ...this.sanitizePublicProfile(profile, viewer.username),
+            interaction: {
+                liked: viewer.role === UserRole.SugarDaddy
+                    ? Boolean(profileLike?.daddyLikedAt)
+                    : Boolean(profileLike?.babyLikedAt),
+                likeId: profileLike?.id ?? null,
+                likedAt: viewer.role === UserRole.SugarDaddy
+                    ? (profileLike?.daddyLikedAt ?? null)
+                    : (profileLike?.babyLikedAt ?? null),
+                daddyLiked: Boolean(profileLike?.daddyLikedAt),
+                daddyLikedAt: profileLike?.daddyLikedAt ?? null,
+                babyLiked: Boolean(profileLike?.babyLikedAt),
+                babyLikedAt: profileLike?.babyLikedAt ?? null,
+                contactsReleased: Boolean(profileLike?.contactsReleasedAt),
+                contactsReleasedAt: profileLike?.contactsReleasedAt ?? null,
+            },
+        };
     }
     async updateProfile(id, data) {
         const currentUser = await this.findById(id);
         if (!currentUser) {
             return null;
         }
+        const activeContactViewerUsernames = data.contactViewerUsernames === undefined
+            ? undefined
+            : await this.filterActiveDaddyUsernames(data.contactViewerUsernames);
         const selectedPreferences = {
             lookingFor: data.lookingFor,
             bodyType: data.bodyType,
@@ -294,7 +389,7 @@ let UsersService = class UsersService {
             occupation: data.occupation,
             customInterests: data.customInterests,
             visibleContactChannels: data.visibleContactChannels,
-            contactViewerUsernames: this.normalizeContactViewerUsernames(data.contactViewerUsernames),
+            contactViewerUsernames: activeContactViewerUsernames,
         };
         const preferences = Object.fromEntries(Object.entries(selectedPreferences).filter(([key, value]) => value !== undefined &&
             (key === 'customInterests' ||
@@ -375,6 +470,11 @@ let UsersService = class UsersService {
                 },
             });
             if (data.profilePhotos) {
+                if (currentUser.role === UserRole.SugarBaby &&
+                    data.profilePhotos.length === 0) {
+                    throw new common_1.BadRequestException('Sugar Babies precisam manter pelo menos uma foto.');
+                }
+                (0, profile_photo_validation_1.validateProfilePhotos)(data.profilePhotos);
                 await tx.userPhoto.deleteMany({ where: { userId: id } });
                 if (data.profilePhotos.length > 0) {
                     await tx.userPhoto.createMany({
@@ -400,6 +500,15 @@ let UsersService = class UsersService {
             .replace(/[^a-z0-9]+/g, '-')
             .replace(/^-+|-+$/g, '');
     }
+    resolveMatchRole(viewerRole) {
+        if (viewerRole === UserRole.SugarBaby) {
+            return UserRole.SugarDaddy;
+        }
+        if (viewerRole === UserRole.SugarDaddy) {
+            return UserRole.SugarBaby;
+        }
+        return null;
+    }
     publicProfileSelect() {
         return {
             id: true,
@@ -415,6 +524,7 @@ let UsersService = class UsersService {
             telegram: true,
             instagram: true,
             createdAt: true,
+            lastActiveAt: true,
             photos: {
                 orderBy: { sortOrder: 'asc' },
                 select: {
@@ -452,6 +562,22 @@ let UsersService = class UsersService {
             .map((username) => username.trim().replace(/^@+/, '').toLowerCase())
             .filter(Boolean))).slice(0, 50);
     }
+    async filterActiveDaddyUsernames(value) {
+        const normalizedUsernames = this.normalizeContactViewerUsernames(value) ?? [];
+        if (normalizedUsernames.length === 0) {
+            return [];
+        }
+        const activeDaddies = await this.prisma.user.findMany({
+            where: {
+                username: { in: normalizedUsernames },
+                role: UserRole.SugarDaddy,
+                approvalStatus: 'APPROVED',
+            },
+            select: { username: true },
+        });
+        const activeUsernames = new Set(activeDaddies.map((profile) => profile.username.toLowerCase()));
+        return normalizedUsernames.filter((username) => activeUsernames.has(username));
+    }
     sanitizePublicProfile(profile, viewerUsername) {
         const preferences = profile.preferences?.preferences;
         const visibleContactChannels = preferences &&
@@ -470,6 +596,7 @@ let UsersService = class UsersService {
             contactViewerUsernames.includes(viewerUsername.trim().toLowerCase());
         return {
             ...profile,
+            isOnline: this.isOnline(profile.lastActiveAt),
             whatsapp: canViewContacts && visibleContactChannels.includes('whatsapp')
                 ? profile.whatsapp
                 : null,
@@ -480,6 +607,9 @@ let UsersService = class UsersService {
                 ? profile.instagram
                 : null,
         };
+    }
+    isOnline(lastActiveAt) {
+        return Boolean(lastActiveAt && Date.now() - lastActiveAt.getTime() <= 2 * 60_000);
     }
 };
 exports.UsersService = UsersService;

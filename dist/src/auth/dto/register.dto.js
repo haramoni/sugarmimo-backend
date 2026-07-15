@@ -19,6 +19,7 @@ class RegisterPhotoDto {
 }
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(7_000_000),
     __metadata("design:type", String)
 ], RegisterPhotoDto.prototype, "dataUrl", void 0);
 __decorate([
@@ -27,8 +28,8 @@ __decorate([
     __metadata("design:type", String)
 ], RegisterPhotoDto.prototype, "fileName", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsIn)(['image/jpeg', 'image/png', 'image/webp']),
     __metadata("design:type", String)
 ], RegisterPhotoDto.prototype, "mimeType", void 0);
 class RegisterDto {
@@ -202,8 +203,8 @@ __decorate([
     __metadata("design:type", String)
 ], RegisterDto.prototype, "occupation", void 0);
 __decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.ArrayMinSize)(1),
     (0, class_validator_1.ArrayMaxSize)(3),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => RegisterPhotoDto),

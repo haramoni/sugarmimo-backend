@@ -33,8 +33,10 @@ export declare class AuthService {
         };
     } | {
         requiresApproval: boolean;
-        accessToken: string;
         user: {
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
             id: string;
             username: string;
             email: string;
@@ -45,12 +47,16 @@ export declare class AuthService {
             country: string | null;
             state: string | null;
             city: string | null;
-            whatsapp: string | null;
-            telegram: string | null;
-            instagram: string | null;
             approvalStatus: string;
             reviewedAt: Date | null;
             createdAt: Date | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                dataUrl: string;
+                fileName: string | null;
+                mimeType: string | null;
+            }[];
         };
     }>;
     login(loginDto: LoginDto): Promise<{
@@ -100,4 +106,5 @@ export declare class AuthService {
     private normalizeRole;
     private normalizeApprovalStatus;
     private resolveRole;
+    private validateAdultBirthDate;
 }

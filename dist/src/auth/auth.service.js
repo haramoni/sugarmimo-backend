@@ -47,6 +47,7 @@ const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
 const users_service_1 = require("../users/users.service");
+const profile_photo_validation_1 = require("../users/profile-photo.validation");
 exports.UserRole = {
     SugarDaddy: 'SUGAR_DADDY',
     SugarBaby: 'SUGAR_BABY',
@@ -60,9 +61,21 @@ let AuthService = class AuthService {
         this.usersService = usersService;
     }
     async register(registerDto) {
-        const passwordHash = await bcrypt.hash(registerDto.password, 10);
         const lookingFor = registerDto.lookingFor ?? registerDto.interest;
-        const role = this.resolveRole(registerDto.profileType ?? registerDto.role ?? lookingFor);
+        const role = this.resolveRole(registerDto.profileType ?? registerDto.role);
+        if (!role) {
+            throw new common_1.BadRequestException('Tipo de perfil invalido.');
+        }
+        if (registerDto.termsAccepted !== true) {
+            throw new common_1.BadRequestException('E necessario aceitar os termos de uso.');
+        }
+        this.validateAdultBirthDate(registerDto.birthDate);
+        const photos = registerDto.profilePhotos ?? [];
+        if (role === exports.UserRole.SugarBaby && photos.length === 0) {
+            throw new common_1.BadRequestException('Sugar Babies precisam enviar pelo menos uma foto.');
+        }
+        (0, profile_photo_validation_1.validateProfilePhotos)(photos);
+        const passwordHash = await bcrypt.hash(registerDto.password, 10);
         const approvalStatus = this.getInitialApprovalStatus(role);
         const user = await this.usersService.create({
             username: registerDto.username.toLowerCase(),
@@ -98,7 +111,7 @@ let AuthService = class AuthService {
                 occupation: registerDto.occupation,
             },
             approvalStatus,
-            photos: registerDto.profilePhotos.map((photo, index) => ({
+            photos: photos.map((photo, index) => ({
                 dataUrl: photo.dataUrl,
                 fileName: photo.fileName,
                 mimeType: photo.mimeType,
@@ -107,8 +120,8 @@ let AuthService = class AuthService {
         });
         if (approvalStatus === 'PENDING') {
             return {
-                ...this.buildAuthResponse(user),
                 requiresApproval: true,
+                user,
             };
         }
         return this.buildAuthResponse(user);
@@ -211,6 +224,20 @@ let AuthService = class AuthService {
             return exports.UserRole.SugarBaby;
         }
         return undefined;
+    }
+    validateAdultBirthDate(birthDate) {
+        if (!birthDate) {
+            throw new common_1.BadRequestException('Data de nascimento obrigatoria.');
+        }
+        const parsedBirthDate = new Date(`${birthDate}T00:00:00.000Z`);
+        if (Number.isNaN(parsedBirthDate.getTime())) {
+            throw new common_1.BadRequestException('Data de nascimento invalida.');
+        }
+        const today = new Date();
+        const adultThreshold = new Date(Date.UTC(today.getUTCFullYear() - 18, today.getUTCMonth(), today.getUTCDate()));
+        if (parsedBirthDate > adultThreshold) {
+            throw new common_1.BadRequestException('E necessario ter pelo menos 18 anos.');
+        }
     }
 };
 exports.AuthService = AuthService;

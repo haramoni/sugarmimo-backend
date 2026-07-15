@@ -2,7 +2,7 @@ declare class UpdateProfilePhotoDto {
     id?: string;
     dataUrl: string;
     fileName?: string;
-    mimeType?: string;
+    mimeType: string;
     sortOrder: number;
 }
 type VisibleContactChannel = 'whatsapp' | 'telegram' | 'instagram';

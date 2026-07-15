@@ -28,6 +28,7 @@ model User {
   instagram    String?         @db.VarChar(80)
   approvalStatus String        @default("PENDING") @map("approval_status") @db.VarChar(30)
   reviewedAt   DateTime?      @map("reviewed_at") @db.Timestamp(0)
+  lastActiveAt DateTime?      @map("last_active_at") @db.Timestamp(0)
   createdAt    DateTime?       @default(now()) @map("created_at") @db.Timestamp(0)
   appearance   UserAppearance?
   preferences  UserPreference?
@@ -36,8 +37,46 @@ model User {
   chatConversationsAsMemberOne ChatConversation[] @relation("ChatMemberOne")
   chatConversationsAsMemberTwo ChatConversation[] @relation("ChatMemberTwo")
   sentChatMessages ChatMessage[] @relation("ChatMessageSender")
+  likesAsDaddy ProfileLike[] @relation("ProfileLikeDaddy")
+  likesAsBaby ProfileLike[] @relation("ProfileLikeBaby")
+  receivedNotifications Notification[] @relation("NotificationRecipient")
+  sentNotifications Notification[] @relation("NotificationActor")
 
   @@map("users")
+}
+
+model ProfileLike {
+  id                 String    @id @default(uuid()) @db.Char(36)
+  daddyId            String    @map("daddy_id") @db.Char(36)
+  babyId             String    @map("baby_id") @db.Char(36)
+  daddyLikedAt       DateTime? @map("daddy_liked_at") @db.Timestamp(0)
+  babyLikedAt        DateTime? @map("baby_liked_at") @db.Timestamp(0)
+  contactsReleasedAt DateTime? @map("contacts_released_at") @db.Timestamp(0)
+  createdAt          DateTime? @default(now()) @map("created_at") @db.Timestamp(0)
+  daddy              User      @relation("ProfileLikeDaddy", fields: [daddyId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "profile_likes_daddy_id_fkey")
+  baby               User      @relation("ProfileLikeBaby", fields: [babyId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "profile_likes_baby_id_fkey")
+  notifications      Notification[]
+
+  @@unique([daddyId, babyId], map: "profile_likes_daddy_baby_unique")
+  @@index([babyId, createdAt], map: "profile_likes_baby_created_at_idx")
+  @@map("profile_likes")
+}
+
+model Notification {
+  id            String       @id @default(uuid()) @db.Char(36)
+  recipientId   String       @map("recipient_id") @db.Char(36)
+  actorId       String       @map("actor_id") @db.Char(36)
+  profileLikeId String?      @map("profile_like_id") @db.Char(36)
+  type          String       @db.VarChar(50)
+  readAt        DateTime?    @map("read_at") @db.Timestamp(0)
+  createdAt     DateTime?    @default(now()) @map("created_at") @db.Timestamp(0)
+  recipient     User         @relation("NotificationRecipient", fields: [recipientId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "notifications_recipient_id_fkey")
+  actor         User         @relation("NotificationActor", fields: [actorId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "notifications_actor_id_fkey")
+  profileLike   ProfileLike? @relation(fields: [profileLikeId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "notifications_profile_like_id_fkey")
+
+  @@index([recipientId, createdAt], map: "notifications_recipient_created_at_idx")
+  @@index([profileLikeId], map: "notifications_profile_like_id_idx")
+  @@map("notifications")
 }
 
 model ActivityLog {

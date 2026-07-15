@@ -1,4 +1,4 @@
-import { UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthService, UserRole } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -28,9 +28,12 @@ const registerDto = {
   password: 'Senha@123',
   profileType: 'sugar-baby-woman',
   lookingFor: 'sugar-daddy',
+  birthDate: '1990-01-01',
+  termsAccepted: true,
   profilePhotos: [
     {
-      dataUrl: 'data:image/png;base64,abc',
+      dataUrl:
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9Zr6EAAAAASUVORK5CYII=',
       fileName: 'profile.png',
       mimeType: 'image/png',
     },
@@ -41,8 +44,9 @@ const validPasswordHash =
   '$2b$10$3ZsF3NdxAo4aREgoKKJpuepyUJ2Pc.3/eDT4chc5Lw2mJHg5Q.Kgq';
 
 describe('AuthService', () => {
+  const signToken = jest.fn(() => 'signed-token');
   const jwtService = {
-    sign: jest.fn(() => 'signed-token'),
+    sign: signToken,
   } as unknown as JwtService;
   const usersService = {
     create: jest.fn(),
@@ -54,7 +58,7 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new AuthService(jwtService, usersService);
+    service = new AuthService(jwtService, usersService as never);
   });
 
   it('creates Sugar Baby registrations as pending manual approval', async () => {
@@ -71,15 +75,10 @@ describe('AuthService', () => {
       }),
     );
     expect(response).toEqual({
-      accessToken: 'signed-token',
       requiresApproval: true,
       user: baseUser,
     });
-    expect(jwtService.sign).toHaveBeenCalledWith({
-      sub: baseUser.id,
-      email: baseUser.email,
-      role: baseUser.role,
-    });
+    expect(signToken).not.toHaveBeenCalled();
   });
 
   it('prioritizes Sugar Baby profile type when deciding approval status', async () => {
@@ -111,6 +110,7 @@ describe('AuthService', () => {
       ...registerDto,
       profileType: 'sugar-daddy',
       lookingFor: 'sugar-baby-woman',
+      profilePhotos: [],
     });
 
     expect(usersService.create).toHaveBeenCalledWith(
@@ -121,11 +121,56 @@ describe('AuthService', () => {
     );
     expect(response).toMatchObject({
       accessToken: 'signed-token',
+      // Jest asymmetric matchers are intentionally untyped here.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       user: expect.objectContaining({
         role: UserRole.SugarDaddy,
         approvalStatus: 'APPROVED',
       }),
     });
+  });
+
+  it('allows Sugar Daddy registration without a photo', async () => {
+    usersService.create.mockResolvedValue({
+      ...baseUser,
+      role: UserRole.SugarDaddy,
+      gender: 'sugar-daddy',
+      approvalStatus: 'APPROVED',
+    });
+
+    await service.register({
+      ...registerDto,
+      profileType: 'sugar-daddy',
+      profilePhotos: undefined,
+    });
+
+    expect(usersService.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        photos: [],
+      }),
+    );
+  });
+
+  it('requires at least one photo from Sugar Baby registrations', async () => {
+    await expect(
+      service.register({
+        ...registerDto,
+        profilePhotos: [],
+      }),
+    ).rejects.toThrow(BadRequestException);
+
+    expect(usersService.create).not.toHaveBeenCalled();
+  });
+
+  it('rejects registrations without a valid profile role', async () => {
+    await expect(
+      service.register({
+        ...registerDto,
+        profileType: 'administrator',
+      }),
+    ).rejects.toThrow(BadRequestException);
+
+    expect(usersService.create).not.toHaveBeenCalled();
   });
 
   it('blocks pending Sugar Baby login', async () => {
@@ -157,6 +202,8 @@ describe('AuthService', () => {
       }),
     ).resolves.toMatchObject({
       accessToken: 'signed-token',
+      // Jest asymmetric matchers are intentionally untyped here.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       user: expect.objectContaining({
         role: UserRole.SugarBaby,
         approvalStatus: 'APPROVED',

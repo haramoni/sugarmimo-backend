@@ -1,7 +1,7 @@
 declare class RegisterPhotoDto {
     dataUrl: string;
     fileName?: string;
-    mimeType?: string;
+    mimeType: string;
 }
 export declare class RegisterDto {
     username: string;
@@ -31,6 +31,6 @@ export declare class RegisterDto {
     children?: string;
     education?: string;
     occupation?: string;
-    profilePhotos: RegisterPhotoDto[];
+    profilePhotos?: RegisterPhotoDto[];
 }
 export {};

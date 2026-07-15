@@ -47,20 +47,20 @@ export declare class AdminController {
         userAgent: string | null;
         metadata: import("@prisma/client/runtime/client").JsonValue | null;
     })[]>;
-    approveProfile(id: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+    approveProfile(id: string): Promise<{
         id: string;
         username: string;
         email: string;
         role: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
-    }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
-    rejectProfile(id: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+    }>;
+    rejectProfile(id: string): Promise<{
         id: string;
         username: string;
         email: string;
         role: string | null;
         approvalStatus: string;
         reviewedAt: Date | null;
-    }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    }>;
 }

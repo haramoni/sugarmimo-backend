@@ -37,8 +37,10 @@ export declare class AuthController {
         };
     } | {
         requiresApproval: boolean;
-        accessToken: string;
         user: {
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
             id: string;
             username: string;
             email: string;
@@ -49,12 +51,16 @@ export declare class AuthController {
             country: string | null;
             state: string | null;
             city: string | null;
-            whatsapp: string | null;
-            telegram: string | null;
-            instagram: string | null;
             approvalStatus: string;
             reviewedAt: Date | null;
             createdAt: Date | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                dataUrl: string;
+                fileName: string | null;
+                mimeType: string | null;
+            }[];
         };
     }>;
     login(loginDto: LoginDto): Promise<{
@@ -141,6 +147,9 @@ export declare class AuthController {
             mimeType: string | null;
         }[];
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    presence(request: AuthenticatedRequest): Promise<{
+        online: boolean;
+    }>;
     matches(request: AuthenticatedRequest, search?: string): Promise<({
         whatsapp: string | null;
         telegram: string | null;
@@ -154,6 +163,7 @@ export declare class AuthController {
         country: string | null;
         state: string | null;
         city: string | null;
+        lastActiveAt: Date | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;
@@ -176,11 +186,29 @@ export declare class AuthController {
             mimeType: string | null;
         }[];
     } & {
+        isOnline: boolean;
         whatsapp: string | null;
         telegram: string | null;
         instagram: string | null;
     })[]>;
+    contactViewers(request: AuthenticatedRequest, search?: string): Promise<{
+        id: string;
+        username: string;
+        state: string | null;
+        city: string | null;
+    }[]>;
     matchProfile(request: AuthenticatedRequest, identifier: string): Promise<{
+        interaction: {
+            liked: boolean;
+            likeId: string | null;
+            likedAt: Date | null;
+            daddyLiked: boolean;
+            daddyLikedAt: Date | null;
+            babyLiked: boolean;
+            babyLikedAt: Date | null;
+            contactsReleased: boolean;
+            contactsReleasedAt: Date | null;
+        };
         whatsapp: string | null;
         telegram: string | null;
         instagram: string | null;
@@ -193,6 +221,7 @@ export declare class AuthController {
         country: string | null;
         state: string | null;
         city: string | null;
+        lastActiveAt: Date | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;
@@ -214,10 +243,7 @@ export declare class AuthController {
             fileName: string | null;
             mimeType: string | null;
         }[];
-    } & {
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
+        isOnline: boolean;
     }>;
     updateMe(request: AuthenticatedRequest, updateProfileDto: UpdateProfileDto): Promise<{
         whatsapp: string | null;
