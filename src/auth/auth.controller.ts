@@ -9,10 +9,12 @@ import {
   Post,
   Query,
   Req,
+  Res,
+  StreamableFile,
   UseGuards,
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
-import { Request } from 'express';
+import type { Request, Response } from 'express';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -79,6 +81,37 @@ export class AuthController {
   @Get('matches')
   matches(@Req() request: AuthenticatedRequest, @Query('search') search = '') {
     return this.usersService.findMatchesForUser(request.user.id, search);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('match-photos/:photoId')
+  async matchPhoto(
+    @Req() request: AuthenticatedRequest,
+    @Param('photoId') photoId: string,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const photo = await this.usersService.findMatchPhotoForUser(
+      request.user.id,
+      photoId,
+    );
+
+    if (!photo) {
+      throw new NotFoundException('Foto nao encontrada.');
+    }
+
+    const match = photo.dataUrl.match(/^data:([^;]+);base64,(.+)$/s);
+
+    if (!match) {
+      throw new NotFoundException('Foto nao encontrada.');
+    }
+
+    const buffer = Buffer.from(match[2], 'base64');
+    response.setHeader('Cache-Control', 'private, max-age=3600, immutable');
+
+    return new StreamableFile(buffer, {
+      type: photo.mimeType || match[1] || 'application/octet-stream',
+      length: buffer.byteLength,
+    });
   }
 
   @UseGuards(JwtAuthGuard)

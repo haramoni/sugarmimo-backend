@@ -9,7 +9,7 @@ CREATE TABLE `profile_likes` (
   INDEX `profile_likes_baby_created_at_idx` (`baby_id`, `created_at`),
   CONSTRAINT `profile_likes_daddy_id_fkey` FOREIGN KEY (`daddy_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `profile_likes_baby_id_fkey` FOREIGN KEY (`baby_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-);
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE `notifications` (
   `id` CHAR(36) NOT NULL,
@@ -25,4 +25,4 @@ CREATE TABLE `notifications` (
   CONSTRAINT `notifications_recipient_id_fkey` FOREIGN KEY (`recipient_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `notifications_actor_id_fkey` FOREIGN KEY (`actor_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `notifications_profile_like_id_fkey` FOREIGN KEY (`profile_like_id`) REFERENCES `profile_likes` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-);
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

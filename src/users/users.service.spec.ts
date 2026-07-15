@@ -10,6 +10,9 @@ describe('UsersService', () => {
       create: jest.fn(),
       update: jest.fn(),
     },
+    userPhoto: {
+      findFirst: jest.fn(),
+    },
   };
 
   let service: UsersService;
@@ -76,6 +79,33 @@ describe('UsersService', () => {
     );
   });
 
+  it('loads only photos that belong to an approved match profile', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_DADDY',
+      approvalStatus: 'APPROVED',
+    });
+    prisma.userPhoto.findFirst.mockResolvedValue({
+      id: 'photo-1',
+      dataUrl: 'data:image/jpeg;base64,/9j/',
+      mimeType: 'image/jpeg',
+    });
+
+    await expect(
+      service.findMatchPhotoForUser('daddy-1', 'photo-1'),
+    ).resolves.toEqual(expect.objectContaining({ id: 'photo-1' }));
+    expect(prisma.userPhoto.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          id: 'photo-1',
+          user: {
+            role: 'SUGAR_BABY',
+            approvalStatus: 'APPROVED',
+          },
+        },
+      }),
+    );
+  });
+
   it('does not expose Daddy suggestions to non-Baby profiles', async () => {
     prisma.user.findUnique.mockResolvedValue({
       role: 'SUGAR_DADDY',
@@ -129,6 +159,12 @@ describe('UsersService', () => {
           approvalStatus: 'APPROVED',
         }),
         orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
+        select: expect.objectContaining({
+          photos: expect.objectContaining({
+            take: 1,
+            select: expect.not.objectContaining({ dataUrl: true }) as object,
+          }) as object,
+        }) as object,
       }),
     );
   });

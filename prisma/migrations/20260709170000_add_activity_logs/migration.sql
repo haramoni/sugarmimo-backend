@@ -11,7 +11,7 @@ CREATE TABLE `activity_logs` (
   `created_at` TIMESTAMP(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
 
   PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE INDEX `activity_logs_created_at_idx` ON `activity_logs`(`created_at`);
 CREATE INDEX `activity_logs_user_created_at_idx` ON `activity_logs`(`user_id`, `created_at`);

@@ -270,9 +270,33 @@ let UsersService = class UsersService {
                     : {}),
             },
             orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
-            select: this.publicProfileSelect(),
+            select: this.publicProfileListSelect(),
         });
         return matches.map((match) => this.sanitizePublicProfile(match, viewer.username));
+    }
+    async findMatchPhotoForUser(viewerId, photoId) {
+        const viewer = await this.prisma.user.findUnique({
+            where: { id: viewerId },
+            select: { role: true, approvalStatus: true },
+        });
+        const targetRole = this.resolveMatchRole(viewer?.role);
+        if (!targetRole || viewer?.approvalStatus !== 'APPROVED') {
+            return null;
+        }
+        return this.prisma.userPhoto.findFirst({
+            where: {
+                id: photoId,
+                user: {
+                    role: targetRole,
+                    approvalStatus: 'APPROVED',
+                },
+            },
+            select: {
+                id: true,
+                dataUrl: true,
+                mimeType: true,
+            },
+        });
     }
     async findActiveDaddySuggestions(viewerId, search) {
         const viewer = await this.prisma.user.findUnique({
@@ -550,6 +574,22 @@ let UsersService = class UsersService {
                     introductionPhrase: true,
                     aboutMe: true,
                     lookingFor: true,
+                },
+            },
+        };
+    }
+    publicProfileListSelect() {
+        const profileSelect = this.publicProfileSelect();
+        return {
+            ...profileSelect,
+            photos: {
+                orderBy: profileSelect.photos.orderBy,
+                take: 1,
+                select: {
+                    id: true,
+                    fileName: true,
+                    mimeType: true,
+                    sortOrder: true,
                 },
             },
         };

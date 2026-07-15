@@ -254,7 +254,6 @@ export declare class UsersService {
         photos: {
             id: string;
             sortOrder: number;
-            dataUrl: string;
             fileName: string | null;
             mimeType: string | null;
         }[];
@@ -264,6 +263,11 @@ export declare class UsersService {
         telegram: string | null;
         instagram: string | null;
     })[]>;
+    findMatchPhotoForUser(viewerId: string, photoId: string): Promise<{
+        id: string;
+        dataUrl: string;
+        mimeType: string | null;
+    } | null>;
     findActiveDaddySuggestions(viewerId: string, search?: string): Promise<{
         id: string;
         username: string;
@@ -362,6 +366,7 @@ export declare class UsersService {
     private toSlug;
     private resolveMatchRole;
     private publicProfileSelect;
+    private publicProfileListSelect;
     private normalizeContactViewerUsernames;
     private filterActiveDaddyUsernames;
     private sanitizePublicProfile;

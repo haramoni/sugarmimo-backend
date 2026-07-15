@@ -1,4 +1,5 @@
-import { Request } from 'express';
+import { StreamableFile } from '@nestjs/common';
+import type { Request, Response } from 'express';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -181,7 +182,6 @@ export declare class AuthController {
         photos: {
             id: string;
             sortOrder: number;
-            dataUrl: string;
             fileName: string | null;
             mimeType: string | null;
         }[];
@@ -191,6 +191,7 @@ export declare class AuthController {
         telegram: string | null;
         instagram: string | null;
     })[]>;
+    matchPhoto(request: AuthenticatedRequest, photoId: string, response: Response): Promise<StreamableFile>;
     contactViewers(request: AuthenticatedRequest, search?: string): Promise<{
         id: string;
         username: string;
