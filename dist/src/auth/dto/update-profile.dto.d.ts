@@ -4,6 +4,7 @@ declare class UpdateProfilePhotoDto {
     fileName?: string;
     mimeType: string;
     sortOrder: number;
+    isPrivate?: boolean;
 }
 type VisibleContactChannel = 'whatsapp' | 'telegram' | 'instagram';
 export declare class UpdateProfileDto {
@@ -18,6 +19,7 @@ export declare class UpdateProfileDto {
     instagram?: string;
     visibleContactChannels?: VisibleContactChannel[];
     contactViewerUsernames?: string[];
+    privatePhotoViewerUsernames?: string[];
     bodyType?: string;
     ethnicity?: string;
     hairColor?: string;

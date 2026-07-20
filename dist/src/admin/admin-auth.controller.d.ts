@@ -20,6 +20,7 @@ export declare class AdminAuthController {
             telegram: string | null;
             instagram: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };

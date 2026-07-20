@@ -47,6 +47,7 @@ class RegisterDto {
     whatsapp;
     telegram;
     instagram;
+    visibleContactChannels;
     source;
     termsAccepted;
     bodyType;
@@ -136,6 +137,13 @@ __decorate([
 ], RegisterDto.prototype, "instagram", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.ArrayMaxSize)(1),
+    (0, class_validator_1.IsIn)(['whatsapp', 'telegram', 'instagram'], { each: true }),
+    __metadata("design:type", Array)
+], RegisterDto.prototype, "visibleContactChannels", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "source", void 0);
@@ -205,7 +213,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.ArrayMaxSize)(3),
+    (0, class_validator_1.ArrayMaxSize)(6),
     (0, class_validator_1.ValidateNested)({ each: true }),
     (0, class_transformer_1.Type)(() => RegisterPhotoDto),
     __metadata("design:type", Array)

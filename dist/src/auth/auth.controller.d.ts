@@ -33,6 +33,7 @@ export declare class AuthController {
             telegram: string | null;
             instagram: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -53,6 +54,7 @@ export declare class AuthController {
             state: string | null;
             city: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
             photos: {
@@ -81,6 +83,7 @@ export declare class AuthController {
             telegram: string | null;
             instagram: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -106,6 +109,7 @@ export declare class AuthController {
             telegram: string | null;
             instagram: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -125,6 +129,7 @@ export declare class AuthController {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        isPremium: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -146,53 +151,128 @@ export declare class AuthController {
             dataUrl: string;
             fileName: string | null;
             mimeType: string | null;
+            isPrivate: boolean;
         }[];
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     presence(request: AuthenticatedRequest): Promise<{
         online: boolean;
     }>;
-    matches(request: AuthenticatedRequest, search?: string): Promise<({
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
-        id: string;
-        username: string;
-        role: string | null;
-        gender: string | null;
-        lookingFor: string | null;
-        birthDate: Date | null;
-        country: string | null;
-        state: string | null;
-        city: string | null;
-        lastActiveAt: Date | null;
-        createdAt: Date | null;
-        appearance: {
-            bodyType: string | null;
-            ethnicity: string | null;
-            hairColor: string | null;
-            eyeColor: string | null;
-            heightCm: number | null;
-        } | null;
-        preferences: {
-            lookingFor: string | null;
-            preferences: import("@prisma/client/runtime/client").JsonValue;
-            introductionPhrase: string | null;
-            aboutMe: string | null;
-        } | null;
-        photos: {
+    boosts(request: AuthenticatedRequest, page?: string, limit?: string): Promise<{
+        items: ({
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
             id: string;
-            sortOrder: number;
-            fileName: string | null;
-            mimeType: string | null;
-        }[];
-    } & {
-        isOnline: boolean;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
-    })[]>;
+            username: string;
+            role: string | null;
+            gender: string | null;
+            lookingFor: string | null;
+            birthDate: Date | null;
+            country: string | null;
+            state: string | null;
+            city: string | null;
+            isPremium: boolean;
+            boostedUntil: Date | null;
+            lastActiveAt: Date | null;
+            createdAt: Date | null;
+            appearance: {
+                bodyType: string | null;
+                ethnicity: string | null;
+                hairColor: string | null;
+                eyeColor: string | null;
+                heightCm: number | null;
+            } | null;
+            preferences: {
+                lookingFor: string | null;
+                preferences: import("@prisma/client/runtime/client").JsonValue;
+                introductionPhrase: string | null;
+                aboutMe: string | null;
+            } | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                fileName: string | null;
+                mimeType: string | null;
+                isPrivate: boolean;
+            }[];
+        } & {
+            photos: {
+                isPrivate?: boolean;
+            }[] | undefined;
+            canViewPrivatePhotos: boolean;
+            isOnline: boolean;
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+        })[];
+        page: number;
+        pageSize: number;
+        total: number;
+        totalPages: number;
+        hasMore: boolean;
+    }>;
+    matches(request: AuthenticatedRequest, search?: string, page?: string, limit?: string): Promise<{
+        items: ({
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+            id: string;
+            username: string;
+            role: string | null;
+            gender: string | null;
+            lookingFor: string | null;
+            birthDate: Date | null;
+            country: string | null;
+            state: string | null;
+            city: string | null;
+            isPremium: boolean;
+            boostedUntil: Date | null;
+            lastActiveAt: Date | null;
+            createdAt: Date | null;
+            appearance: {
+                bodyType: string | null;
+                ethnicity: string | null;
+                hairColor: string | null;
+                eyeColor: string | null;
+                heightCm: number | null;
+            } | null;
+            preferences: {
+                lookingFor: string | null;
+                preferences: import("@prisma/client/runtime/client").JsonValue;
+                introductionPhrase: string | null;
+                aboutMe: string | null;
+            } | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                fileName: string | null;
+                mimeType: string | null;
+                isPrivate: boolean;
+            }[];
+        } & {
+            photos: {
+                isPrivate?: boolean;
+            }[] | undefined;
+            canViewPrivatePhotos: boolean;
+            isOnline: boolean;
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+        })[];
+        page: number;
+        pageSize: number;
+        total: number;
+        totalPages: number;
+        hasMore: boolean;
+    }>;
     matchPhoto(request: AuthenticatedRequest, photoId: string, response: Response): Promise<StreamableFile>;
     contactViewers(request: AuthenticatedRequest, search?: string): Promise<{
+        id: string;
+        username: string;
+        state: string | null;
+        city: string | null;
+    }[]>;
+    privatePhotoViewers(request: AuthenticatedRequest, search?: string): Promise<{
         id: string;
         username: string;
         state: string | null;
@@ -222,6 +302,8 @@ export declare class AuthController {
         country: string | null;
         state: string | null;
         city: string | null;
+        isPremium: boolean;
+        boostedUntil: Date | null;
         lastActiveAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -243,7 +325,11 @@ export declare class AuthController {
             dataUrl: string;
             fileName: string | null;
             mimeType: string | null;
+            isPrivate: boolean;
+        }[] & {
+            isPrivate?: boolean;
         }[];
+        canViewPrivatePhotos: boolean;
         isOnline: boolean;
     }>;
     updateMe(request: AuthenticatedRequest, updateProfileDto: UpdateProfileDto): Promise<{
@@ -261,6 +347,7 @@ export declare class AuthController {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        isPremium: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -282,6 +369,7 @@ export declare class AuthController {
             dataUrl: string;
             fileName: string | null;
             mimeType: string | null;
+            isPrivate: boolean;
         }[];
     } | null>;
 }

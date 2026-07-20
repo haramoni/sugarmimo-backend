@@ -24,6 +24,11 @@ export class AdminController {
     return this.usersService.findPendingBabies();
   }
 
+  @Get('premium-daddies')
+  findSugarDaddies() {
+    return this.usersService.findSugarDaddies();
+  }
+
   @Get('activity-logs')
   findActivityLogs(@Query('limit') limit = '100') {
     return this.auditService.findLatest(Number(limit));
@@ -37,5 +42,15 @@ export class AdminController {
   @Patch('profiles/:id/reject')
   rejectProfile(@Param('id') id: string) {
     return this.usersService.updateApprovalStatus(id, 'REJECTED');
+  }
+
+  @Patch('profiles/:id/premium')
+  enablePremium(@Param('id') id: string) {
+    return this.usersService.updatePremiumStatus(id, true);
+  }
+
+  @Patch('profiles/:id/standard')
+  disablePremium(@Param('id') id: string) {
+    return this.usersService.updatePremiumStatus(id, false);
   }
 }

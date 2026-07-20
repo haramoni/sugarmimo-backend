@@ -1,6 +1,7 @@
 import {
   ArrayMaxSize,
   IsArray,
+  IsBoolean,
   IsDateString,
   IsInt,
   IsIn,
@@ -33,6 +34,10 @@ class UpdateProfilePhotoDto {
   @Type(() => Number)
   @IsInt()
   sortOrder: number;
+
+  @IsOptional()
+  @IsBoolean()
+  isPrivate?: boolean;
 }
 
 type VisibleContactChannel = 'whatsapp' | 'telegram' | 'instagram';
@@ -79,7 +84,7 @@ export class UpdateProfileDto {
 
   @IsOptional()
   @IsArray()
-  @ArrayMaxSize(3)
+  @ArrayMaxSize(1)
   @IsIn(['whatsapp', 'telegram', 'instagram'], { each: true })
   visibleContactChannels?: VisibleContactChannel[];
 
@@ -88,6 +93,12 @@ export class UpdateProfileDto {
   @ArrayMaxSize(50)
   @IsString({ each: true })
   contactViewerUsernames?: string[];
+
+  @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(50)
+  @IsString({ each: true })
+  privatePhotoViewerUsernames?: string[];
 
   @IsOptional()
   @IsString()

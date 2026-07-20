@@ -3,6 +3,7 @@ declare class RegisterPhotoDto {
     fileName?: string;
     mimeType: string;
 }
+type VisibleContactChannel = 'whatsapp' | 'telegram' | 'instagram';
 export declare class RegisterDto {
     username: string;
     email: string;
@@ -18,6 +19,7 @@ export declare class RegisterDto {
     whatsapp?: string;
     telegram?: string;
     instagram?: string;
+    visibleContactChannels?: VisibleContactChannel[];
     source?: string;
     termsAccepted?: boolean;
     bodyType?: string;

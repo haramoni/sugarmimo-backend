@@ -1,41 +1,420 @@
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +12ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +4ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +1ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +0ms[39m
-[32m[Nest] 22976  - [39m15/07/2026, 14:24:34 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +91ms[39m
+
+> sugarmimo-backend@0.0.1 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m10:44:06[0m] Starting compilation in watch mode...
+
+[[90m10:44:11[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +14ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +9ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/match-photos/:photoId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/premium-daddies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/premium, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/standard, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:12 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 25488  - [39m16/07/2026, 10:44:13 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +118ms[39m
+[2J[3J[H[[90m11:04:14[0m] File change detected. Starting incremental compilation...
+
+[[90m11:04:15[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +12ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +5ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/match-photos/:photoId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/premium-daddies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/premium, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/standard, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 8716  - [39m16/07/2026, 11:04:17 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +78ms[39m
+[2J[3J[H[[90m16:43:30[0m] File change detected. Starting incremental compilation...
+
+[[90m16:43:31[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m16:43:31[0m] File change detected. Starting incremental compilation...
+
+[[90m16:43:32[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m16:43:33[0m] File change detected. Starting incremental compilation...
+
+[[90m16:43:33[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m16:43:34[0m] File change detected. Starting incremental compilation...
+
+[[90m16:43:35[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m16:43:35[0m] File change detected. Starting incremental compilation...
+
+[[90m16:43:36[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m16:43:38[0m] File change detected. Starting incremental compilation...
+
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +15ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +5ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +4ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/match-photos/:photoId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/premium-daddies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/premium, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/standard, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 23812  - [39m16/07/2026, 16:43:38 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +93ms[39m
+[[90m16:43:38[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +11ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +8ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/match-photos/:photoId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/premium-daddies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/premium, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/standard, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 17336  - [39m16/07/2026, 16:43:40 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +83ms[39m
+[2J[3J[H[[90m16:50:50[0m] File change detected. Starting incremental compilation...
+
+[[90m16:50:51[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m16:50:52[0m] File change detected. Starting incremental compilation...
+
+[[90m16:50:53[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +12ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +7ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +5ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/match-photos/:photoId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/premium-daddies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/premium, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/standard, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 27128  - [39m16/07/2026, 16:50:55 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +91ms[39m
+[2J[3J[H[[90m16:51:41[0m] File change detected. Starting incremental compilation...
+
+[[90m16:51:42[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +14ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +15ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +7ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +3ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/match-photos/:photoId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/premium-daddies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/premium, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/standard, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 14492  - [39m16/07/2026, 16:51:44 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +90ms[39m
+[2J[3J[H[[90m16:52:31[0m] File change detected. Starting incremental compilation...
+
+[[90m16:52:32[0m] Found 0 errors. Watching for file changes.
+
+[2J[3J[H[[90m16:52:38[0m] File change detected. Starting incremental compilation...
+
+[[90m16:52:41[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +13ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +8ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +10ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/match-photos/:photoId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/premium-daddies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/premium, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/standard, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 32780  - [39m16/07/2026, 16:52:43 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +100ms[39m
+[2J[3J[H[[90m17:12:58[0m] File change detected. Starting incremental compilation...
+
+[[90m17:12:59[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPassportModule dependencies initialized[39m[38;5;3m +11ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPrismaModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUsersModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mJwtModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuditModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAdminModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInteractionsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAppController {/}:[39m[38;5;3m +6ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/, GET} route[39m[38;5;3m +2ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAuthController {/auth}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/register, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/availability, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/presence, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/match-photos/:photoId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/contact-viewers, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/matches/:identifier, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/auth/me, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminAuthController {/admin}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/login, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAdminController {/admin}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/pending-babies, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/premium-daddies, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/activity-logs, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/approve, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/reject, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/premium, PATCH} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/admin/profiles/:id/standard, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInteractionsController {/interactions}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/likes/:babyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/releases/:daddyId, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/baby-likes/:daddyId, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 28364  - [39m16/07/2026, 17:13:01 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +79ms[39m

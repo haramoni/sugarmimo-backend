@@ -28,6 +28,15 @@ export declare class AdminController {
             mimeType: string | null;
         }[];
     }[]>;
+    findSugarDaddies(): import("@prisma/client").Prisma.PrismaPromise<{
+        id: string;
+        username: string;
+        email: string;
+        state: string | null;
+        city: string | null;
+        isPremium: boolean;
+        createdAt: Date | null;
+    }[]>;
     findActivityLogs(limit?: string): import("@prisma/client").Prisma.PrismaPromise<({
         user: {
             id: string;
@@ -53,6 +62,7 @@ export declare class AdminController {
         email: string;
         role: string | null;
         approvalStatus: string;
+        isPremium: boolean;
         reviewedAt: Date | null;
     }>;
     rejectProfile(id: string): Promise<{
@@ -61,6 +71,21 @@ export declare class AdminController {
         email: string;
         role: string | null;
         approvalStatus: string;
+        isPremium: boolean;
         reviewedAt: Date | null;
+    }>;
+    enablePremium(id: string): Promise<{
+        id: string;
+        username: string;
+        email: string;
+        role: string | null;
+        isPremium: boolean;
+    }>;
+    disablePremium(id: string): Promise<{
+        id: string;
+        username: string;
+        email: string;
+        role: string | null;
+        isPremium: boolean;
     }>;
 }

@@ -31,6 +31,8 @@ class RegisterPhotoDto {
   mimeType: string;
 }
 
+type VisibleContactChannel = 'whatsapp' | 'telegram' | 'instagram';
+
 export class RegisterDto {
   @IsString()
   @MinLength(2)
@@ -91,6 +93,12 @@ export class RegisterDto {
   instagram?: string;
 
   @IsOptional()
+  @IsArray()
+  @ArrayMaxSize(1)
+  @IsIn(['whatsapp', 'telegram', 'instagram'], { each: true })
+  visibleContactChannels?: VisibleContactChannel[];
+
+  @IsOptional()
   @IsString()
   source?: string;
 
@@ -147,7 +155,7 @@ export class RegisterDto {
 
   @IsOptional()
   @IsArray()
-  @ArrayMaxSize(3)
+  @ArrayMaxSize(6)
   @ValidateNested({ each: true })
   @Type(() => RegisterPhotoDto)
   profilePhotos?: RegisterPhotoDto[];

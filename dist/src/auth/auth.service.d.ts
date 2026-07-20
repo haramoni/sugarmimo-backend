@@ -28,6 +28,7 @@ export declare class AuthService {
             telegram: string | null;
             instagram: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -48,6 +49,7 @@ export declare class AuthService {
             state: string | null;
             city: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
             photos: {
@@ -76,6 +78,7 @@ export declare class AuthService {
             telegram: string | null;
             instagram: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -97,6 +100,7 @@ export declare class AuthService {
             telegram: string | null;
             instagram: string | null;
             approvalStatus: string;
+            isPremium: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };

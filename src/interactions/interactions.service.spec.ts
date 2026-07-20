@@ -34,6 +34,7 @@ describe('InteractionsService', () => {
         id: 'daddy-1',
         role: 'SUGAR_DADDY',
         approvalStatus: 'APPROVED',
+        isPremium: true,
       })
       .mockResolvedValueOnce({
         id: 'baby-1',
@@ -75,6 +76,7 @@ describe('InteractionsService', () => {
         username: 'daddyativo',
         role: 'SUGAR_DADDY',
         approvalStatus: 'APPROVED',
+        isPremium: true,
       });
     prisma.profileLike.findUnique.mockResolvedValue(null);
 
@@ -97,6 +99,7 @@ describe('InteractionsService', () => {
         username: 'DaddyAtivo',
         role: 'SUGAR_DADDY',
         approvalStatus: 'APPROVED',
+        isPremium: true,
       });
     prisma.profileLike.findUnique.mockResolvedValue({
       id: 'like-1',
@@ -146,6 +149,7 @@ describe('InteractionsService', () => {
         username: 'DaddyAtivo',
         role: 'SUGAR_DADDY',
         approvalStatus: 'APPROVED',
+        isPremium: true,
       });
     prisma.profileLike.findUnique.mockResolvedValue(null);
     transaction.profileLike.create.mockResolvedValue({
@@ -179,5 +183,47 @@ describe('InteractionsService', () => {
         type: 'BABY_LIKE_AND_RELEASE',
       },
     });
+  });
+
+  it('blocks likes sent by a non-Premium Sugar Daddy', async () => {
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 'daddy-1',
+        role: 'SUGAR_DADDY',
+        approvalStatus: 'APPROVED',
+        isPremium: false,
+      })
+      .mockResolvedValueOnce({
+        id: 'baby-1',
+        role: 'SUGAR_BABY',
+        approvalStatus: 'APPROVED',
+      });
+
+    await expect(service.likeProfile('daddy-1', 'baby-1')).rejects.toThrow(
+      'Apenas Sugar Daddies Premium podem dar likes.',
+    );
+    expect(prisma.profileLike.findUnique).not.toHaveBeenCalled();
+  });
+
+  it('blocks likes sent to a non-Premium Sugar Daddy', async () => {
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 'baby-1',
+        role: 'SUGAR_BABY',
+        approvalStatus: 'APPROVED',
+        preferences: { preferences: {} },
+      })
+      .mockResolvedValueOnce({
+        id: 'daddy-1',
+        username: 'daddystandard',
+        role: 'SUGAR_DADDY',
+        approvalStatus: 'APPROVED',
+        isPremium: false,
+      });
+
+    await expect(
+      service.likeDaddyAndReleaseContacts('baby-1', 'daddy-1'),
+    ).rejects.toThrow('Apenas Sugar Daddies Premium podem receber likes.');
+    expect(prisma.profileLike.findUnique).not.toHaveBeenCalled();
   });
 });

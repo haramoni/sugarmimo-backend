@@ -18,6 +18,7 @@ class UpdateProfilePhotoDto {
     fileName;
     mimeType;
     sortOrder;
+    isPrivate;
 }
 __decorate([
     (0, class_validator_1.IsOptional)(),
@@ -44,6 +45,11 @@ __decorate([
     (0, class_validator_1.IsInt)(),
     __metadata("design:type", Number)
 ], UpdateProfilePhotoDto.prototype, "sortOrder", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsBoolean)(),
+    __metadata("design:type", Boolean)
+], UpdateProfilePhotoDto.prototype, "isPrivate", void 0);
 class UpdateProfileDto {
     username;
     lookingFor;
@@ -56,6 +62,7 @@ class UpdateProfileDto {
     instagram;
     visibleContactChannels;
     contactViewerUsernames;
+    privatePhotoViewerUsernames;
     bodyType;
     ethnicity;
     hairColor;
@@ -125,7 +132,7 @@ __decorate([
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsArray)(),
-    (0, class_validator_1.ArrayMaxSize)(3),
+    (0, class_validator_1.ArrayMaxSize)(1),
     (0, class_validator_1.IsIn)(['whatsapp', 'telegram', 'instagram'], { each: true }),
     __metadata("design:type", Array)
 ], UpdateProfileDto.prototype, "visibleContactChannels", void 0);
@@ -136,6 +143,13 @@ __decorate([
     (0, class_validator_1.IsString)({ each: true }),
     __metadata("design:type", Array)
 ], UpdateProfileDto.prototype, "contactViewerUsernames", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.ArrayMaxSize)(50),
+    (0, class_validator_1.IsString)({ each: true }),
+    __metadata("design:type", Array)
+], UpdateProfileDto.prototype, "privatePhotoViewerUsernames", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),

@@ -82,6 +82,8 @@ let AuditInterceptor = class AuditInterceptor {
             'GET /admin/pending-babies': 'PENDING_PROFILES_VIEWED',
             'PATCH /admin/profiles/:id/approve': 'PROFILE_APPROVED',
             'PATCH /admin/profiles/:id/reject': 'PROFILE_REJECTED',
+            'PATCH /admin/profiles/:id/premium': 'PREMIUM_ENABLED',
+            'PATCH /admin/profiles/:id/standard': 'PREMIUM_DISABLED',
             'GET /admin/activity-logs': 'ACTIVITY_LOGS_VIEWED',
             'POST /interactions/likes/:babyId': 'PROFILE_LIKED',
             'POST /interactions/baby-likes/:daddyId': 'DADDY_LIKED_AND_CONTACTS_RELEASED',

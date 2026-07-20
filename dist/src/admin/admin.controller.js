@@ -28,6 +28,9 @@ let AdminController = class AdminController {
     findPendingBabies() {
         return this.usersService.findPendingBabies();
     }
+    findSugarDaddies() {
+        return this.usersService.findSugarDaddies();
+    }
     findActivityLogs(limit = '100') {
         return this.auditService.findLatest(Number(limit));
     }
@@ -37,6 +40,12 @@ let AdminController = class AdminController {
     rejectProfile(id) {
         return this.usersService.updateApprovalStatus(id, 'REJECTED');
     }
+    enablePremium(id) {
+        return this.usersService.updatePremiumStatus(id, true);
+    }
+    disablePremium(id) {
+        return this.usersService.updatePremiumStatus(id, false);
+    }
 };
 exports.AdminController = AdminController;
 __decorate([
@@ -45,6 +54,12 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "findPendingBabies", null);
+__decorate([
+    (0, common_1.Get)('premium-daddies'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "findSugarDaddies", null);
 __decorate([
     (0, common_1.Get)('activity-logs'),
     __param(0, (0, common_1.Query)('limit')),
@@ -66,6 +81,20 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "rejectProfile", null);
+__decorate([
+    (0, common_1.Patch)('profiles/:id/premium'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "enablePremium", null);
+__decorate([
+    (0, common_1.Patch)('profiles/:id/standard'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "disablePremium", null);
 exports.AdminController = AdminController = __decorate([
     (0, common_1.Controller)('admin'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, admin_guard_1.AdminGuard),

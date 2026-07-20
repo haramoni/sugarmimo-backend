@@ -46,8 +46,11 @@ let AuthController = class AuthController {
     presence(request) {
         return this.usersService.touchPresence(request.user.id);
     }
-    matches(request, search = '') {
-        return this.usersService.findMatchesForUser(request.user.id, search);
+    boosts(request, page = '1', limit = '6') {
+        return this.usersService.findBoostedProfilesForUser(request.user.id, Number(page), Number(limit));
+    }
+    matches(request, search = '', page = '1', limit = '9') {
+        return this.usersService.findMatchesForUser(request.user.id, search, Number(page), Number(limit));
     }
     async matchPhoto(request, photoId, response) {
         const photo = await this.usersService.findMatchPhotoForUser(request.user.id, photoId);
@@ -67,6 +70,9 @@ let AuthController = class AuthController {
     }
     contactViewers(request, search = '') {
         return this.usersService.findActiveDaddySuggestions(request.user.id, search);
+    }
+    privatePhotoViewers(request, search = '') {
+        return this.usersService.findPrivatePhotoViewerSuggestions(request.user.id, search);
     }
     async matchProfile(request, identifier) {
         const profile = await this.usersService.findMatchProfileForUser(request.user.id, identifier);
@@ -135,11 +141,23 @@ __decorate([
 ], AuthController.prototype, "presence", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('boosts'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('page')),
+    __param(2, (0, common_1.Query)('limit')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "boosts", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('matches'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('search')),
+    __param(2, (0, common_1.Query)('page')),
+    __param(3, (0, common_1.Query)('limit')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "matches", null);
 __decorate([
@@ -161,6 +179,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "contactViewers", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('private-photo-viewers'),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Query)('search')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "privatePhotoViewers", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('matches/:identifier'),

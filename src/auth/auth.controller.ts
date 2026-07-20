@@ -78,9 +78,33 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('boosts')
+  boosts(
+    @Req() request: AuthenticatedRequest,
+    @Query('page') page = '1',
+    @Query('limit') limit = '6',
+  ) {
+    return this.usersService.findBoostedProfilesForUser(
+      request.user.id,
+      Number(page),
+      Number(limit),
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('matches')
-  matches(@Req() request: AuthenticatedRequest, @Query('search') search = '') {
-    return this.usersService.findMatchesForUser(request.user.id, search);
+  matches(
+    @Req() request: AuthenticatedRequest,
+    @Query('search') search = '',
+    @Query('page') page = '1',
+    @Query('limit') limit = '9',
+  ) {
+    return this.usersService.findMatchesForUser(
+      request.user.id,
+      search,
+      Number(page),
+      Number(limit),
+    );
   }
 
   @UseGuards(JwtAuthGuard)
@@ -121,6 +145,18 @@ export class AuthController {
     @Query('search') search = '',
   ) {
     return this.usersService.findActiveDaddySuggestions(
+      request.user.id,
+      search,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('private-photo-viewers')
+  privatePhotoViewers(
+    @Req() request: AuthenticatedRequest,
+    @Query('search') search = '',
+  ) {
+    return this.usersService.findPrivatePhotoViewerSuggestions(
       request.user.id,
       search,
     );

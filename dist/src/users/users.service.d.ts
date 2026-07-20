@@ -4,6 +4,7 @@ type CreateUserPhotoInput = {
     fileName?: string;
     mimeType?: string;
     sortOrder: number;
+    isPrivate?: boolean;
 };
 type CreateUserAppearanceInput = {
     bodyType?: string;
@@ -22,6 +23,7 @@ type CreateUserPreferencesInput = {
     education?: string;
     occupation?: string;
     customInterests?: string[];
+    visibleContactChannels?: ContactChannel[];
 };
 type ContactChannel = 'whatsapp' | 'telegram' | 'instagram';
 type CreateUserInput = {
@@ -58,6 +60,7 @@ type UpdateUserProfileInput = {
     instagram?: string;
     visibleContactChannels?: ContactChannel[];
     contactViewerUsernames?: string[];
+    privatePhotoViewerUsernames?: string[];
     bodyType?: string;
     ethnicity?: string;
     hairColor?: string;
@@ -94,6 +97,8 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        isPremium: boolean;
+        boostedUntil: Date | null;
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
         createdAt: Date | null;
@@ -114,6 +119,8 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        isPremium: boolean;
+        boostedUntil: Date | null;
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
         createdAt: Date | null;
@@ -143,6 +150,7 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        isPremium: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -164,6 +172,7 @@ export declare class UsersService {
             dataUrl: string;
             fileName: string | null;
             mimeType: string | null;
+            isPrivate: boolean;
         }[];
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     create(data: CreateUserInput): Promise<{
@@ -181,6 +190,7 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        isPremium: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         photos: {
@@ -215,60 +225,151 @@ export declare class UsersService {
             mimeType: string | null;
         }[];
     }[]>;
+    findSugarDaddies(): import("@prisma/client").Prisma.PrismaPromise<{
+        id: string;
+        username: string;
+        email: string;
+        state: string | null;
+        city: string | null;
+        isPremium: boolean;
+        createdAt: Date | null;
+    }[]>;
+    updatePremiumStatus(id: string, isPremium: boolean): Promise<{
+        id: string;
+        username: string;
+        email: string;
+        role: string | null;
+        isPremium: boolean;
+    }>;
     updateApprovalStatus(id: string, approvalStatus: 'APPROVED' | 'REJECTED'): Promise<{
         id: string;
         username: string;
         email: string;
         role: string | null;
         approvalStatus: string;
+        isPremium: boolean;
         reviewedAt: Date | null;
     }>;
-    findMatchesForUser(viewerId: string, search?: string): Promise<({
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
-        id: string;
-        username: string;
-        role: string | null;
-        gender: string | null;
-        lookingFor: string | null;
-        birthDate: Date | null;
-        country: string | null;
-        state: string | null;
-        city: string | null;
-        lastActiveAt: Date | null;
-        createdAt: Date | null;
-        appearance: {
-            bodyType: string | null;
-            ethnicity: string | null;
-            hairColor: string | null;
-            eyeColor: string | null;
-            heightCm: number | null;
-        } | null;
-        preferences: {
-            lookingFor: string | null;
-            preferences: import("@prisma/client/runtime/client").JsonValue;
-            introductionPhrase: string | null;
-            aboutMe: string | null;
-        } | null;
-        photos: {
+    findMatchesForUser(viewerId: string, search?: string, page?: number, limit?: number): Promise<{
+        items: ({
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
             id: string;
-            sortOrder: number;
-            fileName: string | null;
-            mimeType: string | null;
-        }[];
-    } & {
-        isOnline: boolean;
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
-    })[]>;
+            username: string;
+            role: string | null;
+            gender: string | null;
+            lookingFor: string | null;
+            birthDate: Date | null;
+            country: string | null;
+            state: string | null;
+            city: string | null;
+            isPremium: boolean;
+            boostedUntil: Date | null;
+            lastActiveAt: Date | null;
+            createdAt: Date | null;
+            appearance: {
+                bodyType: string | null;
+                ethnicity: string | null;
+                hairColor: string | null;
+                eyeColor: string | null;
+                heightCm: number | null;
+            } | null;
+            preferences: {
+                lookingFor: string | null;
+                preferences: import("@prisma/client/runtime/client").JsonValue;
+                introductionPhrase: string | null;
+                aboutMe: string | null;
+            } | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                fileName: string | null;
+                mimeType: string | null;
+                isPrivate: boolean;
+            }[];
+        } & {
+            photos: {
+                isPrivate?: boolean;
+            }[] | undefined;
+            canViewPrivatePhotos: boolean;
+            isOnline: boolean;
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+        })[];
+        page: number;
+        pageSize: number;
+        total: number;
+        totalPages: number;
+        hasMore: boolean;
+    }>;
+    findBoostedProfilesForUser(viewerId: string, page?: number, limit?: number): Promise<{
+        items: ({
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+            id: string;
+            username: string;
+            role: string | null;
+            gender: string | null;
+            lookingFor: string | null;
+            birthDate: Date | null;
+            country: string | null;
+            state: string | null;
+            city: string | null;
+            isPremium: boolean;
+            boostedUntil: Date | null;
+            lastActiveAt: Date | null;
+            createdAt: Date | null;
+            appearance: {
+                bodyType: string | null;
+                ethnicity: string | null;
+                hairColor: string | null;
+                eyeColor: string | null;
+                heightCm: number | null;
+            } | null;
+            preferences: {
+                lookingFor: string | null;
+                preferences: import("@prisma/client/runtime/client").JsonValue;
+                introductionPhrase: string | null;
+                aboutMe: string | null;
+            } | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                fileName: string | null;
+                mimeType: string | null;
+                isPrivate: boolean;
+            }[];
+        } & {
+            photos: {
+                isPrivate?: boolean;
+            }[] | undefined;
+            canViewPrivatePhotos: boolean;
+            isOnline: boolean;
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+        })[];
+        page: number;
+        pageSize: number;
+        total: number;
+        totalPages: number;
+        hasMore: boolean;
+    }>;
     findMatchPhotoForUser(viewerId: string, photoId: string): Promise<{
         id: string;
         dataUrl: string;
         mimeType: string | null;
     } | null>;
     findActiveDaddySuggestions(viewerId: string, search?: string): Promise<{
+        id: string;
+        username: string;
+        state: string | null;
+        city: string | null;
+    }[]>;
+    findPrivatePhotoViewerSuggestions(viewerId: string, search?: string): Promise<{
         id: string;
         username: string;
         state: string | null;
@@ -301,6 +402,8 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
+        isPremium: boolean;
+        boostedUntil: Date | null;
         lastActiveAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -322,7 +425,11 @@ export declare class UsersService {
             dataUrl: string;
             fileName: string | null;
             mimeType: string | null;
+            isPrivate: boolean;
+        }[] & {
+            isPrivate?: boolean;
         }[];
+        canViewPrivatePhotos: boolean;
         isOnline: boolean;
     } | null>;
     updateProfile(id: string, data: UpdateUserProfileInput): Promise<{
@@ -340,6 +447,7 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        isPremium: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -361,6 +469,7 @@ export declare class UsersService {
             dataUrl: string;
             fileName: string | null;
             mimeType: string | null;
+            isPrivate: boolean;
         }[];
     } | null>;
     private toSlug;
@@ -369,6 +478,7 @@ export declare class UsersService {
     private publicProfileListSelect;
     private normalizeContactViewerUsernames;
     private filterActiveDaddyUsernames;
+    private filterActiveMatchUsernames;
     private sanitizePublicProfile;
     private isOnline;
 }

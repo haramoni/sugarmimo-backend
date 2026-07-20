@@ -13,6 +13,7 @@ type CreateUserPhotoInput = {
   fileName?: string;
   mimeType?: string;
   sortOrder: number;
+  isPrivate?: boolean;
 };
 
 type CreateUserAppearanceInput = {
@@ -33,6 +34,7 @@ type CreateUserPreferencesInput = {
   education?: string;
   occupation?: string;
   customInterests?: string[];
+  visibleContactChannels?: ContactChannel[];
 };
 
 type ContactChannel = 'whatsapp' | 'telegram' | 'instagram';
@@ -73,6 +75,7 @@ type UpdateUserProfileInput = {
   instagram?: string;
   visibleContactChannels?: ContactChannel[];
   contactViewerUsernames?: string[];
+  privatePhotoViewerUsernames?: string[];
   bodyType?: string;
   ethnicity?: string;
   hairColor?: string;
@@ -164,6 +167,7 @@ export class UsersService {
         telegram: true,
         instagram: true,
         approvalStatus: true,
+        isPremium: true,
         reviewedAt: true,
         createdAt: true,
         photos: {
@@ -174,6 +178,7 @@ export class UsersService {
             fileName: true,
             mimeType: true,
             sortOrder: true,
+            isPrivate: true,
           },
         },
         appearance: {
@@ -262,6 +267,7 @@ export class UsersService {
         telegram: true,
         instagram: true,
         approvalStatus: true,
+        isPremium: true,
         reviewedAt: true,
         createdAt: true,
         photos: {
@@ -315,6 +321,54 @@ export class UsersService {
     });
   }
 
+  findSugarDaddies() {
+    return this.prisma.user.findMany({
+      where: {
+        role: UserRole.SugarDaddy,
+        approvalStatus: 'APPROVED',
+      },
+      orderBy: [{ isPremium: 'desc' }, { createdAt: 'desc' }],
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        city: true,
+        state: true,
+        isPremium: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  async updatePremiumStatus(id: string, isPremium: boolean) {
+    const profile = await this.prisma.user.findUnique({
+      where: { id },
+      select: { role: true },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Perfil nao encontrado.');
+    }
+
+    if (profile.role !== UserRole.SugarDaddy) {
+      throw new BadRequestException(
+        'O plano Premium se aplica apenas a Sugar Daddies.',
+      );
+    }
+
+    return this.prisma.user.update({
+      where: { id },
+      data: { isPremium },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        role: true,
+        isPremium: true,
+      },
+    });
+  }
+
   async updateApprovalStatus(
     id: string,
     approvalStatus: 'APPROVED' | 'REJECTED',
@@ -346,53 +400,146 @@ export class UsersService {
         email: true,
         role: true,
         approvalStatus: true,
+        isPremium: true,
         reviewedAt: true,
       },
     });
   }
 
-  async findMatchesForUser(viewerId: string, search?: string) {
+  async findMatchesForUser(
+    viewerId: string,
+    search?: string,
+    page = 1,
+    limit = 9,
+  ) {
     const viewer = await this.prisma.user.findUnique({
       where: { id: viewerId },
       select: { role: true, username: true, approvalStatus: true },
     });
 
     const targetRole = this.resolveMatchRole(viewer?.role);
+    const safePage = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1;
+    const safeLimit = Number.isFinite(limit)
+      ? Math.min(30, Math.max(3, Math.floor(limit)))
+      : 9;
 
     if (!targetRole || viewer?.approvalStatus !== 'APPROVED') {
-      return [];
+      return {
+        items: [],
+        page: safePage,
+        pageSize: safeLimit,
+        total: 0,
+        totalPages: 0,
+        hasMore: false,
+      };
     }
 
     const normalizedSearch = search?.trim();
 
-    const matches = await this.prisma.user.findMany({
-      where: {
-        id: { not: viewerId },
-        role: targetRole,
-        approvalStatus: 'APPROVED',
-        ...(normalizedSearch
-          ? {
-              OR: [
-                { username: { contains: normalizedSearch } },
-                { city: { contains: normalizedSearch } },
-                { state: { contains: normalizedSearch } },
-              ],
-            }
-          : {}),
-      },
-      orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
-      select: this.publicProfileListSelect(),
+    const where = {
+      id: { not: viewerId },
+      role: targetRole,
+      approvalStatus: 'APPROVED',
+      ...(normalizedSearch
+        ? {
+            OR: [
+              { username: { contains: normalizedSearch } },
+              { city: { contains: normalizedSearch } },
+              { state: { contains: normalizedSearch } },
+            ],
+          }
+        : {}),
+    };
+
+    const [matches, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
+        skip: (safePage - 1) * safeLimit,
+        take: safeLimit + 1,
+        select: this.publicProfileListSelect(),
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    const hasMore = matches.length > safeLimit;
+
+    return {
+      items: matches
+        .slice(0, safeLimit)
+        .map((match) => this.sanitizePublicProfile(match, viewer.username)),
+      page: safePage,
+      pageSize: safeLimit,
+      total,
+      totalPages: Math.ceil(total / safeLimit),
+      hasMore,
+    };
+  }
+
+  async findBoostedProfilesForUser(
+    viewerId: string,
+    page = 1,
+    limit = 6,
+  ) {
+    const viewer = await this.prisma.user.findUnique({
+      where: { id: viewerId },
+      select: { role: true, username: true, approvalStatus: true },
     });
 
-    return matches.map((match) =>
-      this.sanitizePublicProfile(match, viewer.username),
-    );
+    const targetRole = this.resolveMatchRole(viewer?.role);
+    const safePage = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1;
+    const safeLimit = Number.isFinite(limit)
+      ? Math.min(18, Math.max(3, Math.floor(limit)))
+      : 6;
+
+    if (!targetRole || viewer?.approvalStatus !== 'APPROVED') {
+      return {
+        items: [],
+        page: safePage,
+        pageSize: safeLimit,
+        total: 0,
+        totalPages: 0,
+        hasMore: false,
+      };
+    }
+
+    const where = {
+      id: { not: viewerId },
+      role: targetRole,
+      approvalStatus: 'APPROVED',
+      boostedUntil: { gt: new Date() },
+    };
+
+    const [profiles, total] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        orderBy: [{ boostedUntil: 'desc' }, { lastActiveAt: 'desc' }],
+        skip: (safePage - 1) * safeLimit,
+        take: safeLimit + 1,
+        select: this.publicProfileListSelect(),
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+    const hasMore = profiles.length > safeLimit;
+
+    return {
+      items: profiles
+        .slice(0, safeLimit)
+        .map((profile) =>
+          this.sanitizePublicProfile(profile, viewer.username),
+        ),
+      page: safePage,
+      pageSize: safeLimit,
+      total,
+      totalPages: Math.ceil(total / safeLimit),
+      hasMore,
+    };
   }
 
   async findMatchPhotoForUser(viewerId: string, photoId: string) {
     const viewer = await this.prisma.user.findUnique({
       where: { id: viewerId },
-      select: { role: true, approvalStatus: true },
+      select: { role: true, username: true, approvalStatus: true },
     });
     const targetRole = this.resolveMatchRole(viewer?.role);
 
@@ -400,7 +547,7 @@ export class UsersService {
       return null;
     }
 
-    return this.prisma.userPhoto.findFirst({
+    const photo = await this.prisma.userPhoto.findFirst({
       where: {
         id: photoId,
         user: {
@@ -412,8 +559,42 @@ export class UsersService {
         id: true,
         dataUrl: true,
         mimeType: true,
+        isPrivate: true,
+        user: {
+          select: {
+            preferences: { select: { preferences: true } },
+          },
+        },
       },
     });
+
+    if (!photo) {
+      return null;
+    }
+
+    const preferences = photo.user.preferences?.preferences;
+    const privatePhotoViewerUsernames =
+      preferences &&
+      typeof preferences === 'object' &&
+      'privatePhotoViewerUsernames' in preferences &&
+      Array.isArray(preferences.privatePhotoViewerUsernames)
+        ? preferences.privatePhotoViewerUsernames
+        : [];
+
+    if (
+      photo.isPrivate &&
+      !privatePhotoViewerUsernames.includes(
+        viewer?.username?.toLowerCase(),
+      )
+    ) {
+      return null;
+    }
+
+    return {
+      id: photo.id,
+      dataUrl: photo.dataUrl,
+      mimeType: photo.mimeType,
+    };
   }
 
   async findActiveDaddySuggestions(viewerId: string, search?: string) {
@@ -449,6 +630,34 @@ export class UsersService {
         city: true,
         state: true,
       },
+    });
+  }
+
+  async findPrivatePhotoViewerSuggestions(viewerId: string, search?: string) {
+    const viewer = await this.prisma.user.findUnique({
+      where: { id: viewerId },
+      select: { role: true, approvalStatus: true },
+    });
+    const targetRole = this.resolveMatchRole(viewer?.role);
+
+    if (!targetRole || viewer?.approvalStatus !== 'APPROVED') {
+      throw new ForbiddenException('Perfil sem acesso a esta selecao.');
+    }
+
+    const normalizedSearch = search?.trim().replace(/^@+/, '').slice(0, 50);
+
+    return this.prisma.user.findMany({
+      where: {
+        id: { not: viewerId },
+        role: targetRole,
+        approvalStatus: 'APPROVED',
+        ...(normalizedSearch
+          ? { username: { contains: normalizedSearch.toLowerCase() } }
+          : {}),
+      },
+      orderBy: { username: 'asc' },
+      take: 8,
+      select: { id: true, username: true, city: true, state: true },
     });
   }
 
@@ -542,6 +751,13 @@ export class UsersService {
       data.contactViewerUsernames === undefined
         ? undefined
         : await this.filterActiveDaddyUsernames(data.contactViewerUsernames);
+    const activePrivatePhotoViewerUsernames =
+      data.privatePhotoViewerUsernames === undefined
+        ? undefined
+        : await this.filterActiveMatchUsernames(
+            currentUser.role,
+            data.privatePhotoViewerUsernames,
+          );
     const selectedPreferences = {
       lookingFor: data.lookingFor,
       bodyType: data.bodyType,
@@ -557,6 +773,7 @@ export class UsersService {
       customInterests: data.customInterests,
       visibleContactChannels: data.visibleContactChannels,
       contactViewerUsernames: activeContactViewerUsernames,
+      privatePhotoViewerUsernames: activePrivatePhotoViewerUsernames,
     };
     const preferences = Object.fromEntries(
       Object.entries(selectedPreferences).filter(
@@ -565,6 +782,7 @@ export class UsersService {
           (key === 'customInterests' ||
             key === 'visibleContactChannels' ||
             key === 'contactViewerUsernames' ||
+            key === 'privatePhotoViewerUsernames' ||
             (Array.isArray(value) ? value.length > 0 : value !== '')),
       ),
     );
@@ -649,9 +867,21 @@ export class UsersService {
       });
 
       if (data.profilePhotos) {
+        const publicPhotos = data.profilePhotos.filter(
+          (photo) => !photo.isPrivate,
+        );
+        const privatePhotos = data.profilePhotos.filter(
+          (photo) => photo.isPrivate,
+        );
+
+        if (publicPhotos.length > 6 || privatePhotos.length > 6) {
+          throw new BadRequestException(
+            'Voce pode manter no maximo 6 fotos publicas e 6 privadas.',
+          );
+        }
         if (
           currentUser.role === UserRole.SugarBaby &&
-          data.profilePhotos.length === 0
+          publicPhotos.length === 0
         ) {
           throw new BadRequestException(
             'Sugar Babies precisam manter pelo menos uma foto.',
@@ -667,6 +897,7 @@ export class UsersService {
               fileName: photo.fileName,
               mimeType: photo.mimeType,
               sortOrder: photo.sortOrder ?? index + 1,
+              isPrivate: Boolean(photo.isPrivate),
             })),
           });
         }
@@ -712,6 +943,8 @@ export class UsersService {
       whatsapp: true,
       telegram: true,
       instagram: true,
+      isPremium: true,
+      boostedUntil: true,
       createdAt: true,
       lastActiveAt: true,
       photos: {
@@ -722,6 +955,7 @@ export class UsersService {
           fileName: true,
           mimeType: true,
           sortOrder: true,
+          isPrivate: true,
         },
       },
       appearance: {
@@ -750,6 +984,7 @@ export class UsersService {
     return {
       ...profileSelect,
       photos: {
+        where: { isPrivate: false },
         orderBy: profileSelect.photos.orderBy,
         take: 1,
         select: {
@@ -757,6 +992,7 @@ export class UsersService {
           fileName: true,
           mimeType: true,
           sortOrder: true,
+          isPrivate: true,
         },
       },
     };
@@ -801,6 +1037,34 @@ export class UsersService {
     );
   }
 
+  private async filterActiveMatchUsernames(
+    viewerRole: string | null,
+    value: string[],
+  ) {
+    const normalizedUsernames = this.normalizeContactViewerUsernames(value) ?? [];
+    const targetRole = this.resolveMatchRole(viewerRole);
+
+    if (!targetRole || normalizedUsernames.length === 0) {
+      return [];
+    }
+
+    const activeProfiles = await this.prisma.user.findMany({
+      where: {
+        username: { in: normalizedUsernames },
+        role: targetRole,
+        approvalStatus: 'APPROVED',
+      },
+      select: { username: true },
+    });
+    const activeUsernames = new Set(
+      activeProfiles.map((profile) => profile.username.toLowerCase()),
+    );
+
+    return normalizedUsernames.filter((username) =>
+      activeUsernames.has(username),
+    );
+  }
+
   private sanitizePublicProfile<
     T extends {
       whatsapp: string | null;
@@ -810,6 +1074,7 @@ export class UsersService {
       preferences: {
         preferences: unknown;
       } | null;
+      photos?: Array<{ isPrivate?: boolean }>;
     },
   >(profile: T, viewerUsername?: string) {
     const preferences = profile.preferences?.preferences;
@@ -818,7 +1083,7 @@ export class UsersService {
       typeof preferences === 'object' &&
       'visibleContactChannels' in preferences &&
       Array.isArray(preferences.visibleContactChannels)
-        ? preferences.visibleContactChannels
+        ? preferences.visibleContactChannels.slice(0, 1)
         : [];
     const contactViewerUsernames =
       preferences &&
@@ -830,9 +1095,28 @@ export class UsersService {
     const canViewContacts =
       viewerUsername &&
       contactViewerUsernames.includes(viewerUsername.trim().toLowerCase());
+    const privatePhotoViewerUsernames =
+      preferences &&
+      typeof preferences === 'object' &&
+      'privatePhotoViewerUsernames' in preferences &&
+      Array.isArray(preferences.privatePhotoViewerUsernames)
+        ? preferences.privatePhotoViewerUsernames
+        : [];
+    const canViewPrivatePhotos = Boolean(
+      viewerUsername &&
+        privatePhotoViewerUsernames.includes(
+          viewerUsername.trim().toLowerCase(),
+        ),
+    );
 
     return {
       ...profile,
+      photos: Array.isArray(profile.photos)
+        ? profile.photos.filter(
+            (photo) => !photo.isPrivate || canViewPrivatePhotos,
+          )
+        : profile.photos,
+      canViewPrivatePhotos,
       isOnline: this.isOnline(profile.lastActiveAt),
       whatsapp:
         canViewContacts && visibleContactChannels.includes('whatsapp')

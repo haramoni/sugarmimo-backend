@@ -18,6 +18,7 @@ const baseUser = {
   telegram: null,
   instagram: null,
   approvalStatus: 'PENDING',
+  isPremium: false,
   reviewedAt: null,
   createdAt: null,
 };
@@ -30,6 +31,7 @@ const registerDto = {
   lookingFor: 'sugar-daddy',
   birthDate: '1990-01-01',
   termsAccepted: true,
+  visibleContactChannels: ['instagram'],
   profilePhotos: [
     {
       dataUrl:
@@ -72,6 +74,9 @@ describe('AuthService', () => {
         email: 'maria@example.com',
         role: UserRole.SugarBaby,
         approvalStatus: 'PENDING',
+        preferences: expect.objectContaining({
+          visibleContactChannels: ['instagram'],
+        }) as object,
       }),
     );
     expect(response).toEqual({
@@ -98,58 +103,23 @@ describe('AuthService', () => {
     );
   });
 
-  it('creates Sugar Daddy registrations as approved with a session token', async () => {
-    usersService.create.mockResolvedValue({
-      ...baseUser,
-      role: UserRole.SugarDaddy,
-      gender: 'sugar-daddy',
-      approvalStatus: 'APPROVED',
-    });
+  it.each(['sugar-daddy', 'sugar-mommy'])(
+    'temporarily blocks %s registrations',
+    async (profileType) => {
+      await expect(
+        service.register({
+          ...registerDto,
+          profileType,
+          profilePhotos: [],
+        }),
+      ).rejects.toThrow(
+        'O cadastro de Sugar Daddies e Sugar Mommies esta temporariamente indisponivel.',
+      );
 
-    const response = await service.register({
-      ...registerDto,
-      profileType: 'sugar-daddy',
-      lookingFor: 'sugar-baby-woman',
-      profilePhotos: [],
-    });
-
-    expect(usersService.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        role: UserRole.SugarDaddy,
-        approvalStatus: 'APPROVED',
-      }),
-    );
-    expect(response).toMatchObject({
-      accessToken: 'signed-token',
-      // Jest asymmetric matchers are intentionally untyped here.
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      user: expect.objectContaining({
-        role: UserRole.SugarDaddy,
-        approvalStatus: 'APPROVED',
-      }),
-    });
-  });
-
-  it('allows Sugar Daddy registration without a photo', async () => {
-    usersService.create.mockResolvedValue({
-      ...baseUser,
-      role: UserRole.SugarDaddy,
-      gender: 'sugar-daddy',
-      approvalStatus: 'APPROVED',
-    });
-
-    await service.register({
-      ...registerDto,
-      profileType: 'sugar-daddy',
-      profilePhotos: undefined,
-    });
-
-    expect(usersService.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        photos: [],
-      }),
-    );
-  });
+      expect(usersService.create).not.toHaveBeenCalled();
+      expect(signToken).not.toHaveBeenCalled();
+    },
+  );
 
   it('requires at least one photo from Sugar Baby registrations', async () => {
     await expect(

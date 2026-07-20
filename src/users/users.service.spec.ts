@@ -1,4 +1,4 @@
-import { ForbiddenException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
@@ -7,6 +7,7 @@ describe('UsersService', () => {
       findFirst: jest.fn(),
       findUnique: jest.fn(),
       findMany: jest.fn(),
+      count: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
     },
@@ -19,6 +20,7 @@ describe('UsersService', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    prisma.user.count.mockResolvedValue(0);
     service = new UsersService(prisma as never);
   });
 
@@ -63,7 +65,6 @@ describe('UsersService', () => {
         state: 'SP',
       },
     ]);
-
     await expect(
       service.findActiveDaddySuggestions('baby-1', 'daddy'),
     ).resolves.toEqual([expect.objectContaining({ username: 'daddyativo' })]);
@@ -88,6 +89,8 @@ describe('UsersService', () => {
       id: 'photo-1',
       dataUrl: 'data:image/jpeg;base64,/9j/',
       mimeType: 'image/jpeg',
+      isPrivate: false,
+      user: { preferences: null },
     });
 
     await expect(
@@ -104,6 +107,56 @@ describe('UsersService', () => {
         },
       }),
     );
+  });
+
+  it('allows a private photo only for an explicitly authorized username', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_DADDY',
+      username: 'daddyativo',
+      approvalStatus: 'APPROVED',
+    });
+    prisma.userPhoto.findFirst.mockResolvedValue({
+      id: 'private-photo-1',
+      dataUrl: 'data:image/jpeg;base64,/9j/',
+      mimeType: 'image/jpeg',
+      isPrivate: true,
+      user: {
+        preferences: {
+          preferences: {
+            privatePhotoViewerUsernames: ['daddyativo'],
+          },
+        },
+      },
+    });
+
+    await expect(
+      service.findMatchPhotoForUser('daddy-1', 'private-photo-1'),
+    ).resolves.toEqual(expect.objectContaining({ id: 'private-photo-1' }));
+  });
+
+  it('does not return a private photo to an unauthorized username', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_DADDY',
+      username: 'daddynaopermitido',
+      approvalStatus: 'APPROVED',
+    });
+    prisma.userPhoto.findFirst.mockResolvedValue({
+      id: 'private-photo-1',
+      dataUrl: 'data:image/jpeg;base64,/9j/',
+      mimeType: 'image/jpeg',
+      isPrivate: true,
+      user: {
+        preferences: {
+          preferences: {
+            privatePhotoViewerUsernames: ['daddyativo'],
+          },
+        },
+      },
+    });
+
+    await expect(
+      service.findMatchPhotoForUser('daddy-1', 'private-photo-1'),
+    ).resolves.toBeNull();
   });
 
   it('does not expose Daddy suggestions to non-Baby profiles', async () => {
@@ -132,18 +185,19 @@ describe('UsersService', () => {
         contactViewerUsernames: ['outrodaddy'],
       }),
     ]);
+    prisma.user.count.mockResolvedValue(2);
 
     const matches = await service.findMatchesForUser('daddy-1');
 
-    expect(matches[0]).toEqual(
+    expect(matches.items[0]).toEqual(
       expect.objectContaining({
         isOnline: true,
         whatsapp: '5511999999999',
         telegram: null,
-        instagram: '@babyativa',
+        instagram: null,
       }),
     );
-    expect(matches[1]).toEqual(
+    expect(matches.items[1]).toEqual(
       expect.objectContaining({
         whatsapp: null,
         telegram: null,
@@ -159,12 +213,72 @@ describe('UsersService', () => {
           approvalStatus: 'APPROVED',
         }),
         orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
+        skip: 0,
+        take: 10,
         select: expect.objectContaining({
           photos: expect.objectContaining({
             take: 1,
             select: expect.not.objectContaining({ dataUrl: true }) as object,
           }) as object,
         }) as object,
+      }),
+    );
+    expect(matches).toEqual(
+      expect.objectContaining({
+        page: 1,
+        pageSize: 9,
+        total: 2,
+        totalPages: 1,
+        hasMore: false,
+      }),
+    );
+  });
+
+  it('returns match pages incrementally', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_BABY',
+      username: 'babyativa',
+      approvalStatus: 'APPROVED',
+    });
+    prisma.user.findMany.mockResolvedValue(
+      Array.from({ length: 10 }, (_, index) =>
+        publicDaddyProfile(`daddy-${index + 1}`),
+      ),
+    );
+    prisma.user.count.mockResolvedValue(20);
+
+    const result = await service.findMatchesForUser('baby-1', '', 2, 9);
+
+    expect(result.items).toHaveLength(9);
+    expect(result.hasMore).toBe(true);
+    expect(prisma.user.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({ skip: 9, take: 10 }),
+    );
+  });
+
+  it('returns only active boosted profiles for the opposite role', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_DADDY',
+      username: 'daddyativo',
+      approvalStatus: 'APPROVED',
+    });
+    prisma.user.findMany.mockResolvedValue([publicBabyProfile({})]);
+    prisma.user.count.mockResolvedValue(1);
+
+    const result = await service.findBoostedProfilesForUser('daddy-1', 1, 6);
+
+    expect(result.items).toHaveLength(1);
+    expect(prisma.user.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        // Jest asymmetric matchers are intentionally untyped here.
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        where: expect.objectContaining({
+          role: 'SUGAR_BABY',
+          approvalStatus: 'APPROVED',
+          boostedUntil: { gt: expect.any(Date) as Date },
+        }),
+        skip: 0,
+        take: 7,
       }),
     );
   });
@@ -180,6 +294,33 @@ describe('UsersService', () => {
       data: { lastActiveAt: expect.any(Date) as Date },
       select: { id: true },
     });
+  });
+
+  it('activates Premium for a Sugar Daddy', async () => {
+    prisma.user.findUnique.mockResolvedValue({ role: 'SUGAR_DADDY' });
+    prisma.user.update.mockResolvedValue({
+      id: 'daddy-1',
+      isPremium: true,
+    });
+
+    await expect(service.updatePremiumStatus('daddy-1', true)).resolves.toEqual(
+      expect.objectContaining({ isPremium: true }),
+    );
+    expect(prisma.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 'daddy-1' },
+        data: { isPremium: true },
+      }),
+    );
+  });
+
+  it('does not apply Premium to a Sugar Baby', async () => {
+    prisma.user.findUnique.mockResolvedValue({ role: 'SUGAR_BABY' });
+
+    await expect(service.updatePremiumStatus('baby-1', true)).rejects.toThrow(
+      BadRequestException,
+    );
+    expect(prisma.user.update).not.toHaveBeenCalled();
   });
 });
 
@@ -206,5 +347,19 @@ function publicBabyProfile({
         contactViewerUsernames,
       },
     },
+  };
+}
+
+function publicDaddyProfile(id: string) {
+  return {
+    id,
+    username: id,
+    role: 'SUGAR_DADDY',
+    isPremium: true,
+    lastActiveAt: new Date(),
+    whatsapp: null,
+    telegram: null,
+    instagram: null,
+    preferences: { preferences: {} },
   };
 }

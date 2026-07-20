@@ -33,6 +33,12 @@ export class AuthService {
       throw new BadRequestException('Tipo de perfil invalido.');
     }
 
+    if (role === UserRole.SugarDaddy) {
+      throw new BadRequestException(
+        'O cadastro de Sugar Daddies e Sugar Mommies esta temporariamente indisponivel.',
+      );
+    }
+
     if (registerDto.termsAccepted !== true) {
       throw new BadRequestException('E necessario aceitar os termos de uso.');
     }
@@ -82,6 +88,7 @@ export class AuthService {
         children: registerDto.children,
         education: registerDto.education,
         occupation: registerDto.occupation,
+        visibleContactChannels: registerDto.visibleContactChannels,
       },
       approvalStatus,
       photos: photos.map((photo, index) => ({
@@ -156,6 +163,7 @@ export class AuthService {
       telegram: user.telegram,
       instagram: user.instagram,
       approvalStatus: user.approvalStatus,
+      isPremium: user.isPremium,
       reviewedAt: user.reviewedAt,
       createdAt: user.createdAt,
     });
@@ -186,6 +194,7 @@ export class AuthService {
     telegram: string | null;
     instagram: string | null;
     approvalStatus: string;
+    isPremium: boolean;
     reviewedAt: Date | null;
     createdAt: Date | null;
   }) {

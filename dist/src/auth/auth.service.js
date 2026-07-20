@@ -66,6 +66,9 @@ let AuthService = class AuthService {
         if (!role) {
             throw new common_1.BadRequestException('Tipo de perfil invalido.');
         }
+        if (role === exports.UserRole.SugarDaddy) {
+            throw new common_1.BadRequestException('O cadastro de Sugar Daddies e Sugar Mommies esta temporariamente indisponivel.');
+        }
         if (registerDto.termsAccepted !== true) {
             throw new common_1.BadRequestException('E necessario aceitar os termos de uso.');
         }
@@ -109,6 +112,7 @@ let AuthService = class AuthService {
                 children: registerDto.children,
                 education: registerDto.education,
                 occupation: registerDto.occupation,
+                visibleContactChannels: registerDto.visibleContactChannels,
             },
             approvalStatus,
             photos: photos.map((photo, index) => ({
@@ -165,6 +169,7 @@ let AuthService = class AuthService {
             telegram: user.telegram,
             instagram: user.instagram,
             approvalStatus: user.approvalStatus,
+            isPremium: user.isPremium,
             reviewedAt: user.reviewedAt,
             createdAt: user.createdAt,
         });
