@@ -46,6 +46,7 @@ exports.AuthService = exports.UserRole = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
 const bcrypt = __importStar(require("bcrypt"));
+const node_crypto_1 = require("node:crypto");
 const users_service_1 = require("../users/users.service");
 const profile_photo_validation_1 = require("../users/profile-photo.validation");
 exports.UserRole = {
@@ -61,6 +62,9 @@ let AuthService = class AuthService {
         this.usersService = usersService;
     }
     async register(registerDto) {
+        if (!/^[A-Za-z0-9._-]{2,50}$/.test(registerDto.username)) {
+            throw new common_1.BadRequestException('O nome de usuario deve conter apenas letras, numeros, ponto, hifen ou sublinhado.');
+        }
         const lookingFor = registerDto.lookingFor ?? registerDto.interest;
         const role = this.resolveRole(registerDto.profileType ?? registerDto.role);
         if (!role) {
@@ -186,6 +190,7 @@ let AuthService = class AuthService {
             sub: user.id,
             email: user.email,
             role: user.role,
+            jti: (0, node_crypto_1.randomUUID)(),
         });
         return {
             accessToken,

@@ -143,6 +143,16 @@ describe('AuthService', () => {
     expect(usersService.create).not.toHaveBeenCalled();
   });
 
+  it.each(['nome com espaco', 'usuário', 'perfil😀'])(
+    'rejects the invalid username %s',
+    async (username) => {
+      await expect(
+        service.register({ ...registerDto, username }),
+      ).rejects.toThrow(BadRequestException);
+      expect(usersService.create).not.toHaveBeenCalled();
+    },
+  );
+
   it('blocks pending Sugar Baby login', async () => {
     usersService.findByEmail.mockResolvedValue({
       ...baseUser,
@@ -179,5 +189,35 @@ describe('AuthService', () => {
         approvalStatus: 'APPROVED',
       }),
     });
+  });
+
+  it('creates an independent session for every simultaneous login', async () => {
+    usersService.findByEmail.mockResolvedValue({
+      ...baseUser,
+      approvalStatus: 'APPROVED',
+      passwordHash: validPasswordHash,
+    });
+
+    await Promise.all([
+      service.login({
+        identifier: 'maria@example.com',
+        password: 'Senha@123',
+      }),
+      service.login({
+        identifier: 'maria@example.com',
+        password: 'Senha@123',
+      }),
+    ]);
+
+    const firstPayload = signToken.mock.calls[0]?.[0] as
+      | { jti?: string }
+      | undefined;
+    const secondPayload = signToken.mock.calls[1]?.[0] as
+      | { jti?: string }
+      | undefined;
+
+    expect(firstPayload?.jti).toEqual(expect.any(String));
+    expect(secondPayload?.jti).toEqual(expect.any(String));
+    expect(firstPayload?.jti).not.toBe(secondPayload?.jti);
   });
 });

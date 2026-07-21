@@ -21,6 +21,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { getLoginThrottleTracker } from './login-throttle';
 
 type AuthenticatedRequest = Request & {
   user: {
@@ -45,7 +46,13 @@ export class AuthController {
   }
 
   @Post('login')
-  @Throttle({ default: { limit: 10, ttl: 15 * 60_000 } })
+  @Throttle({
+    default: {
+      limit: 10,
+      ttl: 15 * 60_000,
+      getTracker: getLoginThrottleTracker,
+    },
+  })
   @HttpCode(200)
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
@@ -58,7 +65,13 @@ export class AuthController {
   }
 
   @Post('/admin/login')
-  @Throttle({ default: { limit: 5, ttl: 15 * 60_000 } })
+  @Throttle({
+    default: {
+      limit: 5,
+      ttl: 15 * 60_000,
+      getTracker: getLoginThrottleTracker,
+    },
+  })
   @HttpCode(200)
   adminLogin(@Body() loginDto: LoginDto) {
     return this.authService.adminLogin(loginDto);

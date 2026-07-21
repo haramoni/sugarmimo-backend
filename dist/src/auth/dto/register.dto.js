@@ -67,6 +67,10 @@ exports.RegisterDto = RegisterDto;
 __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.MinLength)(2),
+    (0, class_validator_1.MaxLength)(50),
+    (0, class_validator_1.Matches)(/^[A-Za-z0-9._-]+$/, {
+        message: 'O nome de usuario deve conter apenas letras, numeros, ponto, hifen ou sublinhado.',
+    }),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "username", void 0);
 __decorate([

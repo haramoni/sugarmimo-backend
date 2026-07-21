@@ -21,6 +21,7 @@ const login_dto_1 = require("./dto/login.dto");
 const register_dto_1 = require("./dto/register.dto");
 const update_profile_dto_1 = require("./dto/update-profile.dto");
 const jwt_auth_guard_1 = require("./jwt-auth.guard");
+const login_throttle_1 = require("./login-throttle");
 let AuthController = class AuthController {
     authService;
     usersService;
@@ -97,7 +98,13 @@ __decorate([
 ], AuthController.prototype, "register", null);
 __decorate([
     (0, common_1.Post)('login'),
-    (0, throttler_1.Throttle)({ default: { limit: 10, ttl: 15 * 60_000 } }),
+    (0, throttler_1.Throttle)({
+        default: {
+            limit: 10,
+            ttl: 15 * 60_000,
+            getTracker: login_throttle_1.getLoginThrottleTracker,
+        },
+    }),
     (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -115,7 +122,13 @@ __decorate([
 ], AuthController.prototype, "availability", null);
 __decorate([
     (0, common_1.Post)('/admin/login'),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 15 * 60_000 } }),
+    (0, throttler_1.Throttle)({
+        default: {
+            limit: 5,
+            ttl: 15 * 60_000,
+            getTracker: login_throttle_1.getLoginThrottleTracker,
+        },
+    }),
     (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),

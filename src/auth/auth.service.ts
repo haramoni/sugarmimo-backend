@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { randomUUID } from 'node:crypto';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -26,6 +27,12 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto) {
+    if (!/^[A-Za-z0-9._-]{2,50}$/.test(registerDto.username)) {
+      throw new BadRequestException(
+        'O nome de usuario deve conter apenas letras, numeros, ponto, hifen ou sublinhado.',
+      );
+    }
+
     const lookingFor = registerDto.lookingFor ?? registerDto.interest;
     const role = this.resolveRole(registerDto.profileType ?? registerDto.role);
 
@@ -202,6 +209,7 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       role: user.role,
+      jti: randomUUID(),
     });
 
     return {
