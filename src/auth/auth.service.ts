@@ -19,6 +19,7 @@ export const UserRole = {
 } as const;
 
 type UserRole = (typeof UserRole)[keyof typeof UserRole];
+const MAX_SUGAR_BABY_REGISTRATION_PHOTOS = 3;
 
 @Injectable()
 export class AuthService {
@@ -58,6 +59,14 @@ export class AuthService {
     if (role === UserRole.SugarBaby && photos.length === 0) {
       throw new BadRequestException(
         'Sugar Babies precisam enviar pelo menos uma foto.',
+      );
+    }
+    if (
+      role === UserRole.SugarBaby &&
+      photos.length > MAX_SUGAR_BABY_REGISTRATION_PHOTOS
+    ) {
+      throw new BadRequestException(
+        `Sugar Babies podem enviar no máximo ${MAX_SUGAR_BABY_REGISTRATION_PHOTOS} fotos no cadastro.`,
       );
     }
     validateProfilePhotos(photos);

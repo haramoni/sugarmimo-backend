@@ -13,23 +13,23 @@ function validateProfilePhotos(photos) {
         }
         const prefix = `data:${photo.mimeType};base64,`;
         if (!photo.dataUrl.startsWith(prefix)) {
-            throw new common_1.BadRequestException('Conteudo de foto invalido.');
+            throw new common_1.BadRequestException('Conteúdo de foto inválido.');
         }
         const base64 = photo.dataUrl.slice(prefix.length);
         if (!base64 || !/^[A-Za-z0-9+/]+={0,2}$/.test(base64)) {
-            throw new common_1.BadRequestException('Conteudo de foto invalido.');
+            throw new common_1.BadRequestException('Conteúdo de foto inválido.');
         }
         const decodedPhoto = Buffer.from(base64, 'base64');
         if (!hasExpectedImageSignature(decodedPhoto, photo.mimeType)) {
-            throw new common_1.BadRequestException('Conteudo de foto invalido.');
+            throw new common_1.BadRequestException('Conteúdo de foto inválido.');
         }
         if (decodedPhoto.byteLength > MAX_PHOTO_BYTES) {
-            throw new common_1.BadRequestException('Cada foto pode ter no maximo 5 MB.');
+            throw new common_1.BadRequestException('Cada foto pode ter no máximo 5 MB.');
         }
         totalBytes += decodedPhoto.byteLength;
     }
     if (totalBytes > MAX_TOTAL_PHOTO_BYTES) {
-        throw new common_1.BadRequestException('O conjunto de fotos pode ter no maximo 15 MB.');
+        throw new common_1.BadRequestException('O conjunto de fotos pode ter no máximo 15 MB.');
     }
 }
 function hasExpectedImageSignature(data, mimeType) {

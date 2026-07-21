@@ -992,3 +992,7 @@
 [32m[Nest] 14292  - [39m21/07/2026, 16:03:50 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications, GET} route[39m[38;5;3m +0ms[39m
 [32m[Nest] 14292  - [39m21/07/2026, 16:03:50 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/interactions/notifications/:id/read, PATCH} route[39m[38;5;3m +1ms[39m
 [32m[Nest] 14292  - [39m21/07/2026, 16:03:50 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +83ms[39m
+[2J[3J[H[[90m16:41:25[0m] File change detected. Starting incremental compilation...
+
+[[90m16:41:26[0m] Found 0 errors. Watching for file changes.
+

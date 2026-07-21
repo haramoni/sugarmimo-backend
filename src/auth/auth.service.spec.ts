@@ -142,6 +142,22 @@ describe('AuthService', () => {
     expect(usersService.create).not.toHaveBeenCalled();
   });
 
+  it('limits Sugar Baby registrations to three photos', async () => {
+    await expect(
+      service.register({
+        ...registerDto,
+        profilePhotos: Array.from(
+          { length: 4 },
+          () => registerDto.profilePhotos![0],
+        ),
+      }),
+    ).rejects.toThrow(
+      'Sugar Babies podem enviar no máximo 3 fotos no cadastro.',
+    );
+
+    expect(usersService.create).not.toHaveBeenCalled();
+  });
+
   it('rejects registrations without a valid profile role', async () => {
     await expect(
       service.register({

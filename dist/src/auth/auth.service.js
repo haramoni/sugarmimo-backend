@@ -55,6 +55,7 @@ exports.UserRole = {
     SugarBaby: 'SUGAR_BABY',
     Admin: 'ADMIN',
 };
+const MAX_SUGAR_BABY_REGISTRATION_PHOTOS = 3;
 let AuthService = class AuthService {
     jwtService;
     usersService;
@@ -83,6 +84,10 @@ let AuthService = class AuthService {
         const photos = registerDto.profilePhotos ?? [];
         if (role === exports.UserRole.SugarBaby && photos.length === 0) {
             throw new common_1.BadRequestException('Sugar Babies precisam enviar pelo menos uma foto.');
+        }
+        if (role === exports.UserRole.SugarBaby &&
+            photos.length > MAX_SUGAR_BABY_REGISTRATION_PHOTOS) {
+            throw new common_1.BadRequestException(`Sugar Babies podem enviar no máximo ${MAX_SUGAR_BABY_REGISTRATION_PHOTOS} fotos no cadastro.`);
         }
         (0, profile_photo_validation_1.validateProfilePhotos)(photos);
         const passwordHash = await bcrypt.hash(registerDto.password, 10);
