@@ -49,6 +49,7 @@ const bcrypt = __importStar(require("bcrypt"));
 const node_crypto_1 = require("node:crypto");
 const users_service_1 = require("../users/users.service");
 const profile_photo_validation_1 = require("../users/profile-photo.validation");
+const email_service_1 = require("./email.service");
 exports.UserRole = {
     SugarDaddy: 'SUGAR_DADDY',
     SugarBaby: 'SUGAR_BABY',
@@ -57,9 +58,11 @@ exports.UserRole = {
 let AuthService = class AuthService {
     jwtService;
     usersService;
-    constructor(jwtService, usersService) {
+    emailService;
+    constructor(jwtService, usersService, emailService) {
         this.jwtService = jwtService;
         this.usersService = usersService;
+        this.emailService = emailService;
     }
     async register(registerDto) {
         if (!/^[A-Za-z0-9._-]{2,50}$/.test(registerDto.username)) {
@@ -185,6 +188,45 @@ let AuthService = class AuthService {
         }
         return authResponse;
     }
+    async forgotPassword(email) {
+        this.emailService.ensureConfigured();
+        const user = await this.usersService.findByEmail(email.trim().toLowerCase());
+        const response = {
+            message: 'Se o e-mail estiver cadastrado, a nova senha sera enviada em instantes.',
+        };
+        if (!user) {
+            return response;
+        }
+        const newPassword = `Sm-${(0, node_crypto_1.randomBytes)(9).toString('base64url')}9!`;
+        const newPasswordHash = await bcrypt.hash(newPassword, 10);
+        const oldPasswordHash = user.passwordHash;
+        await this.usersService.updatePasswordHash(user.id, newPasswordHash);
+        try {
+            await this.emailService.sendNewPassword(user.email, newPassword);
+        }
+        catch (error) {
+            await this.usersService.updatePasswordHash(user.id, oldPasswordHash);
+            throw error;
+        }
+        return response;
+    }
+    async changePassword(userId, currentPassword, newPassword) {
+        const user = await this.usersService.findCredentialsById(userId);
+        if (!user) {
+            throw new common_1.UnauthorizedException('Usuario nao autenticado.');
+        }
+        const passwordMatches = await bcrypt.compare(currentPassword, user.passwordHash);
+        if (!passwordMatches) {
+            throw new common_1.UnauthorizedException('A senha atual esta incorreta.');
+        }
+        const repeatsCurrentPassword = await bcrypt.compare(newPassword, user.passwordHash);
+        if (repeatsCurrentPassword) {
+            throw new common_1.BadRequestException('A nova senha deve ser diferente da senha atual.');
+        }
+        const newPasswordHash = await bcrypt.hash(newPassword, 10);
+        await this.usersService.updatePasswordHash(userId, newPasswordHash);
+        return { message: 'Senha alterada com sucesso.' };
+    }
     buildAuthResponse(user) {
         const accessToken = this.jwtService.sign({
             sub: user.id,
@@ -254,6 +296,7 @@ exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [jwt_1.JwtService,
-        users_service_1.UsersService])
+        users_service_1.UsersService,
+        email_service_1.EmailService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

@@ -22,6 +22,9 @@ const register_dto_1 = require("./dto/register.dto");
 const update_profile_dto_1 = require("./dto/update-profile.dto");
 const jwt_auth_guard_1 = require("./jwt-auth.guard");
 const login_throttle_1 = require("./login-throttle");
+const registration_throttle_1 = require("./registration-throttle");
+const forgot_password_dto_1 = require("./dto/forgot-password.dto");
+const change_password_dto_1 = require("./dto/change-password.dto");
 let AuthController = class AuthController {
     authService;
     usersService;
@@ -35,6 +38,9 @@ let AuthController = class AuthController {
     login(loginDto) {
         return this.authService.login(loginDto);
     }
+    forgotPassword(forgotPasswordDto) {
+        return this.authService.forgotPassword(forgotPasswordDto.email);
+    }
     availability(username = '', email = '') {
         return this.usersService.checkAvailability(username, email);
     }
@@ -43,6 +49,9 @@ let AuthController = class AuthController {
     }
     me(request) {
         return this.usersService.findById(request.user.id);
+    }
+    changePassword(request, changePasswordDto) {
+        return this.authService.changePassword(request.user.id, changePasswordDto.currentPassword, changePasswordDto.newPassword);
     }
     presence(request) {
         return this.usersService.touchPresence(request.user.id);
@@ -89,7 +98,13 @@ let AuthController = class AuthController {
 exports.AuthController = AuthController;
 __decorate([
     (0, common_1.Post)('register'),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 60 * 60_000 } }),
+    (0, throttler_1.Throttle)({
+        default: {
+            limit: 5,
+            ttl: 60 * 60_000,
+            getTracker: registration_throttle_1.getRegistrationThrottleTracker,
+        },
+    }),
     (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -111,6 +126,21 @@ __decorate([
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "login", null);
+__decorate([
+    (0, common_1.Post)('forgot-password'),
+    (0, throttler_1.Throttle)({
+        default: {
+            limit: 3,
+            ttl: 60 * 60_000,
+            getTracker: login_throttle_1.getLoginThrottleTracker,
+        },
+    }),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [forgot_password_dto_1.ForgotPasswordDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "forgotPassword", null);
 __decorate([
     (0, common_1.Get)('availability'),
     (0, throttler_1.Throttle)({ default: { limit: 30, ttl: 60_000 } }),
@@ -143,6 +173,17 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "me", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)('password'),
+    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 15 * 60_000 } }),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, change_password_dto_1.ChangePasswordDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "changePassword", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Post)('presence'),

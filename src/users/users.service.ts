@@ -115,6 +115,23 @@ export class UsersService {
     });
   }
 
+  updatePasswordHash(id: string, passwordHash: string) {
+    return this.prisma.user.update({
+      where: { id },
+      data: { passwordHash },
+    });
+  }
+
+  findCredentialsById(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        passwordHash: true,
+      },
+    });
+  }
+
   findAuthStateById(id: string) {
     return this.prisma.user.findUnique({
       where: { id },

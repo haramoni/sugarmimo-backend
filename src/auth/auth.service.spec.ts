@@ -54,13 +54,23 @@ describe('AuthService', () => {
     create: jest.fn(),
     findByEmail: jest.fn(),
     findByUsername: jest.fn(),
+    findCredentialsById: jest.fn(),
+    updatePasswordHash: jest.fn(),
+  };
+  const emailService = {
+    ensureConfigured: jest.fn(),
+    sendNewPassword: jest.fn(),
   };
 
   let service: AuthService;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    service = new AuthService(jwtService, usersService as never);
+    service = new AuthService(
+      jwtService,
+      usersService as never,
+      emailService as never,
+    );
   });
 
   it('creates Sugar Baby registrations as pending manual approval', async () => {
@@ -219,5 +229,88 @@ describe('AuthService', () => {
     expect(firstPayload?.jti).toEqual(expect.any(String));
     expect(secondPayload?.jti).toEqual(expect.any(String));
     expect(firstPayload?.jti).not.toBe(secondPayload?.jti);
+  });
+
+  it('sends a new password to a registered email', async () => {
+    usersService.findByEmail.mockResolvedValue({
+      ...baseUser,
+      passwordHash: validPasswordHash,
+    });
+    usersService.updatePasswordHash.mockResolvedValue(undefined);
+    emailService.sendNewPassword.mockResolvedValue(undefined);
+
+    await service.forgotPassword('Maria@Example.com');
+
+    expect(emailService.ensureConfigured).toHaveBeenCalled();
+    expect(usersService.findByEmail).toHaveBeenCalledWith('maria@example.com');
+    expect(usersService.updatePasswordHash).toHaveBeenCalledWith(
+      baseUser.id,
+      expect.any(String),
+    );
+    expect(emailService.sendNewPassword).toHaveBeenCalledWith(
+      baseUser.email,
+      expect.stringMatching(/^Sm-.+9!$/),
+    );
+  });
+
+  it('restores the previous password if Resend fails', async () => {
+    usersService.findByEmail.mockResolvedValue({
+      ...baseUser,
+      passwordHash: validPasswordHash,
+    });
+    usersService.updatePasswordHash.mockResolvedValue(undefined);
+    emailService.sendNewPassword.mockRejectedValue(new Error('Resend failed'));
+
+    await expect(service.forgotPassword('maria@example.com')).rejects.toThrow(
+      'Resend failed',
+    );
+
+    expect(usersService.updatePasswordHash).toHaveBeenLastCalledWith(
+      baseUser.id,
+      validPasswordHash,
+    );
+  });
+
+  it('changes the password when the current password is valid', async () => {
+    usersService.findCredentialsById.mockResolvedValue({
+      id: baseUser.id,
+      passwordHash: validPasswordHash,
+    });
+    usersService.updatePasswordHash.mockResolvedValue(undefined);
+
+    await expect(
+      service.changePassword(baseUser.id, 'Senha@123', 'NovaSenha@456'),
+    ).resolves.toEqual({ message: 'Senha alterada com sucesso.' });
+
+    expect(usersService.updatePasswordHash).toHaveBeenCalledWith(
+      baseUser.id,
+      expect.any(String),
+    );
+  });
+
+  it('rejects a password change when the current password is invalid', async () => {
+    usersService.findCredentialsById.mockResolvedValue({
+      id: baseUser.id,
+      passwordHash: validPasswordHash,
+    });
+
+    await expect(
+      service.changePassword(baseUser.id, 'SenhaErrada@123', 'NovaSenha@456'),
+    ).rejects.toThrow('A senha atual esta incorreta.');
+
+    expect(usersService.updatePasswordHash).not.toHaveBeenCalled();
+  });
+
+  it('rejects reusing the current password', async () => {
+    usersService.findCredentialsById.mockResolvedValue({
+      id: baseUser.id,
+      passwordHash: validPasswordHash,
+    });
+
+    await expect(
+      service.changePassword(baseUser.id, 'Senha@123', 'Senha@123'),
+    ).rejects.toThrow('A nova senha deve ser diferente da senha atual.');
+
+    expect(usersService.updatePasswordHash).not.toHaveBeenCalled();
   });
 });

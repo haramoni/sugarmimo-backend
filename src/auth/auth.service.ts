@@ -5,11 +5,12 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { randomUUID } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { validateProfilePhotos } from '../users/profile-photo.validation';
+import { EmailService } from './email.service';
 
 export const UserRole = {
   SugarDaddy: 'SUGAR_DADDY',
@@ -24,6 +25,7 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
+    private readonly emailService: EmailService,
   ) {}
 
   async register(registerDto: RegisterDto) {
@@ -184,6 +186,74 @@ export class AuthService {
     }
 
     return authResponse;
+  }
+
+  async forgotPassword(email: string) {
+    this.emailService.ensureConfigured();
+
+    const user = await this.usersService.findByEmail(
+      email.trim().toLowerCase(),
+    );
+    const response = {
+      message:
+        'Se o e-mail estiver cadastrado, a nova senha sera enviada em instantes.',
+    };
+
+    if (!user) {
+      return response;
+    }
+
+    const newPassword = `Sm-${randomBytes(9).toString('base64url')}9!`;
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+    const oldPasswordHash = user.passwordHash;
+
+    await this.usersService.updatePasswordHash(user.id, newPasswordHash);
+
+    try {
+      await this.emailService.sendNewPassword(user.email, newPassword);
+    } catch (error) {
+      await this.usersService.updatePasswordHash(user.id, oldPasswordHash);
+      throw error;
+    }
+
+    return response;
+  }
+
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+  ) {
+    const user = await this.usersService.findCredentialsById(userId);
+
+    if (!user) {
+      throw new UnauthorizedException('Usuario nao autenticado.');
+    }
+
+    const passwordMatches = await bcrypt.compare(
+      currentPassword,
+      user.passwordHash,
+    );
+
+    if (!passwordMatches) {
+      throw new UnauthorizedException('A senha atual esta incorreta.');
+    }
+
+    const repeatsCurrentPassword = await bcrypt.compare(
+      newPassword,
+      user.passwordHash,
+    );
+
+    if (repeatsCurrentPassword) {
+      throw new BadRequestException(
+        'A nova senha deve ser diferente da senha atual.',
+      );
+    }
+
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+    await this.usersService.updatePasswordHash(userId, newPasswordHash);
+
+    return { message: 'Senha alterada com sucesso.' };
   }
 
   private buildAuthResponse(user: {

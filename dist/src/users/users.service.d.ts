@@ -125,6 +125,32 @@ export declare class UsersService {
         lastActiveAt: Date | null;
         createdAt: Date | null;
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    updatePasswordHash(id: string, passwordHash: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+        whatsapp: string | null;
+        telegram: string | null;
+        instagram: string | null;
+        id: string;
+        username: string;
+        email: string;
+        passwordHash: string;
+        role: string | null;
+        gender: string | null;
+        lookingFor: string | null;
+        birthDate: Date | null;
+        country: string | null;
+        state: string | null;
+        city: string | null;
+        approvalStatus: string;
+        isPremium: boolean;
+        boostedUntil: Date | null;
+        reviewedAt: Date | null;
+        lastActiveAt: Date | null;
+        createdAt: Date | null;
+    }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    findCredentialsById(id: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+        id: string;
+        passwordHash: string;
+    } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findAuthStateById(id: string): import("@prisma/client").Prisma.Prisma__UserClient<{
         id: string;
         email: string;

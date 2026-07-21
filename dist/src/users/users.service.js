@@ -32,6 +32,21 @@ let UsersService = class UsersService {
             where: { username },
         });
     }
+    updatePasswordHash(id, passwordHash) {
+        return this.prisma.user.update({
+            where: { id },
+            data: { passwordHash },
+        });
+    }
+    findCredentialsById(id) {
+        return this.prisma.user.findUnique({
+            where: { id },
+            select: {
+                id: true,
+                passwordHash: true,
+            },
+        });
+    }
     findAuthStateById(id) {
         return this.prisma.user.findUnique({
             where: { id },

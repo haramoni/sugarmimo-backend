@@ -5,6 +5,8 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 type AuthenticatedRequest = Request & {
     user: {
         id: string;
@@ -88,6 +90,9 @@ export declare class AuthController {
             createdAt: Date | null;
         };
     }>;
+    forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<{
+        message: string;
+    }>;
     availability(username?: string, email?: string): Promise<{
         usernameAvailable: boolean;
         emailAvailable: boolean;
@@ -154,6 +159,9 @@ export declare class AuthController {
             isPrivate: boolean;
         }[];
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    changePassword(request: AuthenticatedRequest, changePasswordDto: ChangePasswordDto): Promise<{
+        message: string;
+    }>;
     presence(request: AuthenticatedRequest): Promise<{
         online: boolean;
     }>;

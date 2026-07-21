@@ -49,8 +49,8 @@ export declare class AdminController {
         id: string;
         createdAt: Date | null;
         userId: string | null;
-        action: string;
         method: string;
+        action: string;
         statusCode: number | null;
         ip: string | null;
         userAgent: string | null;

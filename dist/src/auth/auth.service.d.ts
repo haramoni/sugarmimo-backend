@@ -2,6 +2,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { EmailService } from './email.service';
 export declare const UserRole: {
     readonly SugarDaddy: "SUGAR_DADDY";
     readonly SugarBaby: "SUGAR_BABY";
@@ -10,7 +11,8 @@ export declare const UserRole: {
 export declare class AuthService {
     private readonly jwtService;
     private readonly usersService;
-    constructor(jwtService: JwtService, usersService: UsersService);
+    private readonly emailService;
+    constructor(jwtService: JwtService, usersService: UsersService, emailService: EmailService);
     register(registerDto: RegisterDto): Promise<{
         accessToken: string;
         user: {
@@ -104,6 +106,12 @@ export declare class AuthService {
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
+    }>;
+    forgotPassword(email: string): Promise<{
+        message: string;
+    }>;
+    changePassword(userId: string, currentPassword: string, newPassword: string): Promise<{
+        message: string;
     }>;
     private buildAuthResponse;
     private getInitialApprovalStatus;

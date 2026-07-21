@@ -22,6 +22,9 @@ import { RegisterDto } from './dto/register.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { getLoginThrottleTracker } from './login-throttle';
+import { getRegistrationThrottleTracker } from './registration-throttle';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 type AuthenticatedRequest = Request & {
   user: {
@@ -39,7 +42,13 @@ export class AuthController {
   ) {}
 
   @Post('register')
-  @Throttle({ default: { limit: 5, ttl: 60 * 60_000 } })
+  @Throttle({
+    default: {
+      limit: 5,
+      ttl: 60 * 60_000,
+      getTracker: getRegistrationThrottleTracker,
+    },
+  })
   @HttpCode(200)
   register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
@@ -56,6 +65,19 @@ export class AuthController {
   @HttpCode(200)
   login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Post('forgot-password')
+  @Throttle({
+    default: {
+      limit: 3,
+      ttl: 60 * 60_000,
+      getTracker: getLoginThrottleTracker,
+    },
+  })
+  @HttpCode(200)
+  forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto) {
+    return this.authService.forgotPassword(forgotPasswordDto.email);
   }
 
   @Get('availability')
@@ -81,6 +103,21 @@ export class AuthController {
   @Get('me')
   me(@Req() request: AuthenticatedRequest) {
     return this.usersService.findById(request.user.id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('password')
+  @Throttle({ default: { limit: 5, ttl: 15 * 60_000 } })
+  @HttpCode(200)
+  changePassword(
+    @Req() request: AuthenticatedRequest,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    return this.authService.changePassword(
+      request.user.id,
+      changePasswordDto.currentPassword,
+      changePasswordDto.newPassword,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
