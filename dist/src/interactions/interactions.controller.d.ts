@@ -45,8 +45,8 @@ export declare class InteractionsController {
         items: {
             id: string;
             createdAt: Date | null;
-            type: string;
             readAt: Date | null;
+            type: string;
             actor: {
                 id: string;
                 username: string;

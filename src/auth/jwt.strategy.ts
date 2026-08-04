@@ -39,6 +39,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Perfil ainda nao aprovado.');
     }
 
+    if (user.accountStatus === 'BANNED') {
+      throw new UnauthorizedException('Perfil bloqueado pela moderacao.');
+    }
+
+    if (
+      user.accountStatus === 'SUSPENDED' &&
+      (!user.suspendedUntil || user.suspendedUntil > new Date())
+    ) {
+      throw new UnauthorizedException('Perfil temporariamente suspenso.');
+    }
+
     return {
       id: user.id,
       email: user.email,

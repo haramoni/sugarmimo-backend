@@ -140,6 +140,8 @@ export class UsersService {
         email: true,
         role: true,
         approvalStatus: true,
+        accountStatus: true,
+        suspendedUntil: true,
       },
     });
   }
@@ -301,41 +303,68 @@ export class UsersService {
     });
   }
 
-  findPendingBabies() {
-    return this.prisma.user.findMany({
-      where: {
-        role: 'SUGAR_BABY',
-        approvalStatus: 'PENDING',
-      },
-      orderBy: { createdAt: 'asc' },
-      select: {
-        id: true,
-        username: true,
-        email: true,
-        role: true,
-        gender: true,
-        lookingFor: true,
-        birthDate: true,
-        country: true,
-        state: true,
-        city: true,
-        whatsapp: true,
-        telegram: true,
-        instagram: true,
-        approvalStatus: true,
-        createdAt: true,
-        photos: {
-          orderBy: { sortOrder: 'asc' },
-          select: {
-            id: true,
-            dataUrl: true,
-            fileName: true,
-            mimeType: true,
-            sortOrder: true,
+  async findPendingBabies(page = 1, pageSize = 6) {
+    const safePage =
+      Number.isSafeInteger(page) && page > 0 ? Math.min(page, 100_000) : 1;
+    const safePageSize =
+      Number.isSafeInteger(pageSize) && pageSize > 0
+        ? Math.min(pageSize, 20)
+        : 6;
+    const where = {
+      role: 'SUGAR_BABY',
+      approvalStatus: 'PENDING',
+    };
+
+    const [items, totalItems] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
+        skip: (safePage - 1) * safePageSize,
+        take: safePageSize,
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          role: true,
+          gender: true,
+          lookingFor: true,
+          birthDate: true,
+          country: true,
+          state: true,
+          city: true,
+          whatsapp: true,
+          telegram: true,
+          instagram: true,
+          approvalStatus: true,
+          createdAt: true,
+          photos: {
+            orderBy: { sortOrder: 'asc' },
+            select: {
+              id: true,
+              dataUrl: true,
+              fileName: true,
+              mimeType: true,
+              sortOrder: true,
+            },
           },
         },
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    const totalPages = Math.ceil(totalItems / safePageSize);
+
+    return {
+      items,
+      pagination: {
+        page: safePage,
+        pageSize: safePageSize,
+        totalItems,
+        totalPages,
+        hasPreviousPage: safePage > 1,
+        hasNextPage: safePage < totalPages,
       },
-    });
+    };
   }
 
   findSugarDaddies() {
@@ -445,16 +474,15 @@ export class UsersService {
         items: [],
         page: safePage,
         pageSize: safeLimit,
-        total: 0,
-        totalPages: 0,
         hasMore: false,
       };
     }
 
     const normalizedSearch = search?.trim();
+    const blockedUserIds = await this.findBlockedUserIds(viewerId);
 
     const where = {
-      id: { not: viewerId },
+      id: { not: viewerId, notIn: blockedUserIds },
       role: targetRole,
       approvalStatus: 'APPROVED',
       ...(normalizedSearch
@@ -468,16 +496,13 @@ export class UsersService {
         : {}),
     };
 
-    const [matches, total] = await Promise.all([
-      this.prisma.user.findMany({
-        where,
-        orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
-        skip: (safePage - 1) * safeLimit,
-        take: safeLimit + 1,
-        select: this.publicProfileListSelect(),
-      }),
-      this.prisma.user.count({ where }),
-    ]);
+    const matches = await this.prisma.user.findMany({
+      where,
+      orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
+      skip: (safePage - 1) * safeLimit,
+      take: safeLimit + 1,
+      select: this.publicProfileListSelect(),
+    });
 
     const hasMore = matches.length > safeLimit;
 
@@ -487,17 +512,11 @@ export class UsersService {
         .map((match) => this.sanitizePublicProfile(match, viewer.username)),
       page: safePage,
       pageSize: safeLimit,
-      total,
-      totalPages: Math.ceil(total / safeLimit),
       hasMore,
     };
   }
 
-  async findBoostedProfilesForUser(
-    viewerId: string,
-    page = 1,
-    limit = 6,
-  ) {
+  async findBoostedProfilesForUser(viewerId: string, page = 1, limit = 6) {
     const viewer = await this.prisma.user.findUnique({
       where: { id: viewerId },
       select: { role: true, username: true, approvalStatus: true },
@@ -514,41 +533,35 @@ export class UsersService {
         items: [],
         page: safePage,
         pageSize: safeLimit,
-        total: 0,
-        totalPages: 0,
         hasMore: false,
       };
     }
 
     const where = {
-      id: { not: viewerId },
+      id: {
+        not: viewerId,
+        notIn: await this.findBlockedUserIds(viewerId),
+      },
       role: targetRole,
       approvalStatus: 'APPROVED',
       boostedUntil: { gt: new Date() },
     };
 
-    const [profiles, total] = await Promise.all([
-      this.prisma.user.findMany({
-        where,
-        orderBy: [{ boostedUntil: 'desc' }, { lastActiveAt: 'desc' }],
-        skip: (safePage - 1) * safeLimit,
-        take: safeLimit + 1,
-        select: this.publicProfileListSelect(),
-      }),
-      this.prisma.user.count({ where }),
-    ]);
+    const profiles = await this.prisma.user.findMany({
+      where,
+      orderBy: [{ boostedUntil: 'desc' }, { lastActiveAt: 'desc' }],
+      skip: (safePage - 1) * safeLimit,
+      take: safeLimit + 1,
+      select: this.publicProfileListSelect(),
+    });
     const hasMore = profiles.length > safeLimit;
 
     return {
       items: profiles
         .slice(0, safeLimit)
-        .map((profile) =>
-          this.sanitizePublicProfile(profile, viewer.username),
-        ),
+        .map((profile) => this.sanitizePublicProfile(profile, viewer.username)),
       page: safePage,
       pageSize: safeLimit,
-      total,
-      totalPages: Math.ceil(total / safeLimit),
       hasMore,
     };
   }
@@ -600,9 +613,7 @@ export class UsersService {
 
     if (
       photo.isPrivate &&
-      !privatePhotoViewerUsernames.includes(
-        viewer?.username?.toLowerCase(),
-      )
+      !privatePhotoViewerUsernames.includes(viewer?.username?.toLowerCase())
     ) {
       return null;
     }
@@ -633,6 +644,7 @@ export class UsersService {
 
     return this.prisma.user.findMany({
       where: {
+        id: { notIn: await this.findBlockedUserIds(viewerId) },
         role: UserRole.SugarDaddy,
         approvalStatus: 'APPROVED',
         ...(normalizedSearch
@@ -665,7 +677,10 @@ export class UsersService {
 
     return this.prisma.user.findMany({
       where: {
-        id: { not: viewerId },
+        id: {
+          not: viewerId,
+          notIn: await this.findBlockedUserIds(viewerId),
+        },
         role: targetRole,
         approvalStatus: 'APPROVED',
         ...(normalizedSearch
@@ -705,9 +720,11 @@ export class UsersService {
     }
 
     const normalizedIdentifier = identifier.trim().replace(/^@+/, '');
+    const blockedUserIds = await this.findBlockedUserIds(viewerId);
 
     const profile = await this.prisma.user.findFirst({
       where: {
+        id: { notIn: blockedUserIds },
         OR: [
           { id: normalizedIdentifier },
           { username: normalizedIdentifier.toLowerCase() },
@@ -924,6 +941,17 @@ export class UsersService {
     return this.findById(id);
   }
 
+  private async findBlockedUserIds(userId: string) {
+    const blocks = await this.prisma.userBlock.findMany({
+      where: { OR: [{ blockerId: userId }, { blockedId: userId }] },
+      select: { blockerId: true, blockedId: true },
+    });
+
+    return blocks.map((block) =>
+      block.blockerId === userId ? block.blockedId : block.blockerId,
+    );
+  }
+
   private toSlug(value: string) {
     return value
       .normalize('NFD')
@@ -1058,7 +1086,8 @@ export class UsersService {
     viewerRole: string | null,
     value: string[],
   ) {
-    const normalizedUsernames = this.normalizeContactViewerUsernames(value) ?? [];
+    const normalizedUsernames =
+      this.normalizeContactViewerUsernames(value) ?? [];
     const targetRole = this.resolveMatchRole(viewerRole);
 
     if (!targetRole || normalizedUsernames.length === 0) {
@@ -1121,9 +1150,7 @@ export class UsersService {
         : [];
     const canViewPrivatePhotos = Boolean(
       viewerUsername &&
-        privatePhotoViewerUsernames.includes(
-          viewerUsername.trim().toLowerCase(),
-        ),
+      privatePhotoViewerUsernames.includes(viewerUsername.trim().toLowerCase()),
     );
 
     return {

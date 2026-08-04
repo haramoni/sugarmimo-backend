@@ -36,10 +36,12 @@ type VisibleContactChannel = 'whatsapp' | 'telegram' | 'instagram';
 export class RegisterDto {
   @IsString()
   @MinLength(2)
-  @MaxLength(50)
+  @MaxLength(30, {
+    message: 'O nome de usuario deve ter no maximo 30 caracteres.',
+  })
   @Matches(/^[A-Za-z0-9._-]+$/, {
     message:
-      'O nome de usuario deve conter apenas letras, numeros, ponto, hifen ou sublinhado.',
+      'O nome de usuario deve conter apenas letras, numeros, ponto, hifen ou sublinhado e nao pode ser um email.',
   })
   username: string;
 

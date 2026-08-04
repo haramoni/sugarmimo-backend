@@ -215,8 +215,6 @@ export declare class AuthController {
         })[];
         page: number;
         pageSize: number;
-        total: number;
-        totalPages: number;
         hasMore: boolean;
     }>;
     matches(request: AuthenticatedRequest, search?: string, page?: string, limit?: string): Promise<{
@@ -269,8 +267,6 @@ export declare class AuthController {
         })[];
         page: number;
         pageSize: number;
-        total: number;
-        totalPages: number;
         hasMore: boolean;
     }>;
     matchPhoto(request: AuthenticatedRequest, photoId: string, response: Response): Promise<StreamableFile>;

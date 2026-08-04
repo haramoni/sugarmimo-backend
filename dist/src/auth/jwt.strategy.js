@@ -35,6 +35,13 @@ let JwtStrategy = class JwtStrategy extends (0, passport_1.PassportStrategy)(pas
             user.approvalStatus?.trim().toUpperCase() !== 'APPROVED') {
             throw new common_1.UnauthorizedException('Perfil ainda nao aprovado.');
         }
+        if (user.accountStatus === 'BANNED') {
+            throw new common_1.UnauthorizedException('Perfil bloqueado pela moderacao.');
+        }
+        if (user.accountStatus === 'SUSPENDED' &&
+            (!user.suspendedUntil || user.suspendedUntil > new Date())) {
+            throw new common_1.UnauthorizedException('Perfil temporariamente suspenso.');
+        }
         return {
             id: user.id,
             email: user.email,

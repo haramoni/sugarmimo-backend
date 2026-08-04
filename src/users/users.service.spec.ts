@@ -14,6 +14,9 @@ describe('UsersService', () => {
     userPhoto: {
       findFirst: jest.fn(),
     },
+    userBlock: {
+      findMany: jest.fn(),
+    },
   };
 
   let service: UsersService;
@@ -21,6 +24,7 @@ describe('UsersService', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     prisma.user.count.mockResolvedValue(0);
+    prisma.userBlock.findMany.mockResolvedValue([]);
     service = new UsersService(prisma as never);
   });
 
@@ -185,7 +189,6 @@ describe('UsersService', () => {
         contactViewerUsernames: ['outrodaddy'],
       }),
     ]);
-    prisma.user.count.mockResolvedValue(2);
 
     const matches = await service.findMatchesForUser('daddy-1');
 
@@ -227,11 +230,10 @@ describe('UsersService', () => {
       expect.objectContaining({
         page: 1,
         pageSize: 9,
-        total: 2,
-        totalPages: 1,
         hasMore: false,
       }),
     );
+    expect(prisma.user.count).not.toHaveBeenCalled();
   });
 
   it('returns match pages incrementally', async () => {
@@ -245,7 +247,6 @@ describe('UsersService', () => {
         publicDaddyProfile(`daddy-${index + 1}`),
       ),
     );
-    prisma.user.count.mockResolvedValue(20);
 
     const result = await service.findMatchesForUser('baby-1', '', 2, 9);
 
@@ -263,7 +264,6 @@ describe('UsersService', () => {
       approvalStatus: 'APPROVED',
     });
     prisma.user.findMany.mockResolvedValue([publicBabyProfile({})]);
-    prisma.user.count.mockResolvedValue(1);
 
     const result = await service.findBoostedProfilesForUser('daddy-1', 1, 6);
 
@@ -279,6 +279,31 @@ describe('UsersService', () => {
         }),
         skip: 0,
         take: 7,
+      }),
+    );
+    expect(prisma.user.count).not.toHaveBeenCalled();
+  });
+
+  it('paginates pending Sugar Babies with a stable database query', async () => {
+    prisma.user.findMany.mockResolvedValue([{ id: 'baby-7' }]);
+    prisma.user.count.mockResolvedValue(13);
+
+    await expect(service.findPendingBabies(2, 6)).resolves.toEqual({
+      items: [{ id: 'baby-7' }],
+      pagination: {
+        page: 2,
+        pageSize: 6,
+        totalItems: 13,
+        totalPages: 3,
+        hasPreviousPage: true,
+        hasNextPage: true,
+      },
+    });
+    expect(prisma.user.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        skip: 6,
+        take: 6,
+        orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
       }),
     );
   });

@@ -8,8 +8,10 @@ const common_1 = require("@nestjs/common");
 const express_1 = require("express");
 const helmet_1 = __importDefault(require("helmet"));
 const app_module_1 = require("./app.module");
+const platform_socket_io_1 = require("@nestjs/platform-socket.io");
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
+    app.useWebSocketAdapter(new platform_socket_io_1.IoAdapter(app));
     const configuredOrigins = process.env.FRONTEND_URL?.split(',')
         .map((origin) => origin.trim())
         .filter(Boolean);

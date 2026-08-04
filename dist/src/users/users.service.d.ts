@@ -97,6 +97,8 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        accountStatus: string;
+        suspendedUntil: Date | null;
         isPremium: boolean;
         boostedUntil: Date | null;
         reviewedAt: Date | null;
@@ -119,6 +121,8 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        accountStatus: string;
+        suspendedUntil: Date | null;
         isPremium: boolean;
         boostedUntil: Date | null;
         reviewedAt: Date | null;
@@ -141,6 +145,8 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         approvalStatus: string;
+        accountStatus: string;
+        suspendedUntil: Date | null;
         isPremium: boolean;
         boostedUntil: Date | null;
         reviewedAt: Date | null;
@@ -156,6 +162,8 @@ export declare class UsersService {
         email: string;
         role: string | null;
         approvalStatus: string;
+        accountStatus: string;
+        suspendedUntil: Date | null;
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     checkAvailability(username: string, email: string): Promise<{
         usernameAvailable: boolean;
@@ -227,30 +235,40 @@ export declare class UsersService {
             mimeType: string | null;
         }[];
     }>;
-    findPendingBabies(): import("@prisma/client").Prisma.PrismaPromise<{
-        whatsapp: string | null;
-        telegram: string | null;
-        instagram: string | null;
-        id: string;
-        username: string;
-        email: string;
-        role: string | null;
-        gender: string | null;
-        lookingFor: string | null;
-        birthDate: Date | null;
-        country: string | null;
-        state: string | null;
-        city: string | null;
-        approvalStatus: string;
-        createdAt: Date | null;
-        photos: {
+    findPendingBabies(page?: number, pageSize?: number): Promise<{
+        items: {
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
             id: string;
-            sortOrder: number;
-            dataUrl: string;
-            fileName: string | null;
-            mimeType: string | null;
+            username: string;
+            email: string;
+            role: string | null;
+            gender: string | null;
+            lookingFor: string | null;
+            birthDate: Date | null;
+            country: string | null;
+            state: string | null;
+            city: string | null;
+            approvalStatus: string;
+            createdAt: Date | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                dataUrl: string;
+                fileName: string | null;
+                mimeType: string | null;
+            }[];
         }[];
-    }[]>;
+        pagination: {
+            page: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+            hasPreviousPage: boolean;
+            hasNextPage: boolean;
+        };
+    }>;
     findSugarDaddies(): import("@prisma/client").Prisma.PrismaPromise<{
         id: string;
         username: string;
@@ -326,8 +344,6 @@ export declare class UsersService {
         })[];
         page: number;
         pageSize: number;
-        total: number;
-        totalPages: number;
         hasMore: boolean;
     }>;
     findBoostedProfilesForUser(viewerId: string, page?: number, limit?: number): Promise<{
@@ -380,8 +396,6 @@ export declare class UsersService {
         })[];
         page: number;
         pageSize: number;
-        total: number;
-        totalPages: number;
         hasMore: boolean;
     }>;
     findMatchPhotoForUser(viewerId: string, photoId: string): Promise<{
@@ -498,6 +512,7 @@ export declare class UsersService {
             isPrivate: boolean;
         }[];
     } | null>;
+    private findBlockedUserIds;
     private toSlug;
     private resolveMatchRole;
     private publicProfileSelect;

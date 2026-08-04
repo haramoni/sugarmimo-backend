@@ -30,9 +30,9 @@ export class AuthService {
   ) {}
 
   async register(registerDto: RegisterDto) {
-    if (!/^[A-Za-z0-9._-]{2,50}$/.test(registerDto.username)) {
+    if (!/^[A-Za-z0-9._-]{2,30}$/.test(registerDto.username)) {
       throw new BadRequestException(
-        'O nome de usuario deve conter apenas letras, numeros, ponto, hifen ou sublinhado.',
+        'O nome de usuario deve ter entre 2 e 30 caracteres, conter apenas letras, numeros, ponto, hifen ou sublinhado e nao pode ser um email.',
       );
     }
 
@@ -157,6 +157,17 @@ export class AuthService {
 
     if (!passwordMatches) {
       throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if (user.accountStatus === 'BANNED') {
+      throw new UnauthorizedException('Perfil bloqueado pela moderacao.');
+    }
+
+    if (
+      user.accountStatus === 'SUSPENDED' &&
+      (!user.suspendedUntil || user.suspendedUntil > new Date())
+    ) {
+      throw new UnauthorizedException('Perfil temporariamente suspenso.');
     }
 
     if (

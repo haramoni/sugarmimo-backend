@@ -169,7 +169,13 @@ describe('AuthService', () => {
     expect(usersService.create).not.toHaveBeenCalled();
   });
 
-  it.each(['nome com espaco', 'usuário', 'perfil😀'])(
+  it.each([
+    'nome com espaco',
+    'usuário',
+    'perfil😀',
+    'maria@example.com',
+    'a'.repeat(31),
+  ])(
     'rejects the invalid username %s',
     async (username) => {
       await expect(

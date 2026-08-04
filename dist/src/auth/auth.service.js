@@ -66,8 +66,8 @@ let AuthService = class AuthService {
         this.emailService = emailService;
     }
     async register(registerDto) {
-        if (!/^[A-Za-z0-9._-]{2,50}$/.test(registerDto.username)) {
-            throw new common_1.BadRequestException('O nome de usuario deve conter apenas letras, numeros, ponto, hifen ou sublinhado.');
+        if (!/^[A-Za-z0-9._-]{2,30}$/.test(registerDto.username)) {
+            throw new common_1.BadRequestException('O nome de usuario deve ter entre 2 e 30 caracteres, conter apenas letras, numeros, ponto, hifen ou sublinhado e nao pode ser um email.');
         }
         const lookingFor = registerDto.lookingFor ?? registerDto.interest;
         const role = this.resolveRole(registerDto.profileType ?? registerDto.role);
@@ -161,6 +161,13 @@ let AuthService = class AuthService {
         const passwordMatches = await bcrypt.compare(loginDto.password, user.passwordHash);
         if (!passwordMatches) {
             throw new common_1.UnauthorizedException('Invalid credentials');
+        }
+        if (user.accountStatus === 'BANNED') {
+            throw new common_1.UnauthorizedException('Perfil bloqueado pela moderacao.');
+        }
+        if (user.accountStatus === 'SUSPENDED' &&
+            (!user.suspendedUntil || user.suspendedUntil > new Date())) {
+            throw new common_1.UnauthorizedException('Perfil temporariamente suspenso.');
         }
         if (this.normalizeRole(user.role) === exports.UserRole.SugarBaby &&
             this.normalizeApprovalStatus(user.approvalStatus) !== 'APPROVED') {

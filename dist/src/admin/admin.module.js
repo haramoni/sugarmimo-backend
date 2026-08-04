@@ -10,6 +10,7 @@ exports.AdminModule = void 0;
 const common_1 = require("@nestjs/common");
 const auth_module_1 = require("../auth/auth.module");
 const users_module_1 = require("../users/users.module");
+const chat_module_1 = require("../chat/chat.module");
 const admin_auth_controller_1 = require("./admin-auth.controller");
 const admin_controller_1 = require("./admin.controller");
 const admin_guard_1 = require("./admin.guard");
@@ -18,7 +19,7 @@ let AdminModule = class AdminModule {
 exports.AdminModule = AdminModule;
 exports.AdminModule = AdminModule = __decorate([
     (0, common_1.Module)({
-        imports: [auth_module_1.AuthModule, users_module_1.UsersModule],
+        imports: [auth_module_1.AuthModule, users_module_1.UsersModule, chat_module_1.ChatModule],
         controllers: [admin_auth_controller_1.AdminAuthController, admin_controller_1.AdminController],
         providers: [admin_guard_1.AdminGuard],
     })

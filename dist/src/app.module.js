@@ -11,11 +11,13 @@ const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const config_1 = require("@nestjs/config");
 const throttler_1 = require("@nestjs/throttler");
+const schedule_1 = require("@nestjs/schedule");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const admin_module_1 = require("./admin/admin.module");
 const audit_module_1 = require("./audit/audit.module");
 const auth_module_1 = require("./auth/auth.module");
+const chat_module_1 = require("./chat/chat.module");
 const interactions_module_1 = require("./interactions/interactions.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const users_module_1 = require("./users/users.module");
@@ -26,6 +28,7 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({ isGlobal: true }),
+            schedule_1.ScheduleModule.forRoot(),
             throttler_1.ThrottlerModule.forRoot([
                 {
                     ttl: 60_000,
@@ -36,6 +39,7 @@ exports.AppModule = AppModule = __decorate([
             audit_module_1.AuditModule,
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
+            chat_module_1.ChatModule,
             admin_module_1.AdminModule,
             interactions_module_1.InteractionsModule,
         ],
