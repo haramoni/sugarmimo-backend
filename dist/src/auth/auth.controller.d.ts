@@ -269,7 +269,7 @@ export declare class AuthController {
         pageSize: number;
         hasMore: boolean;
     }>;
-    matchPhoto(request: AuthenticatedRequest, photoId: string, response: Response): Promise<StreamableFile>;
+    matchPhoto(request: AuthenticatedRequest, photoId: string, variant: string | undefined, response: Response): Promise<StreamableFile>;
     contactViewers(request: AuthenticatedRequest, search?: string): Promise<{
         id: string;
         username: string;

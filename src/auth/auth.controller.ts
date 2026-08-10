@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
+import sharp from 'sharp';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -162,6 +163,7 @@ export class AuthController {
   async matchPhoto(
     @Req() request: AuthenticatedRequest,
     @Param('photoId') photoId: string,
+    @Query('variant') variant: string | undefined,
     @Res({ passthrough: true }) response: Response,
   ) {
     const photo = await this.usersService.findMatchPhotoForUser(
@@ -179,11 +181,32 @@ export class AuthController {
       throw new NotFoundException('Foto nao encontrada.');
     }
 
-    const buffer = Buffer.from(match[2], 'base64');
+    const originalBuffer = Buffer.from(match[2], 'base64');
+    let buffer: Buffer<ArrayBufferLike> = originalBuffer;
+    let contentType = photo.mimeType || match[1] || 'application/octet-stream';
+
+    if (variant === 'card') {
+      try {
+        buffer = await sharp(originalBuffer)
+          .rotate()
+          .resize({
+            width: 640,
+            height: 640,
+            fit: 'inside',
+            withoutEnlargement: true,
+          })
+          .webp({ quality: 78, effort: 4 })
+          .toBuffer();
+        contentType = 'image/webp';
+      } catch {
+        // Keep serving the original if an old upload cannot be processed.
+      }
+    }
+
     response.setHeader('Cache-Control', 'private, max-age=3600, immutable');
 
     return new StreamableFile(buffer, {
-      type: photo.mimeType || match[1] || 'application/octet-stream',
+      type: contentType,
       length: buffer.byteLength,
     });
   }

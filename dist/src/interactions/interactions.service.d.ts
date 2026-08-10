@@ -39,8 +39,8 @@ export declare class InteractionsService {
         items: {
             id: string;
             createdAt: Date | null;
-            readAt: Date | null;
             type: string;
+            readAt: Date | null;
             actor: {
                 id: string;
                 username: string;

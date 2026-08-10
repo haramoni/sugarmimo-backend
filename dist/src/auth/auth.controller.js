@@ -11,10 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const throttler_1 = require("@nestjs/throttler");
+const sharp_1 = __importDefault(require("sharp"));
 const users_service_1 = require("../users/users.service");
 const auth_service_1 = require("./auth.service");
 const login_dto_1 = require("./dto/login.dto");
@@ -62,7 +66,7 @@ let AuthController = class AuthController {
     matches(request, search = '', page = '1', limit = '9') {
         return this.usersService.findMatchesForUser(request.user.id, search, Number(page), Number(limit));
     }
-    async matchPhoto(request, photoId, response) {
+    async matchPhoto(request, photoId, variant, response) {
         const photo = await this.usersService.findMatchPhotoForUser(request.user.id, photoId);
         if (!photo) {
             throw new common_1.NotFoundException('Foto nao encontrada.');
@@ -71,10 +75,29 @@ let AuthController = class AuthController {
         if (!match) {
             throw new common_1.NotFoundException('Foto nao encontrada.');
         }
-        const buffer = Buffer.from(match[2], 'base64');
+        const originalBuffer = Buffer.from(match[2], 'base64');
+        let buffer = originalBuffer;
+        let contentType = photo.mimeType || match[1] || 'application/octet-stream';
+        if (variant === 'card') {
+            try {
+                buffer = await (0, sharp_1.default)(originalBuffer)
+                    .rotate()
+                    .resize({
+                    width: 640,
+                    height: 640,
+                    fit: 'inside',
+                    withoutEnlargement: true,
+                })
+                    .webp({ quality: 78, effort: 4 })
+                    .toBuffer();
+                contentType = 'image/webp';
+            }
+            catch {
+            }
+        }
         response.setHeader('Cache-Control', 'private, max-age=3600, immutable');
         return new common_1.StreamableFile(buffer, {
-            type: photo.mimeType || match[1] || 'application/octet-stream',
+            type: contentType,
             length: buffer.byteLength,
         });
     }
@@ -219,9 +242,10 @@ __decorate([
     (0, common_1.Get)('match-photos/:photoId'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Param)('photoId')),
-    __param(2, (0, common_1.Res)({ passthrough: true })),
+    __param(2, (0, common_1.Query)('variant')),
+    __param(3, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String, Object]),
+    __metadata("design:paramtypes", [Object, String, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "matchPhoto", null);
 __decorate([
