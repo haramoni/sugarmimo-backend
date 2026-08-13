@@ -41,6 +41,40 @@ export declare class AdminController {
             hasNextPage: boolean;
         };
     }>;
+    findWaitingBabies(page?: string, pageSize?: string): Promise<{
+        items: {
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+            id: string;
+            username: string;
+            email: string;
+            role: string | null;
+            gender: string | null;
+            lookingFor: string | null;
+            birthDate: Date | null;
+            country: string | null;
+            state: string | null;
+            city: string | null;
+            approvalStatus: string;
+            createdAt: Date | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                dataUrl: string;
+                fileName: string | null;
+                mimeType: string | null;
+            }[];
+        }[];
+        pagination: {
+            page: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+            hasPreviousPage: boolean;
+            hasNextPage: boolean;
+        };
+    }>;
     findSugarDaddies(): import("@prisma/client").Prisma.PrismaPromise<{
         id: string;
         username: string;
@@ -123,6 +157,15 @@ export declare class AdminController {
         reviewedAt: Date | null;
     }>;
     rejectProfile(id: string): Promise<{
+        id: string;
+        username: string;
+        email: string;
+        role: string | null;
+        approvalStatus: string;
+        isPremium: boolean;
+        reviewedAt: Date | null;
+    }>;
+    waitProfile(id: string): Promise<{
         id: string;
         username: string;
         email: string;

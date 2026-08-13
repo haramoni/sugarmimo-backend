@@ -32,6 +32,9 @@ let AdminController = class AdminController {
     findPendingBabies(page = '1', pageSize = '6') {
         return this.usersService.findPendingBabies(Number(page), Number(pageSize));
     }
+    findWaitingBabies(page = '1', pageSize = '6') {
+        return this.usersService.findWaitingBabies(Number(page), Number(pageSize));
+    }
     findSugarDaddies() {
         return this.usersService.findSugarDaddies();
     }
@@ -49,6 +52,9 @@ let AdminController = class AdminController {
     }
     rejectProfile(id) {
         return this.usersService.updateApprovalStatus(id, 'REJECTED');
+    }
+    waitProfile(id) {
+        return this.usersService.updateApprovalStatus(id, 'WAITING');
     }
     removePendingProfilePhoto(id, photoId) {
         return this.usersService.removePendingProfilePhoto(id, photoId);
@@ -69,6 +75,14 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "findPendingBabies", null);
+__decorate([
+    (0, common_1.Get)('waiting-babies'),
+    __param(0, (0, common_1.Query)('page')),
+    __param(1, (0, common_1.Query)('pageSize')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "findWaitingBabies", null);
 __decorate([
     (0, common_1.Get)('premium-daddies'),
     __metadata("design:type", Function),
@@ -112,6 +126,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "rejectProfile", null);
+__decorate([
+    (0, common_1.Patch)('profiles/:id/wait'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "waitProfile", null);
 __decorate([
     (0, common_1.Delete)('profiles/:id/photos/:photoId'),
     __param(0, (0, common_1.Param)('id')),

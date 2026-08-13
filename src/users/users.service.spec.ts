@@ -309,6 +309,23 @@ describe('UsersService', () => {
     );
   });
 
+  it('lists the Sugar Babies moved to the waiting queue', async () => {
+    prisma.user.findMany.mockResolvedValue([{ id: 'baby-waiting' }]);
+    prisma.user.count.mockResolvedValue(1);
+
+    await expect(service.findWaitingBabies(1, 6)).resolves.toEqual(
+      expect.objectContaining({ items: [{ id: 'baby-waiting' }] }),
+    );
+    expect(prisma.user.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          role: 'SUGAR_BABY',
+          approvalStatus: 'WAITING',
+        },
+      }),
+    );
+  });
+
   it('updates the authenticated user presence', async () => {
     prisma.user.update.mockResolvedValue({ id: 'user-1' });
 
@@ -349,7 +366,7 @@ describe('UsersService', () => {
     expect(prisma.user.update).not.toHaveBeenCalled();
   });
 
-  it('removes a photo only when it belongs to a pending Sugar Baby', async () => {
+  it('removes a photo only from a Sugar Baby under admin review', async () => {
     prisma.userPhoto.findFirst.mockResolvedValue({ id: 'photo-1' });
     prisma.userPhoto.delete.mockResolvedValue({ id: 'photo-1' });
 
@@ -363,7 +380,7 @@ describe('UsersService', () => {
         userId: 'baby-1',
         user: {
           role: 'SUGAR_BABY',
-          approvalStatus: 'PENDING',
+          approvalStatus: { in: ['PENDING', 'WAITING'] },
         },
       },
       select: { id: true },

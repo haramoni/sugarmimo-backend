@@ -269,6 +269,41 @@ export declare class UsersService {
             hasNextPage: boolean;
         };
     }>;
+    findWaitingBabies(page?: number, pageSize?: number): Promise<{
+        items: {
+            whatsapp: string | null;
+            telegram: string | null;
+            instagram: string | null;
+            id: string;
+            username: string;
+            email: string;
+            role: string | null;
+            gender: string | null;
+            lookingFor: string | null;
+            birthDate: Date | null;
+            country: string | null;
+            state: string | null;
+            city: string | null;
+            approvalStatus: string;
+            createdAt: Date | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                dataUrl: string;
+                fileName: string | null;
+                mimeType: string | null;
+            }[];
+        }[];
+        pagination: {
+            page: number;
+            pageSize: number;
+            totalItems: number;
+            totalPages: number;
+            hasPreviousPage: boolean;
+            hasNextPage: boolean;
+        };
+    }>;
+    private findBabiesByApprovalStatus;
     findSugarDaddies(): import("@prisma/client").Prisma.PrismaPromise<{
         id: string;
         username: string;
@@ -285,7 +320,7 @@ export declare class UsersService {
         role: string | null;
         isPremium: boolean;
     }>;
-    updateApprovalStatus(id: string, approvalStatus: 'APPROVED' | 'REJECTED'): Promise<{
+    updateApprovalStatus(id: string, approvalStatus: 'APPROVED' | 'REJECTED' | 'WAITING'): Promise<{
         id: string;
         username: string;
         email: string;

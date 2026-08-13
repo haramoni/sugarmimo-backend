@@ -202,13 +202,19 @@ let UsersService = class UsersService {
         });
     }
     async findPendingBabies(page = 1, pageSize = 6) {
+        return this.findBabiesByApprovalStatus('PENDING', page, pageSize);
+    }
+    async findWaitingBabies(page = 1, pageSize = 6) {
+        return this.findBabiesByApprovalStatus('WAITING', page, pageSize);
+    }
+    async findBabiesByApprovalStatus(approvalStatus, page = 1, pageSize = 6) {
         const safePage = Number.isSafeInteger(page) && page > 0 ? Math.min(page, 100_000) : 1;
         const safePageSize = Number.isSafeInteger(pageSize) && pageSize > 0
             ? Math.min(pageSize, 20)
             : 6;
         const where = {
             role: 'SUGAR_BABY',
-            approvalStatus: 'PENDING',
+            approvalStatus,
         };
         const [items, totalItems] = await Promise.all([
             this.prisma.user.findMany({
@@ -335,13 +341,13 @@ let UsersService = class UsersService {
                 userId,
                 user: {
                     role: UserRole.SugarBaby,
-                    approvalStatus: 'PENDING',
+                    approvalStatus: { in: ['PENDING', 'WAITING'] },
                 },
             },
             select: { id: true },
         });
         if (!photo) {
-            throw new common_1.NotFoundException('Foto nao encontrada em um perfil pendente.');
+            throw new common_1.NotFoundException('Foto nao encontrada em um perfil aguardando revisao.');
         }
         await this.prisma.userPhoto.delete({ where: { id: photo.id } });
         return { id: photo.id, removed: true };

@@ -304,6 +304,18 @@ export class UsersService {
   }
 
   async findPendingBabies(page = 1, pageSize = 6) {
+    return this.findBabiesByApprovalStatus('PENDING', page, pageSize);
+  }
+
+  async findWaitingBabies(page = 1, pageSize = 6) {
+    return this.findBabiesByApprovalStatus('WAITING', page, pageSize);
+  }
+
+  private async findBabiesByApprovalStatus(
+    approvalStatus: 'PENDING' | 'WAITING',
+    page = 1,
+    pageSize = 6,
+  ) {
     const safePage =
       Number.isSafeInteger(page) && page > 0 ? Math.min(page, 100_000) : 1;
     const safePageSize =
@@ -312,7 +324,7 @@ export class UsersService {
         : 6;
     const where = {
       role: 'SUGAR_BABY',
-      approvalStatus: 'PENDING',
+      approvalStatus,
     };
 
     const [items, totalItems] = await Promise.all([
@@ -417,7 +429,7 @@ export class UsersService {
 
   async updateApprovalStatus(
     id: string,
-    approvalStatus: 'APPROVED' | 'REJECTED',
+    approvalStatus: 'APPROVED' | 'REJECTED' | 'WAITING',
   ) {
     const profile = await this.prisma.user.findUnique({
       where: { id },
@@ -459,7 +471,7 @@ export class UsersService {
         userId,
         user: {
           role: UserRole.SugarBaby,
-          approvalStatus: 'PENDING',
+          approvalStatus: { in: ['PENDING', 'WAITING'] },
         },
       },
       select: { id: true },
@@ -467,7 +479,7 @@ export class UsersService {
 
     if (!photo) {
       throw new NotFoundException(
-        'Foto nao encontrada em um perfil pendente.',
+        'Foto nao encontrada em um perfil aguardando revisao.',
       );
     }
 

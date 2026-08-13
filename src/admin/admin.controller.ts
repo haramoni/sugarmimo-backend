@@ -33,6 +33,14 @@ export class AdminController {
     return this.usersService.findPendingBabies(Number(page), Number(pageSize));
   }
 
+  @Get('waiting-babies')
+  findWaitingBabies(
+    @Query('page') page = '1',
+    @Query('pageSize') pageSize = '6',
+  ) {
+    return this.usersService.findWaitingBabies(Number(page), Number(pageSize));
+  }
+
   @Get('premium-daddies')
   findSugarDaddies() {
     return this.usersService.findSugarDaddies();
@@ -65,6 +73,11 @@ export class AdminController {
   @Patch('profiles/:id/reject')
   rejectProfile(@Param('id') id: string) {
     return this.usersService.updateApprovalStatus(id, 'REJECTED');
+  }
+
+  @Patch('profiles/:id/wait')
+  waitProfile(@Param('id') id: string) {
+    return this.usersService.updateApprovalStatus(id, 'WAITING');
   }
 
   @Delete('profiles/:id/photos/:photoId')
