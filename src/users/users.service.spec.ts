@@ -13,6 +13,7 @@ describe('UsersService', () => {
     },
     userPhoto: {
       findFirst: jest.fn(),
+      delete: jest.fn(),
     },
     userBlock: {
       findMany: jest.fn(),
@@ -346,6 +347,30 @@ describe('UsersService', () => {
       BadRequestException,
     );
     expect(prisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it('removes a photo only when it belongs to a pending Sugar Baby', async () => {
+    prisma.userPhoto.findFirst.mockResolvedValue({ id: 'photo-1' });
+    prisma.userPhoto.delete.mockResolvedValue({ id: 'photo-1' });
+
+    await expect(
+      service.removePendingProfilePhoto('baby-1', 'photo-1'),
+    ).resolves.toEqual({ id: 'photo-1', removed: true });
+
+    expect(prisma.userPhoto.findFirst).toHaveBeenCalledWith({
+      where: {
+        id: 'photo-1',
+        userId: 'baby-1',
+        user: {
+          role: 'SUGAR_BABY',
+          approvalStatus: 'PENDING',
+        },
+      },
+      select: { id: true },
+    });
+    expect(prisma.userPhoto.delete).toHaveBeenCalledWith({
+      where: { id: 'photo-1' },
+    });
   });
 });
 

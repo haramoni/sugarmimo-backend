@@ -50,6 +50,9 @@ let AdminController = class AdminController {
     rejectProfile(id) {
         return this.usersService.updateApprovalStatus(id, 'REJECTED');
     }
+    removePendingProfilePhoto(id, photoId) {
+        return this.usersService.removePendingProfilePhoto(id, photoId);
+    }
     enablePremium(id) {
         return this.usersService.updatePremiumStatus(id, true);
     }
@@ -109,6 +112,14 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "rejectProfile", null);
+__decorate([
+    (0, common_1.Delete)('profiles/:id/photos/:photoId'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Param)('photoId')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "removePendingProfilePhoto", null);
 __decorate([
     (0, common_1.Patch)('profiles/:id/premium'),
     __param(0, (0, common_1.Param)('id')),

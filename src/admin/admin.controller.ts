@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -64,6 +65,14 @@ export class AdminController {
   @Patch('profiles/:id/reject')
   rejectProfile(@Param('id') id: string) {
     return this.usersService.updateApprovalStatus(id, 'REJECTED');
+  }
+
+  @Delete('profiles/:id/photos/:photoId')
+  removePendingProfilePhoto(
+    @Param('id') id: string,
+    @Param('photoId') photoId: string,
+  ) {
+    return this.usersService.removePendingProfilePhoto(id, photoId);
   }
 
   @Patch('profiles/:id/premium')

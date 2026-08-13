@@ -131,6 +131,10 @@ export declare class AdminController {
         isPremium: boolean;
         reviewedAt: Date | null;
     }>;
+    removePendingProfilePhoto(id: string, photoId: string): Promise<{
+        id: string;
+        removed: boolean;
+    }>;
     enablePremium(id: string): Promise<{
         id: string;
         username: string;

@@ -294,6 +294,10 @@ export declare class UsersService {
         isPremium: boolean;
         reviewedAt: Date | null;
     }>;
+    removePendingProfilePhoto(userId: string, photoId: string): Promise<{
+        id: string;
+        removed: boolean;
+    }>;
     findMatchesForUser(viewerId: string, search?: string, page?: number, limit?: number): Promise<{
         items: ({
             whatsapp: string | null;

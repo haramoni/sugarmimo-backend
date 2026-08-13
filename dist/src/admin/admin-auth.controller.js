@@ -17,6 +17,7 @@ const common_1 = require("@nestjs/common");
 const throttler_1 = require("@nestjs/throttler");
 const auth_service_1 = require("../auth/auth.service");
 const login_dto_1 = require("../auth/dto/login.dto");
+const login_throttle_1 = require("../auth/login-throttle");
 let AdminAuthController = class AdminAuthController {
     authService;
     constructor(authService) {
@@ -29,7 +30,13 @@ let AdminAuthController = class AdminAuthController {
 exports.AdminAuthController = AdminAuthController;
 __decorate([
     (0, common_1.Post)('login'),
-    (0, throttler_1.Throttle)({ default: { limit: 5, ttl: 15 * 60_000 } }),
+    (0, throttler_1.Throttle)({
+        default: {
+            limit: 5,
+            ttl: 15 * 60_000,
+            getTracker: login_throttle_1.getLoginThrottleTracker,
+        },
+    }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [login_dto_1.LoginDto]),

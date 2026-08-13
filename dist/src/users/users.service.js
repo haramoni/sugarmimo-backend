@@ -328,6 +328,24 @@ let UsersService = class UsersService {
             },
         });
     }
+    async removePendingProfilePhoto(userId, photoId) {
+        const photo = await this.prisma.userPhoto.findFirst({
+            where: {
+                id: photoId,
+                userId,
+                user: {
+                    role: UserRole.SugarBaby,
+                    approvalStatus: 'PENDING',
+                },
+            },
+            select: { id: true },
+        });
+        if (!photo) {
+            throw new common_1.NotFoundException('Foto nao encontrada em um perfil pendente.');
+        }
+        await this.prisma.userPhoto.delete({ where: { id: photo.id } });
+        return { id: photo.id, removed: true };
+    }
     async findMatchesForUser(viewerId, search, page = 1, limit = 9) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
