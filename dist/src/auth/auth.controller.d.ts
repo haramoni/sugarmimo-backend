@@ -36,6 +36,7 @@ export declare class AuthController {
             instagram: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -57,6 +58,7 @@ export declare class AuthController {
             city: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
             photos: {
@@ -86,6 +88,7 @@ export declare class AuthController {
             instagram: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -115,6 +118,7 @@ export declare class AuthController {
             instagram: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -135,6 +139,7 @@ export declare class AuthController {
         city: string | null;
         approvalStatus: string;
         isPremium: boolean;
+        isPremiere: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -180,6 +185,7 @@ export declare class AuthController {
             state: string | null;
             city: string | null;
             isPremium: boolean;
+            isPremiere: boolean;
             boostedUntil: Date | null;
             lastActiveAt: Date | null;
             createdAt: Date | null;
@@ -217,7 +223,7 @@ export declare class AuthController {
         pageSize: number;
         hasMore: boolean;
     }>;
-    matches(request: AuthenticatedRequest, search?: string, page?: string, limit?: string): Promise<{
+    matches(request: AuthenticatedRequest, search?: string, page?: string, limit?: string, minAge?: string, maxAge?: string, gender?: string): Promise<{
         items: ({
             whatsapp: string | null;
             telegram: string | null;
@@ -232,6 +238,7 @@ export declare class AuthController {
             state: string | null;
             city: string | null;
             isPremium: boolean;
+            isPremiere: boolean;
             boostedUntil: Date | null;
             lastActiveAt: Date | null;
             createdAt: Date | null;
@@ -307,6 +314,7 @@ export declare class AuthController {
         state: string | null;
         city: string | null;
         isPremium: boolean;
+        isPremiere: boolean;
         boostedUntil: Date | null;
         lastActiveAt: Date | null;
         createdAt: Date | null;
@@ -352,6 +360,7 @@ export declare class AuthController {
         city: string | null;
         approvalStatus: string;
         isPremium: boolean;
+        isPremiere: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         appearance: {

@@ -56,6 +56,15 @@ export declare class ChatService {
             createdAt: Date | null;
         };
         recipientId: string;
+        freeMessagesRemaining: number | null;
+    }>;
+    getMessageAccess(userId: string): Promise<{
+        canSend: boolean;
+        isTrial: boolean;
+        freeMessagesLimit: number | null;
+        freeMessagesUsed: number | null;
+        freeMessagesRemaining: number | null;
+        requiresUpgrade: boolean;
     }>;
     markRead(userId: string, conversationId: string): Promise<{
         success: boolean;
@@ -122,6 +131,8 @@ export declare class ChatService {
     }>;
     private ensureMutualLikeConversations;
     private assertCanChat;
+    private assertCanSendMessage;
+    private usesFreeMessageTrial;
     private retentionCutoff;
     private publicMemberSelect;
     private serializeMember;

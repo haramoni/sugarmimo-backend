@@ -100,6 +100,9 @@ export declare class UsersService {
         accountStatus: string;
         suspendedUntil: Date | null;
         isPremium: boolean;
+        isPremiere: boolean;
+        isAdminFeatured: boolean;
+        freeMessagesUsed: number;
         boostedUntil: Date | null;
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
@@ -124,6 +127,9 @@ export declare class UsersService {
         accountStatus: string;
         suspendedUntil: Date | null;
         isPremium: boolean;
+        isPremiere: boolean;
+        isAdminFeatured: boolean;
+        freeMessagesUsed: number;
         boostedUntil: Date | null;
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
@@ -148,6 +154,9 @@ export declare class UsersService {
         accountStatus: string;
         suspendedUntil: Date | null;
         isPremium: boolean;
+        isPremiere: boolean;
+        isAdminFeatured: boolean;
+        freeMessagesUsed: number;
         boostedUntil: Date | null;
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
@@ -185,6 +194,7 @@ export declare class UsersService {
         city: string | null;
         approvalStatus: string;
         isPremium: boolean;
+        isPremiere: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -225,6 +235,7 @@ export declare class UsersService {
         city: string | null;
         approvalStatus: string;
         isPremium: boolean;
+        isPremiere: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         photos: {
@@ -311,14 +322,58 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         isPremium: boolean;
+        isPremiere: boolean;
         createdAt: Date | null;
     }[]>;
+    findBabiesForAdminFeaturing(page?: number, pageSize?: number, search?: string): Promise<{
+        items: {
+            id: string;
+            username: string;
+            state: string | null;
+            city: string | null;
+            isAdminFeatured: boolean;
+            createdAt: Date | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                dataUrl: string;
+            }[];
+        }[];
+        pagination: {
+            page: number;
+            pageSize: number;
+            totalItems: number;
+            hasNextPage: boolean;
+        };
+    }>;
+    findBabyPhotosForAdmin(id: string): Promise<{
+        id: string;
+        username: string;
+        photos: {
+            id: string;
+            sortOrder: number;
+            dataUrl: string;
+            isPrivate: boolean;
+        }[];
+    }>;
     updatePremiumStatus(id: string, isPremium: boolean): Promise<{
         id: string;
         username: string;
         email: string;
         role: string | null;
         isPremium: boolean;
+    }>;
+    updatePremiereStatus(id: string, isPremiere: boolean): Promise<{
+        id: string;
+        username: string;
+        email: string;
+        role: string | null;
+        isPremiere: boolean;
+    }>;
+    updateAdminFeaturedStatus(id: string, isAdminFeatured: boolean): Promise<{
+        id: string;
+        username: string;
+        isAdminFeatured: boolean;
     }>;
     updateApprovalStatus(id: string, approvalStatus: 'APPROVED' | 'REJECTED' | 'WAITING'): Promise<{
         id: string;
@@ -333,7 +388,7 @@ export declare class UsersService {
         id: string;
         removed: boolean;
     }>;
-    findMatchesForUser(viewerId: string, search?: string, page?: number, limit?: number): Promise<{
+    findMatchesForUser(viewerId: string, search?: string, page?: number, limit?: number, minAge?: number, maxAge?: number, gender?: string): Promise<{
         items: ({
             whatsapp: string | null;
             telegram: string | null;
@@ -348,6 +403,7 @@ export declare class UsersService {
             state: string | null;
             city: string | null;
             isPremium: boolean;
+            isPremiere: boolean;
             boostedUntil: Date | null;
             lastActiveAt: Date | null;
             createdAt: Date | null;
@@ -385,6 +441,8 @@ export declare class UsersService {
         pageSize: number;
         hasMore: boolean;
     }>;
+    private findDaddyMatchesWithBalancedRanking;
+    private buildBalancedDaddyRanking;
     findBoostedProfilesForUser(viewerId: string, page?: number, limit?: number): Promise<{
         items: ({
             whatsapp: string | null;
@@ -400,6 +458,7 @@ export declare class UsersService {
             state: string | null;
             city: string | null;
             isPremium: boolean;
+            isPremiere: boolean;
             boostedUntil: Date | null;
             lastActiveAt: Date | null;
             createdAt: Date | null;
@@ -482,6 +541,7 @@ export declare class UsersService {
         state: string | null;
         city: string | null;
         isPremium: boolean;
+        isPremiere: boolean;
         boostedUntil: Date | null;
         lastActiveAt: Date | null;
         createdAt: Date | null;
@@ -527,6 +587,7 @@ export declare class UsersService {
         city: string | null;
         approvalStatus: string;
         isPremium: boolean;
+        isPremiere: boolean;
         reviewedAt: Date | null;
         createdAt: Date | null;
         appearance: {
@@ -554,6 +615,8 @@ export declare class UsersService {
     private findBlockedUserIds;
     private toSlug;
     private resolveMatchRole;
+    private matchDemographicFilter;
+    private shiftUtcYears;
     private publicProfileSelect;
     private publicProfileListSelect;
     private normalizeContactViewerUsernames;

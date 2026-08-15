@@ -34,6 +34,7 @@ export class InteractionsService {
           role: true,
           approvalStatus: true,
           isPremium: true,
+          isPremiere: true,
         },
       }),
       this.prisma.user.findUnique({
@@ -53,9 +54,9 @@ export class InteractionsService {
       throw new ForbiddenException('Apenas Sugar Daddies ativos podem curtir.');
     }
 
-    if (!daddy.isPremium) {
+    if (!daddy.isPremium && !daddy.isPremiere) {
       throw new ForbiddenException(
-        'Apenas Sugar Daddies Premium podem dar likes.',
+        'Apenas Sugar Daddies Premium ou Premiere podem dar likes.',
       );
     }
 
@@ -120,6 +121,7 @@ export class InteractionsService {
           role: true,
           approvalStatus: true,
           isPremium: true,
+          isPremiere: true,
         },
       }),
     ]);
@@ -144,9 +146,9 @@ export class InteractionsService {
       throw new ForbiddenException('O Sugar Daddy precisa estar ativo.');
     }
 
-    if (!daddy.isPremium) {
+    if (!daddy.isPremium && !daddy.isPremiere) {
       throw new ForbiddenException(
-        'Apenas Sugar Daddies Premium podem receber contatos.',
+        'Apenas Sugar Daddies Premium ou Premiere podem receber contatos.',
       );
     }
 
@@ -236,6 +238,7 @@ export class InteractionsService {
           role: true,
           approvalStatus: true,
           isPremium: true,
+          isPremiere: true,
         },
       }),
     ]);
@@ -260,9 +263,9 @@ export class InteractionsService {
       throw new ForbiddenException('O Sugar Daddy precisa estar ativo.');
     }
 
-    if (!daddy.isPremium) {
+    if (!daddy.isPremium && !daddy.isPremiere) {
       throw new ForbiddenException(
-        'Apenas Sugar Daddies Premium podem receber likes.',
+        'Apenas Sugar Daddies Premium ou Premiere podem receber likes.',
       );
     }
 

@@ -63,6 +63,34 @@ describe('InteractionsService', () => {
     });
   });
 
+  it('allows a Premiere Sugar Daddy to like without Premium', async () => {
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 'daddy-1',
+        role: 'SUGAR_DADDY',
+        approvalStatus: 'APPROVED',
+        isPremium: false,
+        isPremiere: true,
+      })
+      .mockResolvedValueOnce({
+        id: 'baby-1',
+        role: 'SUGAR_BABY',
+        approvalStatus: 'APPROVED',
+      });
+    prisma.profileLike.findUnique.mockResolvedValue(null);
+    transaction.profileLike.create.mockResolvedValue({
+      id: 'like-premiere',
+      createdAt: new Date('2026-07-15T12:00:00Z'),
+      daddyLikedAt: new Date('2026-07-15T12:00:00Z'),
+      babyLikedAt: null,
+      contactsReleasedAt: null,
+    });
+
+    await expect(service.likeProfile('daddy-1', 'baby-1')).resolves.toEqual(
+      expect.objectContaining({ liked: true, contactsReleased: false }),
+    );
+  });
+
   it('does not release contacts when the Daddy has not liked first', async () => {
     prisma.user.findUnique
       .mockResolvedValueOnce({
@@ -192,6 +220,7 @@ describe('InteractionsService', () => {
         role: 'SUGAR_DADDY',
         approvalStatus: 'APPROVED',
         isPremium: false,
+        isPremiere: false,
       })
       .mockResolvedValueOnce({
         id: 'baby-1',
@@ -200,7 +229,7 @@ describe('InteractionsService', () => {
       });
 
     await expect(service.likeProfile('daddy-1', 'baby-1')).rejects.toThrow(
-      'Apenas Sugar Daddies Premium podem dar likes.',
+      'Apenas Sugar Daddies Premium ou Premiere podem dar likes.',
     );
     expect(prisma.profileLike.findUnique).not.toHaveBeenCalled();
   });
@@ -219,11 +248,14 @@ describe('InteractionsService', () => {
         role: 'SUGAR_DADDY',
         approvalStatus: 'APPROVED',
         isPremium: false,
+        isPremiere: false,
       });
 
     await expect(
       service.likeDaddyAndReleaseContacts('baby-1', 'daddy-1'),
-    ).rejects.toThrow('Apenas Sugar Daddies Premium podem receber likes.');
+    ).rejects.toThrow(
+      'Apenas Sugar Daddies Premium ou Premiere podem receber likes.',
+    );
     expect(prisma.profileLike.findUnique).not.toHaveBeenCalled();
   });
 });

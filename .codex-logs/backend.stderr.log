@@ -1,0 +1,41 @@
+[Nest] 15220  - 15/08/2026, 08:53:51   ERROR [ExceptionsHandler] PrismaClientKnownRequestError: 
+Invalid `this.prisma.chatConversation.upsert()` invocation in
+C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\src\chat\chat.service.ts:86:61
+
+  83 const { currentUser } = await this.assertCanChat(userId, otherUserId);
+  84 this.assertCanSendMessage(currentUser);
+  85 const [memberOneId, memberTwoId] = [userId, otherUserId].sort();
+→ 86 const conversation = await this.prisma.chatConversation.upsert(
+Unique constraint failed on the constraint: `chat_conversations_members_unique`
+    at zr.handleRequestError (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:237:13)
+    at zr.handleAndLogRequestError (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:183:12)
+    at zr.request (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client\src\runtime\RequestHandler.ts:152:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async a (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:963:24)
+    at async ChatService.openConversation (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\src\chat\chat.service.ts:86:26) {
+  code: 'P2002',
+  meta: {
+    modelName: 'ChatConversation',
+    driverAdapterError: DriverAdapterError: UniqueConstraintViolation
+        at MariaDbTransaction.onError (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\adapter-mariadb\dist\index.js:356:11)
+        at MariaDbTransaction.performIO (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\adapter-mariadb\dist\index.js:351:12)
+        at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+        at async MariaDbTransaction.queryRaw (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\adapter-mariadb\dist\index.js:316:20)
+        at async e.interpretNode (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:186:26)
+        at async e.interpretNode (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:213:41)
+        at async e.interpretNode (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:314:34)
+        at async e.interpretNode (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:128:29)
+        at async e.interpretNode (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:288:18)
+        at async e.interpretNode (C:\Users\User\Desktop\99\SUGARMIMO\sugarmimo-backend\node_modules\@prisma\client-engine-runtime\src\interpreter\query-interpreter.ts:128:29) {
+      cause: {
+        originalCode: '1062',
+        originalMessage: "Duplicate entry '93b23042-4d24-4bc2-baec-a7c3021f131d-ab7ecbf2-42fd-44ff-b877-4bd' for key 'chat_conversations.chat_conversations_members_unique'",
+        kind: 'UniqueConstraintViolation',
+        constraint: {
+          index: 'chat_conversations_members_unique'
+        }
+      }
+    }
+  },
+  clientVersion: '7.8.0'
+}

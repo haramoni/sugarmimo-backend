@@ -176,7 +176,7 @@ describe('UsersService', () => {
     expect(prisma.user.findMany).not.toHaveBeenCalled();
   });
 
-  it('shows approved Babies to Daddies and only reveals authorized contacts', async () => {
+  it('shows only non-male approved Babies in Daddy searches and reveals authorized contacts', async () => {
     prisma.user.findUnique.mockResolvedValue({
       role: 'SUGAR_DADDY',
       username: 'daddyativo',
@@ -191,7 +191,15 @@ describe('UsersService', () => {
       }),
     ]);
 
-    const matches = await service.findMatchesForUser('daddy-1');
+    const matches = await service.findMatchesForUser(
+      'daddy-1',
+      'Sao',
+      1,
+      9,
+      25,
+      40,
+      'sugar-baby-trans-woman',
+    );
 
     expect(matches.items[0]).toEqual(
       expect.objectContaining({
@@ -215,8 +223,36 @@ describe('UsersService', () => {
         where: expect.objectContaining({
           role: 'SUGAR_BABY',
           approvalStatus: 'APPROVED',
+          AND: [
+            {
+              OR: [
+                { gender: null },
+                {
+                  gender: {
+                    notIn: ['sugar-baby-man', 'sugar-baby-trans-man'],
+                  },
+                },
+              ],
+            },
+            { gender: 'sugar-baby-trans-woman' },
+            {
+              birthDate: {
+                lte: expect.any(Date) as Date,
+                gt: expect.any(Date) as Date,
+              },
+            },
+          ],
+          OR: [
+            { username: { contains: 'Sao' } },
+            { city: { contains: 'Sao' } },
+            { state: { contains: 'Sao' } },
+          ],
         }),
-        orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
+        orderBy: [
+          { isAdminFeatured: 'desc' },
+          { lastActiveAt: 'desc' },
+          { createdAt: 'desc' },
+        ],
         skip: 0,
         take: 10,
         select: expect.objectContaining({
@@ -243,19 +279,106 @@ describe('UsersService', () => {
       username: 'babyativa',
       approvalStatus: 'APPROVED',
     });
-    prisma.user.findMany.mockResolvedValue(
-      Array.from({ length: 10 }, (_, index) =>
-        publicDaddyProfile(`daddy-${index + 1}`),
-      ),
-    );
+    prisma.user.findMany
+      .mockResolvedValueOnce(
+        Array.from({ length: 19 }, (_, index) =>
+          daddyCandidate(`daddy-${index + 1}`),
+        ),
+      )
+      .mockResolvedValueOnce(
+        Array.from({ length: 9 }, (_, index) =>
+          publicDaddyProfile(`daddy-${index + 10}`),
+        ),
+      );
 
     const result = await service.findMatchesForUser('baby-1', '', 2, 9);
 
     expect(result.items).toHaveLength(9);
     expect(result.hasMore).toBe(true);
     expect(prisma.user.findMany).toHaveBeenCalledWith(
-      expect.objectContaining({ skip: 9, take: 10 }),
+      expect.objectContaining({
+        where: expect.objectContaining({
+          id: {
+            in: Array.from({ length: 9 }, (_, index) => `daddy-${index + 10}`),
+          },
+        }),
+      }),
     );
+  });
+
+  it('ignores a stale Baby gender filter when a Baby searches for Daddies', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_BABY',
+      username: 'babyativa',
+      approvalStatus: 'APPROVED',
+    });
+    prisma.user.findMany
+      .mockResolvedValueOnce([daddyCandidate('daddy-1')])
+      .mockResolvedValueOnce([publicDaddyProfile('daddy-1')]);
+
+    const result = await service.findMatchesForUser(
+      'baby-1',
+      '',
+      1,
+      9,
+      undefined,
+      undefined,
+      'sugar-baby-woman',
+    );
+
+    expect(result.items).toHaveLength(1);
+    expect(prisma.user.findMany).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        where: expect.objectContaining({
+          role: 'SUGAR_DADDY',
+          approvalStatus: 'APPROVED',
+        }),
+      }),
+    );
+    expect(prisma.user.findMany.mock.calls[0][0].where).not.toHaveProperty(
+      'AND',
+    );
+  });
+
+  it('balances online, Premiere, new and recently active Daddies', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_BABY',
+      username: 'babyativa',
+      approvalStatus: 'APPROVED',
+    });
+    const now = Date.now();
+    const candidates = [
+      daddyCandidate('online-1', { lastActiveAt: new Date(now - 10_000) }),
+      daddyCandidate('recent-1', { lastActiveAt: new Date(now - 3 * 60_000) }),
+      daddyCandidate('online-2', { lastActiveAt: new Date(now - 30_000) }),
+      daddyCandidate('premiere-1', { isPremiere: true }),
+      daddyCandidate('new-1', { createdAt: new Date(now - 60 * 60_000) }),
+      daddyCandidate('new-2', { createdAt: new Date(now - 2 * 60 * 60_000) }),
+      daddyCandidate('premiere-2', { isPremiere: true }),
+      daddyCandidate('recent-2'),
+    ];
+    prisma.user.findMany
+      .mockResolvedValueOnce(candidates)
+      .mockResolvedValueOnce(
+        candidates.map((candidate) =>
+          publicDaddyProfile(candidate.id, candidate.isPremiere),
+        ),
+      );
+
+    const result = await service.findMatchesForUser('baby-1', '', 1, 8);
+
+    expect(result.items.map((profile) => profile.id)).toEqual([
+      'online-1',
+      'premiere-1',
+      'new-1',
+      'recent-1',
+      'online-2',
+      'new-2',
+      'premiere-2',
+      'recent-2',
+    ]);
+    expect(result.hasMore).toBe(false);
   });
 
   it('returns only active boosted profiles for the opposite role', async () => {
@@ -276,6 +399,18 @@ describe('UsersService', () => {
         where: expect.objectContaining({
           role: 'SUGAR_BABY',
           approvalStatus: 'APPROVED',
+          AND: [
+            {
+              OR: [
+                { gender: null },
+                {
+                  gender: {
+                    notIn: ['sugar-baby-man', 'sugar-baby-trans-man'],
+                  },
+                },
+              ],
+            },
+          ],
           boostedUntil: { gt: expect.any(Date) as Date },
         }),
         skip: 0,
@@ -326,6 +461,100 @@ describe('UsersService', () => {
     );
   });
 
+  it('paginates approved active Sugar Babies for the ADMIN star list', async () => {
+    prisma.user.findMany.mockResolvedValue([
+      { id: 'baby-12', isAdminFeatured: true },
+    ]);
+    prisma.user.count.mockResolvedValue(25);
+
+    await expect(
+      service.findBabiesForAdminFeaturing(2, 12, '  baby  '),
+    ).resolves.toEqual({
+      items: [{ id: 'baby-12', isAdminFeatured: true }],
+      pagination: {
+        page: 2,
+        pageSize: 12,
+        totalItems: 25,
+        hasNextPage: true,
+      },
+    });
+    expect(prisma.user.findMany).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          role: 'SUGAR_BABY',
+          approvalStatus: 'APPROVED',
+          accountStatus: 'ACTIVE',
+          username: { contains: 'baby' },
+        },
+        skip: 12,
+        take: 12,
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      }),
+    );
+  });
+
+  it('loads the complete photo gallery only for an approved active Baby', async () => {
+    prisma.user.findFirst.mockResolvedValue({
+      id: 'baby-1',
+      username: 'babyativa',
+      photos: [
+        { id: 'photo-1', dataUrl: 'data:image/jpeg;base64,abc', sortOrder: 1 },
+        { id: 'photo-2', dataUrl: 'data:image/jpeg;base64,def', sortOrder: 2 },
+      ],
+    });
+
+    await expect(service.findBabyPhotosForAdmin('baby-1')).resolves.toEqual(
+      expect.objectContaining({
+        id: 'baby-1',
+        photos: expect.arrayContaining([
+          expect.objectContaining({ id: 'photo-1' }),
+          expect.objectContaining({ id: 'photo-2' }),
+        ]),
+      }),
+    );
+    expect(prisma.user.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: {
+          id: 'baby-1',
+          role: 'SUGAR_BABY',
+          approvalStatus: 'APPROVED',
+          accountStatus: 'ACTIVE',
+        },
+        select: expect.objectContaining({
+          photos: expect.objectContaining({
+            orderBy: { sortOrder: 'asc' },
+          }) as object,
+        }) as object,
+      }),
+    );
+  });
+
+  it('activates the private ADMIN star only for an approved active Baby', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_BABY',
+      approvalStatus: 'APPROVED',
+      accountStatus: 'ACTIVE',
+    });
+    prisma.user.update.mockResolvedValue({
+      id: 'baby-1',
+      username: 'babyativa',
+      isAdminFeatured: true,
+    });
+
+    await expect(
+      service.updateAdminFeaturedStatus('baby-1', true),
+    ).resolves.toEqual(expect.objectContaining({ isAdminFeatured: true }));
+    expect(prisma.user.update).toHaveBeenCalledWith({
+      where: { id: 'baby-1' },
+      data: { isAdminFeatured: true },
+      select: {
+        id: true,
+        username: true,
+        isAdminFeatured: true,
+      },
+    });
+  });
+
   it('updates the authenticated user presence', async () => {
     prisma.user.update.mockResolvedValue({ id: 'user-1' });
 
@@ -361,6 +590,33 @@ describe('UsersService', () => {
     prisma.user.findUnique.mockResolvedValue({ role: 'SUGAR_BABY' });
 
     await expect(service.updatePremiumStatus('baby-1', true)).rejects.toThrow(
+      BadRequestException,
+    );
+    expect(prisma.user.update).not.toHaveBeenCalled();
+  });
+
+  it('activates Premiere for a Sugar Daddy', async () => {
+    prisma.user.findUnique.mockResolvedValue({ role: 'SUGAR_DADDY' });
+    prisma.user.update.mockResolvedValue({
+      id: 'daddy-1',
+      isPremiere: true,
+    });
+
+    await expect(
+      service.updatePremiereStatus('daddy-1', true),
+    ).resolves.toEqual(expect.objectContaining({ isPremiere: true }));
+    expect(prisma.user.update).toHaveBeenCalledWith(
+      expect.objectContaining({
+        where: { id: 'daddy-1' },
+        data: { isPremiere: true },
+      }),
+    );
+  });
+
+  it('does not apply Premiere to a Sugar Baby', async () => {
+    prisma.user.findUnique.mockResolvedValue({ role: 'SUGAR_BABY' });
+
+    await expect(service.updatePremiereStatus('baby-1', true)).rejects.toThrow(
       BadRequestException,
     );
     expect(prisma.user.update).not.toHaveBeenCalled();
@@ -417,16 +673,33 @@ function publicBabyProfile({
   };
 }
 
-function publicDaddyProfile(id: string) {
+function publicDaddyProfile(id: string, isPremiere = false) {
   return {
     id,
     username: id,
     role: 'SUGAR_DADDY',
     isPremium: true,
+    isPremiere,
     lastActiveAt: new Date(),
     whatsapp: null,
     telegram: null,
     instagram: null,
     preferences: { preferences: {} },
+  };
+}
+
+function daddyCandidate(
+  id: string,
+  overrides: {
+    isPremiere?: boolean;
+    lastActiveAt?: Date | null;
+    createdAt?: Date | null;
+  } = {},
+) {
+  return {
+    id,
+    isPremiere: overrides.isPremiere ?? false,
+    lastActiveAt: overrides.lastActiveAt ?? new Date('2026-01-01T00:00:00Z'),
+    createdAt: overrides.createdAt ?? new Date('2026-01-01T00:00:00Z'),
   };
 }

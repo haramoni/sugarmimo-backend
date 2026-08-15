@@ -187,6 +187,7 @@ export class UsersService {
         instagram: true,
         approvalStatus: true,
         isPremium: true,
+        isPremiere: true,
         reviewedAt: true,
         createdAt: true,
         photos: {
@@ -287,6 +288,7 @@ export class UsersService {
         instagram: true,
         approvalStatus: true,
         isPremium: true,
+        isPremiere: true,
         reviewedAt: true,
         createdAt: true,
         photos: {
@@ -385,7 +387,11 @@ export class UsersService {
         role: UserRole.SugarDaddy,
         approvalStatus: 'APPROVED',
       },
-      orderBy: [{ isPremium: 'desc' }, { createdAt: 'desc' }],
+      orderBy: [
+        { isPremiere: 'desc' },
+        { isPremium: 'desc' },
+        { createdAt: 'desc' },
+      ],
       select: {
         id: true,
         username: true,
@@ -393,9 +399,94 @@ export class UsersService {
         city: true,
         state: true,
         isPremium: true,
+        isPremiere: true,
         createdAt: true,
       },
     });
+  }
+
+  async findBabiesForAdminFeaturing(page = 1, pageSize = 12, search?: string) {
+    const safePage =
+      Number.isSafeInteger(page) && page > 0 ? Math.min(page, 100_000) : 1;
+    const safePageSize =
+      Number.isSafeInteger(pageSize) && pageSize > 0
+        ? Math.min(pageSize, 24)
+        : 12;
+    const normalizedSearch = search?.trim().slice(0, 50);
+    const where = {
+      role: UserRole.SugarBaby,
+      approvalStatus: 'APPROVED',
+      accountStatus: 'ACTIVE',
+      ...(normalizedSearch ? { username: { contains: normalizedSearch } } : {}),
+    };
+
+    const [items, totalItems] = await Promise.all([
+      this.prisma.user.findMany({
+        where,
+        orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+        skip: (safePage - 1) * safePageSize,
+        take: safePageSize,
+        select: {
+          id: true,
+          username: true,
+          city: true,
+          state: true,
+          isAdminFeatured: true,
+          createdAt: true,
+          photos: {
+            where: { isPrivate: false },
+            orderBy: { sortOrder: 'asc' },
+            take: 1,
+            select: {
+              id: true,
+              dataUrl: true,
+              sortOrder: true,
+            },
+          },
+        },
+      }),
+      this.prisma.user.count({ where }),
+    ]);
+
+    return {
+      items,
+      pagination: {
+        page: safePage,
+        pageSize: safePageSize,
+        totalItems,
+        hasNextPage: safePage * safePageSize < totalItems,
+      },
+    };
+  }
+
+  async findBabyPhotosForAdmin(id: string) {
+    const profile = await this.prisma.user.findFirst({
+      where: {
+        id,
+        role: UserRole.SugarBaby,
+        approvalStatus: 'APPROVED',
+        accountStatus: 'ACTIVE',
+      },
+      select: {
+        id: true,
+        username: true,
+        photos: {
+          orderBy: { sortOrder: 'asc' },
+          select: {
+            id: true,
+            dataUrl: true,
+            sortOrder: true,
+            isPrivate: true,
+          },
+        },
+      },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Perfil nao encontrado.');
+    }
+
+    return profile;
   }
 
   async updatePremiumStatus(id: string, isPremium: boolean) {
@@ -423,6 +514,66 @@ export class UsersService {
         email: true,
         role: true,
         isPremium: true,
+      },
+    });
+  }
+
+  async updatePremiereStatus(id: string, isPremiere: boolean) {
+    const profile = await this.prisma.user.findUnique({
+      where: { id },
+      select: { role: true },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Perfil nao encontrado.');
+    }
+
+    if (profile.role !== UserRole.SugarDaddy) {
+      throw new BadRequestException(
+        'O selo Premiere se aplica apenas a Sugar Daddies.',
+      );
+    }
+
+    return this.prisma.user.update({
+      where: { id },
+      data: { isPremiere },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        role: true,
+        isPremiere: true,
+      },
+    });
+  }
+
+  async updateAdminFeaturedStatus(id: string, isAdminFeatured: boolean) {
+    const profile = await this.prisma.user.findUnique({
+      where: { id },
+      select: { role: true, approvalStatus: true, accountStatus: true },
+    });
+
+    if (!profile) {
+      throw new NotFoundException('Perfil nao encontrado.');
+    }
+
+    if (
+      profile.role !== UserRole.SugarBaby ||
+      profile.approvalStatus !== 'APPROVED' ||
+      profile.accountStatus !== 'ACTIVE'
+    ) {
+      throw new BadRequestException(
+        'A estrela se aplica apenas a Sugar Babies aprovadas e ativas.',
+      );
+    }
+
+    return this.prisma.user.update({
+      where: { id },
+      data: { isAdminFeatured },
+      select: {
+        id: true,
+        username: true,
+        isAdminFeatured: true,
       },
     });
   }
@@ -493,6 +644,9 @@ export class UsersService {
     search?: string,
     page = 1,
     limit = 9,
+    minAge?: number,
+    maxAge?: number,
+    gender?: string,
   ) {
     const viewer = await this.prisma.user.findUnique({
       where: { id: viewerId },
@@ -521,6 +675,7 @@ export class UsersService {
       id: { not: viewerId, notIn: blockedUserIds },
       role: targetRole,
       approvalStatus: 'APPROVED',
+      ...this.matchDemographicFilter(viewer.role, minAge, maxAge, gender),
       ...(normalizedSearch
         ? {
             OR: [
@@ -532,10 +687,26 @@ export class UsersService {
         : {}),
     };
 
+    const pageStart = (safePage - 1) * safeLimit;
+
+    if (targetRole === UserRole.SugarDaddy) {
+      return this.findDaddyMatchesWithBalancedRanking(
+        where,
+        viewer.username,
+        safePage,
+        safeLimit,
+        pageStart,
+      );
+    }
+
     const matches = await this.prisma.user.findMany({
       where,
-      orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
-      skip: (safePage - 1) * safeLimit,
+      orderBy: [
+        { isAdminFeatured: 'desc' },
+        { lastActiveAt: 'desc' },
+        { createdAt: 'desc' },
+      ],
+      skip: pageStart,
       take: safeLimit + 1,
       select: this.publicProfileListSelect(),
     });
@@ -550,6 +721,104 @@ export class UsersService {
       pageSize: safeLimit,
       hasMore,
     };
+  }
+
+  private async findDaddyMatchesWithBalancedRanking(
+    where: object,
+    viewerUsername: string,
+    page: number,
+    pageSize: number,
+    pageStart: number,
+  ) {
+    const candidates = await this.prisma.user.findMany({
+      where,
+      orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
+      select: {
+        id: true,
+        isPremiere: true,
+        lastActiveAt: true,
+        createdAt: true,
+      },
+    });
+    const rankedIds = this.buildBalancedDaddyRanking(candidates);
+    const pageIds = rankedIds.slice(pageStart, pageStart + pageSize);
+    const profiles = pageIds.length
+      ? await this.prisma.user.findMany({
+          where: { ...where, id: { in: pageIds } },
+          select: this.publicProfileListSelect(),
+        })
+      : [];
+    const profilesById = new Map(
+      profiles.map((profile) => [profile.id, profile]),
+    );
+    const orderedProfiles = pageIds
+      .map((id) => profilesById.get(id))
+      .filter((profile): profile is NonNullable<typeof profile> =>
+        Boolean(profile),
+      );
+
+    return {
+      items: orderedProfiles.map((profile) =>
+        this.sanitizePublicProfile(profile, viewerUsername),
+      ),
+      page,
+      pageSize,
+      hasMore: pageStart + pageSize < rankedIds.length,
+    };
+  }
+
+  private buildBalancedDaddyRanking(
+    candidates: Array<{
+      id: string;
+      isPremiere: boolean;
+      lastActiveAt: Date | null;
+      createdAt: Date | null;
+    }>,
+  ) {
+    const now = Date.now();
+    const onlineSince = now - 2 * 60_000;
+    const newSince = now - 7 * 24 * 60 * 60_000;
+    const slotCycle = [
+      'online',
+      'premiere',
+      'new',
+      'recent',
+      'online',
+      'new',
+      'premiere',
+      'recent',
+    ] as const;
+    const remaining = [...candidates];
+    const rankedIds: string[] = [];
+
+    while (remaining.length > 0) {
+      const slot = slotCycle[rankedIds.length % slotCycle.length];
+      const matchIndex = remaining.findIndex((candidate) => {
+        if (slot === 'online') {
+          return Boolean(
+            candidate.lastActiveAt &&
+            candidate.lastActiveAt.getTime() >= onlineSince,
+          );
+        }
+
+        if (slot === 'premiere') {
+          return candidate.isPremiere;
+        }
+
+        if (slot === 'new') {
+          return Boolean(
+            candidate.createdAt && candidate.createdAt.getTime() >= newSince,
+          );
+        }
+
+        return true;
+      });
+      const selectedIndex = matchIndex >= 0 ? matchIndex : 0;
+      const [selected] = remaining.splice(selectedIndex, 1);
+      rankedIds.push(selected.id);
+    }
+
+    return rankedIds;
   }
 
   async findBoostedProfilesForUser(viewerId: string, page = 1, limit = 6) {
@@ -580,6 +849,7 @@ export class UsersService {
       },
       role: targetRole,
       approvalStatus: 'APPROVED',
+      ...this.matchDemographicFilter(viewer.role),
       boostedUntil: { gt: new Date() },
     };
 
@@ -1010,6 +1280,76 @@ export class UsersService {
     return null;
   }
 
+  private matchDemographicFilter(
+    viewerRole?: string | null,
+    minAge?: number,
+    maxAge?: number,
+    gender?: string,
+  ) {
+    const conditions: object[] = [];
+
+    if (viewerRole === UserRole.SugarDaddy) {
+      conditions.push({
+        OR: [
+          { gender: null },
+          {
+            gender: {
+              notIn: ['sugar-baby-man', 'sugar-baby-trans-man'],
+            },
+          },
+        ],
+      });
+    }
+
+    const allowedGenders = new Set([
+      'sugar-baby-woman',
+      'sugar-baby-trans-woman',
+      'sugar-baby-man',
+      'sugar-baby-trans-man',
+    ]);
+    const normalizedGender = gender?.trim().toLowerCase();
+
+    if (
+      viewerRole === UserRole.SugarDaddy &&
+      normalizedGender &&
+      allowedGenders.has(normalizedGender)
+    ) {
+      conditions.push({ gender: normalizedGender });
+    }
+
+    const safeMinAge = Number.isFinite(minAge)
+      ? Math.min(99, Math.max(18, Math.floor(minAge as number)))
+      : undefined;
+    const safeMaxAge = Number.isFinite(maxAge)
+      ? Math.min(99, Math.max(18, Math.floor(maxAge as number)))
+      : undefined;
+    const birthDate: { lte?: Date; gt?: Date } = {};
+    const today = new Date();
+    const utcToday = new Date(
+      Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()),
+    );
+
+    if (safeMinAge !== undefined) {
+      birthDate.lte = this.shiftUtcYears(utcToday, -safeMinAge);
+    }
+
+    if (safeMaxAge !== undefined) {
+      birthDate.gt = this.shiftUtcYears(utcToday, -(safeMaxAge + 1));
+    }
+
+    if (Object.keys(birthDate).length > 0) {
+      conditions.push({ birthDate });
+    }
+
+    return conditions.length > 0 ? { AND: conditions } : {};
+  }
+
+  private shiftUtcYears(date: Date, years: number) {
+    const shifted = new Date(date);
+    shifted.setUTCFullYear(shifted.getUTCFullYear() + years);
+    return shifted;
+  }
+
   private publicProfileSelect() {
     return {
       id: true,
@@ -1025,6 +1365,7 @@ export class UsersService {
       telegram: true,
       instagram: true,
       isPremium: true,
+      isPremiere: true,
       boostedUntil: true,
       createdAt: true,
       lastActiveAt: true,

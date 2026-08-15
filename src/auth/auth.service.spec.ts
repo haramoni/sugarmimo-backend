@@ -19,6 +19,7 @@ const baseUser = {
   instagram: null,
   approvalStatus: 'PENDING',
   isPremium: false,
+  isPremiere: false,
   reviewedAt: null,
   createdAt: null,
 };
@@ -113,21 +114,90 @@ describe('AuthService', () => {
     );
   });
 
-  it.each(['sugar-daddy', 'sugar-mommy'])(
-    'temporarily blocks %s registrations',
+  it.each(['sugar-baby-trans-woman', 'sugar-baby-trans-man'])(
+    'accepts the trans profile type %s as Sugar Baby',
     async (profileType) => {
+      usersService.create.mockResolvedValue({
+        ...baseUser,
+        gender: profileType,
+      });
+
+      await service.register({
+        ...registerDto,
+        profileType,
+      });
+
+      expect(usersService.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          role: UserRole.SugarBaby,
+          gender: profileType,
+          approvalStatus: 'PENDING',
+        }),
+      );
+    },
+  );
+
+  it('creates Sugar Daddy registrations as approved and authenticated', async () => {
+    const daddyUser = {
+      ...baseUser,
+      role: UserRole.SugarDaddy,
+      gender: 'sugar-daddy',
+      approvalStatus: 'APPROVED',
+    };
+    usersService.create.mockResolvedValue(daddyUser);
+
+    await expect(
+      service.register({
+        ...registerDto,
+        profileType: 'sugar-daddy',
+        profilePhotos: [],
+      }),
+    ).resolves.toEqual({
+      accessToken: 'signed-token',
+      user: daddyUser,
+    });
+
+    expect(usersService.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        role: UserRole.SugarDaddy,
+        approvalStatus: 'APPROVED',
+        photos: [],
+      }),
+    );
+    expect(signToken).toHaveBeenCalledTimes(1);
+  });
+
+  it.each(['sugar-mommy', 'sugarmommy', 'mommy'])(
+    'creates %s registrations with Sugar Daddy access',
+    async (profileType) => {
+      const mommyUser = {
+        ...baseUser,
+        role: UserRole.SugarDaddy,
+        gender: profileType,
+        approvalStatus: 'APPROVED',
+      };
+      usersService.create.mockResolvedValue(mommyUser);
+
       await expect(
         service.register({
           ...registerDto,
           profileType,
           profilePhotos: [],
         }),
-      ).rejects.toThrow(
-        'O cadastro de Sugar Daddies e Sugar Mommies esta temporariamente indisponivel.',
-      );
+      ).resolves.toEqual({
+        accessToken: 'signed-token',
+        user: mommyUser,
+      });
 
-      expect(usersService.create).not.toHaveBeenCalled();
-      expect(signToken).not.toHaveBeenCalled();
+      expect(usersService.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          role: UserRole.SugarDaddy,
+          gender: profileType,
+          approvalStatus: 'APPROVED',
+          photos: [],
+        }),
+      );
+      expect(signToken).toHaveBeenCalledTimes(1);
     },
   );
 
@@ -175,15 +245,12 @@ describe('AuthService', () => {
     'perfil😀',
     'maria@example.com',
     'a'.repeat(31),
-  ])(
-    'rejects the invalid username %s',
-    async (username) => {
-      await expect(
-        service.register({ ...registerDto, username }),
-      ).rejects.toThrow(BadRequestException);
-      expect(usersService.create).not.toHaveBeenCalled();
-    },
-  );
+  ])('rejects the invalid username %s', async (username) => {
+    await expect(
+      service.register({ ...registerDto, username }),
+    ).rejects.toThrow(BadRequestException);
+    expect(usersService.create).not.toHaveBeenCalled();
+  });
 
   it('blocks pending Sugar Baby login', async () => {
     usersService.findByEmail.mockResolvedValue({

@@ -12,6 +12,7 @@ import { ResolveReportDto } from './dto/resolve-report.dto';
 
 const RETENTION_DAYS = 60;
 const MESSAGE_PAGE_SIZE = 40;
+const DADDY_FREE_MESSAGE_LIMIT = 10;
 
 @Injectable()
 export class ChatService {
@@ -80,7 +81,8 @@ export class ChatService {
       throw new BadRequestException('Conversa inválida.');
     }
 
-    await this.assertCanChat(userId, otherUserId);
+    const { currentUser } = await this.assertCanChat(userId, otherUserId);
+    this.assertCanSendMessage(currentUser);
     const [memberOneId, memberTwoId] = [userId, otherUserId].sort();
     const conversation = await this.prisma.chatConversation.upsert({
       where: { memberOneId_memberTwoId: { memberOneId, memberTwoId } },
@@ -123,14 +125,32 @@ export class ChatService {
       conversation.memberOneId === userId
         ? conversation.memberTwoId
         : conversation.memberOneId;
-    await this.assertCanChat(userId, otherUserId);
+    const { currentUser } = await this.assertCanChat(userId, otherUserId);
+    this.assertCanSendMessage(currentUser);
 
     const normalizedBody = body.trim();
     if (!normalizedBody) {
       throw new BadRequestException('Digite uma mensagem.');
     }
 
-    const message = await this.prisma.$transaction(async (tx) => {
+    const usesFreeTrial = this.usesFreeMessageTrial(currentUser);
+    const result = await this.prisma.$transaction(async (tx) => {
+      if (usesFreeTrial) {
+        const quota = await tx.user.updateMany({
+          where: {
+            id: userId,
+            freeMessagesUsed: { lt: DADDY_FREE_MESSAGE_LIMIT },
+          },
+          data: { freeMessagesUsed: { increment: 1 } },
+        });
+
+        if (quota.count === 0) {
+          throw new ForbiddenException(
+            'Você já enviou suas 10 mensagens gratuitas. Faça um upgrade para Premium ou Premiere para continuar conversando.',
+          );
+        }
+      }
+
       const created = await tx.chatMessage.create({
         data: {
           conversationId,
@@ -142,12 +162,57 @@ export class ChatService {
         where: { id: conversationId },
         data: { updatedAt: new Date() },
       });
-      return created;
+      const trialState = usesFreeTrial
+        ? await tx.user.findUnique({
+            where: { id: userId },
+            select: { freeMessagesUsed: true },
+          })
+        : null;
+      return { created, trialState };
     });
 
     return {
-      message: { ...this.serializeMessage(message), body: normalizedBody },
+      message: {
+        ...this.serializeMessage(result.created),
+        body: normalizedBody,
+      },
       recipientId: otherUserId,
+      freeMessagesRemaining: result.trialState
+        ? Math.max(
+            0,
+            DADDY_FREE_MESSAGE_LIMIT - result.trialState.freeMessagesUsed,
+          )
+        : null,
+    };
+  }
+
+  async getMessageAccess(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        role: true,
+        isPremium: true,
+        isPremiere: true,
+        freeMessagesUsed: true,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('Perfil não encontrado.');
+    }
+
+    const isTrial = this.usesFreeMessageTrial(user);
+    const freeMessagesRemaining = isTrial
+      ? Math.max(0, DADDY_FREE_MESSAGE_LIMIT - user.freeMessagesUsed)
+      : null;
+
+    return {
+      canSend: !isTrial || Boolean(freeMessagesRemaining),
+      isTrial,
+      freeMessagesLimit: isTrial ? DADDY_FREE_MESSAGE_LIMIT : null,
+      freeMessagesUsed: isTrial ? user.freeMessagesUsed : null,
+      freeMessagesRemaining,
+      requiresUpgrade: isTrial && freeMessagesRemaining === 0,
     };
   }
 
@@ -401,9 +466,12 @@ export class ChatService {
   private async ensureMutualLikeConversations(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      select: { role: true, isPremium: true },
+      select: { role: true, isPremium: true, isPremiere: true },
     });
-    if (!user || (user.role === 'SUGAR_DADDY' && !user.isPremium)) {
+    if (
+      !user ||
+      (user.role === 'SUGAR_DADDY' && !user.isPremium && !user.isPremiere)
+    ) {
       return;
     }
 
@@ -441,6 +509,8 @@ export class ChatService {
           role: true,
           approvalStatus: true,
           isPremium: true,
+          isPremiere: true,
+          freeMessagesUsed: true,
           accountStatus: true,
           suspendedUntil: true,
         },
@@ -451,6 +521,8 @@ export class ChatService {
           role: true,
           approvalStatus: true,
           isPremium: true,
+          isPremiere: true,
+          freeMessagesUsed: true,
           accountStatus: true,
           suspendedUntil: true,
         },
@@ -481,23 +553,38 @@ export class ChatService {
     if (unavailable) {
       throw new ForbiddenException('Um dos perfis não está disponível.');
     }
-    const daddy = currentUser.role === 'SUGAR_DADDY' ? currentUser : otherUser;
-    if (daddy.role !== 'SUGAR_DADDY' || !daddy.isPremium) {
+    const roles = new Set([currentUser.role, otherUser.role]);
+    if (!roles.has('SUGAR_DADDY') || !roles.has('SUGAR_BABY')) {
       throw new ForbiddenException(
-        'O chat está disponível apenas para matches Premium.',
+        'As conversas são permitidas apenas entre Sugar Babies e Sugar Daddies.',
       );
     }
-    const daddyId = currentUser.role === 'SUGAR_DADDY' ? userId : otherUserId;
-    const babyId = daddyId === userId ? otherUserId : userId;
-    const mutualLike = await this.prisma.profileLike.findUnique({
-      where: { daddyId_babyId: { daddyId, babyId } },
-      select: { daddyLikedAt: true, babyLikedAt: true },
-    });
-    if (!mutualLike?.daddyLikedAt || !mutualLike.babyLikedAt) {
+
+    return { currentUser, otherUser };
+  }
+
+  private assertCanSendMessage(user: {
+    role: string | null;
+    isPremium: boolean;
+    isPremiere: boolean;
+    freeMessagesUsed: number;
+  }) {
+    if (
+      this.usesFreeMessageTrial(user) &&
+      user.freeMessagesUsed >= DADDY_FREE_MESSAGE_LIMIT
+    ) {
       throw new ForbiddenException(
-        'A conversa só é liberada após o like dos dois perfis.',
+        'Você já enviou suas 10 mensagens gratuitas. Faça um upgrade para Premium ou Premiere para continuar conversando.',
       );
     }
+  }
+
+  private usesFreeMessageTrial(user: {
+    role: string | null;
+    isPremium: boolean;
+    isPremiere: boolean;
+  }) {
+    return user.role === 'SUGAR_DADDY' && !user.isPremium && !user.isPremiere;
   }
 
   private retentionCutoff() {

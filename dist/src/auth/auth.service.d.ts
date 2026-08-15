@@ -31,6 +31,7 @@ export declare class AuthService {
             instagram: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -52,6 +53,7 @@ export declare class AuthService {
             city: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
             photos: {
@@ -81,6 +83,7 @@ export declare class AuthService {
             instagram: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -103,6 +106,7 @@ export declare class AuthService {
             instagram: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };

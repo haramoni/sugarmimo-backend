@@ -41,6 +41,14 @@ export declare class ChatController {
         blocked: boolean;
         updatedAt: Date | null;
     }[]>;
+    getMessageAccess(request: AuthenticatedRequest): Promise<{
+        canSend: boolean;
+        isTrial: boolean;
+        freeMessagesLimit: number | null;
+        freeMessagesUsed: number | null;
+        freeMessagesRemaining: number | null;
+        requiresUpgrade: boolean;
+    }>;
     openConversation(request: AuthenticatedRequest, userId: string): Promise<{
         id: string;
     }>;
@@ -57,6 +65,7 @@ export declare class ChatController {
         retentionDays: number;
     }>;
     sendMessage(request: AuthenticatedRequest, conversationId: string, dto: SendMessageDto): Promise<{
+        freeMessagesRemaining: number | null;
         body: string;
         id: string;
         conversationId: string;

@@ -21,6 +21,7 @@ export declare class AdminAuthController {
             instagram: string | null;
             approvalStatus: string;
             isPremium: boolean;
+            isPremiere: boolean;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };

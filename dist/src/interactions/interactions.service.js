@@ -38,6 +38,7 @@ let InteractionsService = class InteractionsService {
                     role: true,
                     approvalStatus: true,
                     isPremium: true,
+                    isPremiere: true,
                 },
             }),
             this.prisma.user.findUnique({
@@ -52,8 +53,8 @@ let InteractionsService = class InteractionsService {
             daddy.approvalStatus !== 'APPROVED') {
             throw new common_1.ForbiddenException('Apenas Sugar Daddies ativos podem curtir.');
         }
-        if (!daddy.isPremium) {
-            throw new common_1.ForbiddenException('Apenas Sugar Daddies Premium podem dar likes.');
+        if (!daddy.isPremium && !daddy.isPremiere) {
+            throw new common_1.ForbiddenException('Apenas Sugar Daddies Premium ou Premiere podem dar likes.');
         }
         if (baby.role !== UserRole.SugarBaby ||
             baby.approvalStatus !== 'APPROVED') {
@@ -105,6 +106,7 @@ let InteractionsService = class InteractionsService {
                     role: true,
                     approvalStatus: true,
                     isPremium: true,
+                    isPremiere: true,
                 },
             }),
         ]);
@@ -119,8 +121,8 @@ let InteractionsService = class InteractionsService {
             daddy.approvalStatus !== 'APPROVED') {
             throw new common_1.ForbiddenException('O Sugar Daddy precisa estar ativo.');
         }
-        if (!daddy.isPremium) {
-            throw new common_1.ForbiddenException('Apenas Sugar Daddies Premium podem receber contatos.');
+        if (!daddy.isPremium && !daddy.isPremiere) {
+            throw new common_1.ForbiddenException('Apenas Sugar Daddies Premium ou Premiere podem receber contatos.');
         }
         const profileLike = await this.prisma.profileLike.findUnique({
             where: { daddyId_babyId: { daddyId, babyId } },
@@ -192,6 +194,7 @@ let InteractionsService = class InteractionsService {
                     role: true,
                     approvalStatus: true,
                     isPremium: true,
+                    isPremiere: true,
                 },
             }),
         ]);
@@ -206,8 +209,8 @@ let InteractionsService = class InteractionsService {
             daddy.approvalStatus !== 'APPROVED') {
             throw new common_1.ForbiddenException('O Sugar Daddy precisa estar ativo.');
         }
-        if (!daddy.isPremium) {
-            throw new common_1.ForbiddenException('Apenas Sugar Daddies Premium podem receber likes.');
+        if (!daddy.isPremium && !daddy.isPremiere) {
+            throw new common_1.ForbiddenException('Apenas Sugar Daddies Premium ou Premiere podem receber likes.');
         }
         const existingLike = await this.prisma.profileLike.findUnique({
             where: { daddyId_babyId: { daddyId, babyId } },

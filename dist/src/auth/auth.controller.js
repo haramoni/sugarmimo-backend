@@ -63,8 +63,8 @@ let AuthController = class AuthController {
     boosts(request, page = '1', limit = '6') {
         return this.usersService.findBoostedProfilesForUser(request.user.id, Number(page), Number(limit));
     }
-    matches(request, search = '', page = '1', limit = '9') {
-        return this.usersService.findMatchesForUser(request.user.id, search, Number(page), Number(limit));
+    matches(request, search = '', page = '1', limit = '9', minAge = '', maxAge = '', gender = '') {
+        return this.usersService.findMatchesForUser(request.user.id, search, Number(page), Number(limit), minAge ? Number(minAge) : undefined, maxAge ? Number(maxAge) : undefined, gender);
     }
     async matchPhoto(request, photoId, variant, response) {
         const photo = await this.usersService.findMatchPhotoForUser(request.user.id, photoId);
@@ -233,8 +233,11 @@ __decorate([
     __param(1, (0, common_1.Query)('search')),
     __param(2, (0, common_1.Query)('page')),
     __param(3, (0, common_1.Query)('limit')),
+    __param(4, (0, common_1.Query)('minAge')),
+    __param(5, (0, common_1.Query)('maxAge')),
+    __param(6, (0, common_1.Query)('gender')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "matches", null);
 __decorate([

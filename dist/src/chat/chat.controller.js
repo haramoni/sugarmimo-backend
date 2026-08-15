@@ -33,6 +33,9 @@ let ChatController = class ChatController {
     listConversations(request) {
         return this.chatService.listConversations(request.user.id);
     }
+    getMessageAccess(request) {
+        return this.chatService.getMessageAccess(request.user.id);
+    }
     openConversation(request, userId) {
         return this.chatService.openConversation(request.user.id, userId);
     }
@@ -42,7 +45,10 @@ let ChatController = class ChatController {
     async sendMessage(request, conversationId, dto) {
         const result = await this.chatService.sendMessage(request.user.id, conversationId, dto.body);
         this.chatGateway.emitNewMessage(conversationId, result.recipientId, result.message);
-        return result.message;
+        return {
+            ...result.message,
+            freeMessagesRemaining: result.freeMessagesRemaining,
+        };
     }
     async markRead(request, conversationId) {
         const result = await this.chatService.markRead(request.user.id, conversationId);
@@ -79,6 +85,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ChatController.prototype, "listConversations", null);
+__decorate([
+    (0, common_1.Get)('message-access'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ChatController.prototype, "getMessageAccess", null);
 __decorate([
     (0, common_1.Post)('conversations/with/:userId'),
     __param(0, (0, common_1.Req)()),

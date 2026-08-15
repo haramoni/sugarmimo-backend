@@ -46,6 +46,24 @@ export class AdminController {
     return this.usersService.findSugarDaddies();
   }
 
+  @Get('featured-babies')
+  findFeaturedBabies(
+    @Query('page') page = '1',
+    @Query('pageSize') pageSize = '12',
+    @Query('search') search?: string,
+  ) {
+    return this.usersService.findBabiesForAdminFeaturing(
+      Number(page),
+      Number(pageSize),
+      search,
+    );
+  }
+
+  @Get('featured-babies/:id/photos')
+  findFeaturedBabyPhotos(@Param('id') id: string) {
+    return this.usersService.findBabyPhotosForAdmin(id);
+  }
+
   @Get('activity-logs')
   findActivityLogs(@Query('limit') limit = '100') {
     return this.auditService.findLatest(Number(limit));
@@ -96,5 +114,25 @@ export class AdminController {
   @Patch('profiles/:id/standard')
   disablePremium(@Param('id') id: string) {
     return this.usersService.updatePremiumStatus(id, false);
+  }
+
+  @Patch('profiles/:id/premiere')
+  enablePremiere(@Param('id') id: string) {
+    return this.usersService.updatePremiereStatus(id, true);
+  }
+
+  @Patch('profiles/:id/regular')
+  disablePremiere(@Param('id') id: string) {
+    return this.usersService.updatePremiereStatus(id, false);
+  }
+
+  @Patch('profiles/:id/feature')
+  featureBaby(@Param('id') id: string) {
+    return this.usersService.updateAdminFeaturedStatus(id, true);
+  }
+
+  @Patch('profiles/:id/unfeature')
+  unfeatureBaby(@Param('id') id: string) {
+    return this.usersService.updateAdminFeaturedStatus(id, false);
   }
 }

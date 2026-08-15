@@ -36,6 +36,11 @@ export class ChatController {
     return this.chatService.listConversations(request.user.id);
   }
 
+  @Get('message-access')
+  getMessageAccess(@Req() request: AuthenticatedRequest) {
+    return this.chatService.getMessageAccess(request.user.id);
+  }
+
   @Post('conversations/with/:userId')
   openConversation(
     @Req() request: AuthenticatedRequest,
@@ -74,7 +79,10 @@ export class ChatController {
       result.recipientId,
       result.message,
     );
-    return result.message;
+    return {
+      ...result.message,
+      freeMessagesRemaining: result.freeMessagesRemaining,
+    };
   }
 
   @Patch('conversations/:id/read')

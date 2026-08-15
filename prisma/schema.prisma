@@ -30,6 +30,9 @@ model User {
   accountStatus                String             @default("ACTIVE") @map("account_status") @db.VarChar(30)
   suspendedUntil               DateTime?          @map("suspended_until") @db.Timestamp(0)
   isPremium                    Boolean            @default(false) @map("is_premium")
+  isPremiere                   Boolean            @default(false) @map("is_premiere")
+  isAdminFeatured              Boolean            @default(false) @map("is_admin_featured")
+  freeMessagesUsed             Int                @default(0) @map("free_messages_used")
   boostedUntil                 DateTime?          @map("boosted_until") @db.Timestamp(0)
   reviewedAt                   DateTime?          @map("reviewed_at") @db.Timestamp(0)
   lastActiveAt                 DateTime?          @map("last_active_at") @db.Timestamp(0)
@@ -52,6 +55,7 @@ model User {
   sentNotifications            Notification[]     @relation("NotificationActor")
 
   @@index([role, approvalStatus, boostedUntil], map: "users_active_boost_idx")
+  @@index([role, approvalStatus, isAdminFeatured, lastActiveAt, createdAt], map: "users_admin_featured_rank_idx")
   @@index([role, approvalStatus, createdAt, id], map: "users_pending_review_idx")
   @@map("users")
 }

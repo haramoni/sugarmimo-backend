@@ -82,8 +82,40 @@ export declare class AdminController {
         state: string | null;
         city: string | null;
         isPremium: boolean;
+        isPremiere: boolean;
         createdAt: Date | null;
     }[]>;
+    findFeaturedBabies(page?: string, pageSize?: string, search?: string): Promise<{
+        items: {
+            id: string;
+            username: string;
+            state: string | null;
+            city: string | null;
+            isAdminFeatured: boolean;
+            createdAt: Date | null;
+            photos: {
+                id: string;
+                sortOrder: number;
+                dataUrl: string;
+            }[];
+        }[];
+        pagination: {
+            page: number;
+            pageSize: number;
+            totalItems: number;
+            hasNextPage: boolean;
+        };
+    }>;
+    findFeaturedBabyPhotos(id: string): Promise<{
+        id: string;
+        username: string;
+        photos: {
+            id: string;
+            sortOrder: number;
+            dataUrl: string;
+            isPrivate: boolean;
+        }[];
+    }>;
     findActivityLogs(limit?: string): import("@prisma/client").Prisma.PrismaPromise<({
         user: {
             id: string;
@@ -191,5 +223,29 @@ export declare class AdminController {
         email: string;
         role: string | null;
         isPremium: boolean;
+    }>;
+    enablePremiere(id: string): Promise<{
+        id: string;
+        username: string;
+        email: string;
+        role: string | null;
+        isPremiere: boolean;
+    }>;
+    disablePremiere(id: string): Promise<{
+        id: string;
+        username: string;
+        email: string;
+        role: string | null;
+        isPremiere: boolean;
+    }>;
+    featureBaby(id: string): Promise<{
+        id: string;
+        username: string;
+        isAdminFeatured: boolean;
+    }>;
+    unfeatureBaby(id: string): Promise<{
+        id: string;
+        username: string;
+        isAdminFeatured: boolean;
     }>;
 }

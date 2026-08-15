@@ -149,12 +149,18 @@ export class AuthController {
     @Query('search') search = '',
     @Query('page') page = '1',
     @Query('limit') limit = '9',
+    @Query('minAge') minAge = '',
+    @Query('maxAge') maxAge = '',
+    @Query('gender') gender = '',
   ) {
     return this.usersService.findMatchesForUser(
       request.user.id,
       search,
       Number(page),
       Number(limit),
+      minAge ? Number(minAge) : undefined,
+      maxAge ? Number(maxAge) : undefined,
+      gender,
     );
   }
 

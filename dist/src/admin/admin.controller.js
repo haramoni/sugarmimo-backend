@@ -38,6 +38,12 @@ let AdminController = class AdminController {
     findSugarDaddies() {
         return this.usersService.findSugarDaddies();
     }
+    findFeaturedBabies(page = '1', pageSize = '12', search) {
+        return this.usersService.findBabiesForAdminFeaturing(Number(page), Number(pageSize), search);
+    }
+    findFeaturedBabyPhotos(id) {
+        return this.usersService.findBabyPhotosForAdmin(id);
+    }
     findActivityLogs(limit = '100') {
         return this.auditService.findLatest(Number(limit));
     }
@@ -65,6 +71,18 @@ let AdminController = class AdminController {
     disablePremium(id) {
         return this.usersService.updatePremiumStatus(id, false);
     }
+    enablePremiere(id) {
+        return this.usersService.updatePremiereStatus(id, true);
+    }
+    disablePremiere(id) {
+        return this.usersService.updatePremiereStatus(id, false);
+    }
+    featureBaby(id) {
+        return this.usersService.updateAdminFeaturedStatus(id, true);
+    }
+    unfeatureBaby(id) {
+        return this.usersService.updateAdminFeaturedStatus(id, false);
+    }
 };
 exports.AdminController = AdminController;
 __decorate([
@@ -89,6 +107,22 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "findSugarDaddies", null);
+__decorate([
+    (0, common_1.Get)('featured-babies'),
+    __param(0, (0, common_1.Query)('page')),
+    __param(1, (0, common_1.Query)('pageSize')),
+    __param(2, (0, common_1.Query)('search')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object, String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "findFeaturedBabies", null);
+__decorate([
+    (0, common_1.Get)('featured-babies/:id/photos'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "findFeaturedBabyPhotos", null);
 __decorate([
     (0, common_1.Get)('activity-logs'),
     __param(0, (0, common_1.Query)('limit')),
@@ -155,6 +189,34 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "disablePremium", null);
+__decorate([
+    (0, common_1.Patch)('profiles/:id/premiere'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "enablePremiere", null);
+__decorate([
+    (0, common_1.Patch)('profiles/:id/regular'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "disablePremiere", null);
+__decorate([
+    (0, common_1.Patch)('profiles/:id/feature'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "featureBaby", null);
+__decorate([
+    (0, common_1.Patch)('profiles/:id/unfeature'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AdminController.prototype, "unfeatureBaby", null);
 exports.AdminController = AdminController = __decorate([
     (0, common_1.Controller)('admin'),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, admin_guard_1.AdminGuard),
