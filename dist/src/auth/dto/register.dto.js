@@ -49,6 +49,7 @@ class RegisterDto {
     instagram;
     visibleContactChannels;
     source;
+    referralUsername;
     termsAccepted;
     bodyType;
     ethnicity;
@@ -153,6 +154,15 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "source", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.MaxLength)(30),
+    (0, class_validator_1.Matches)(/^[A-Za-z0-9._-]+$/, {
+        message: 'O username de indicacao e invalido.',
+    }),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "referralUsername", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsBoolean)(),

@@ -21,6 +21,7 @@ export declare class RegisterDto {
     instagram?: string;
     visibleContactChannels?: VisibleContactChannel[];
     source?: string;
+    referralUsername?: string;
     termsAccepted?: boolean;
     bodyType?: string;
     ethnicity?: string;

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   BadRequestException,
   Injectable,
@@ -103,6 +104,7 @@ export class AuthService {
         visibleContactChannels: registerDto.visibleContactChannels,
       },
       approvalStatus,
+      referralUsername: registerDto.referralUsername,
       photos: photos.map((photo, index) => ({
         dataUrl: photo.dataUrl,
         fileName: photo.fileName,

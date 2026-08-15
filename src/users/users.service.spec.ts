@@ -57,6 +57,85 @@ describe('UsersService', () => {
     );
   });
 
+  it('links a referred Sugar Daddy to the Sugar Baby from the invite link', async () => {
+    prisma.user.findFirst
+      .mockResolvedValueOnce(null)
+      .mockResolvedValueOnce({ id: 'baby-1', username: 'convidadora' });
+    prisma.user.create.mockResolvedValue({
+      id: 'daddy-1',
+      role: 'SUGAR_DADDY',
+    });
+
+    await service.create({
+      username: 'convidado',
+      email: 'convidado@example.com',
+      passwordHash: 'hash',
+      role: 'SUGAR_DADDY',
+      approvalStatus: 'APPROVED',
+      referralUsername: 'Convidadora',
+    });
+
+    expect(prisma.user.findFirst).toHaveBeenNthCalledWith(2, {
+      where: { username: 'convidadora', role: 'SUGAR_BABY' },
+      select: { id: true, username: true },
+    });
+    expect(prisma.user.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({
+          referralReceived: {
+            create: {
+              inviterId: 'baby-1',
+              inviterUsernameAtSignup: 'convidadora',
+            },
+          },
+        }),
+      }),
+    );
+  });
+
+  it('rejects a Sugar Daddy registration with an invalid inviter', async () => {
+    prisma.user.findFirst.mockResolvedValue(null);
+
+    await expect(
+      service.create({
+        username: 'convidado',
+        email: 'convidado@example.com',
+        passwordHash: 'hash',
+        role: 'SUGAR_DADDY',
+        approvalStatus: 'APPROVED',
+        referralUsername: 'inexistente',
+      }),
+    ).rejects.toThrow(
+      'O link de convite nao pertence a uma Sugar Baby valida.',
+    );
+
+    expect(prisma.user.create).not.toHaveBeenCalled();
+  });
+
+  it('does not create a referral when the new account is a Sugar Baby', async () => {
+    prisma.user.findFirst.mockResolvedValue(null);
+    prisma.user.create.mockResolvedValue({
+      id: 'baby-2',
+      role: 'SUGAR_BABY',
+      approvalStatus: 'PENDING',
+    });
+
+    await service.create({
+      username: 'baby2',
+      email: 'baby2@example.com',
+      passwordHash: 'hash',
+      role: 'SUGAR_BABY',
+      approvalStatus: 'PENDING',
+      referralUsername: 'convidadora',
+    });
+
+    expect(prisma.user.create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.objectContaining({ referralReceived: undefined }),
+      }),
+    );
+  });
+
   it('suggests only approved Sugar Daddies to approved Sugar Babies', async () => {
     prisma.user.findUnique.mockResolvedValue({
       role: 'SUGAR_BABY',

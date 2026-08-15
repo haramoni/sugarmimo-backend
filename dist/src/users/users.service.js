@@ -141,7 +141,7 @@ let UsersService = class UsersService {
         if (existingUser) {
             throw new common_1.ConflictException('Email or username already registered');
         }
-        const { appearance, preferences, photos, ...userData } = data;
+        const { appearance, preferences, photos, referralUsername, ...userData } = data;
         const approvalStatus = userData.role === UserRole.SugarBaby
             ? 'PENDING'
             : userData.approvalStatus;
@@ -149,6 +149,20 @@ let UsersService = class UsersService {
             Object.values(appearance).some((value) => value !== undefined && value !== '');
         const filteredPreferences = Object.fromEntries(Object.entries(preferences ?? {}).filter(([, value]) => value !== undefined && value !== ''));
         const hasPreferences = Object.keys(filteredPreferences).length > 0;
+        const normalizedReferralUsername = referralUsername?.trim().toLowerCase();
+        let inviter = null;
+        if (normalizedReferralUsername && userData.role === UserRole.SugarDaddy) {
+            inviter = await this.prisma.user.findFirst({
+                where: {
+                    username: normalizedReferralUsername,
+                    role: UserRole.SugarBaby,
+                },
+                select: { id: true, username: true },
+            });
+            if (!inviter) {
+                throw new common_1.BadRequestException('O link de convite nao pertence a uma Sugar Baby valida.');
+            }
+        }
         return this.prisma.user.create({
             data: {
                 ...userData,
@@ -168,6 +182,14 @@ let UsersService = class UsersService {
                 photos: photos
                     ? {
                         create: photos,
+                    }
+                    : undefined,
+                referralReceived: inviter
+                    ? {
+                        create: {
+                            inviterId: inviter.id,
+                            inviterUsernameAtSignup: inviter.username,
+                        },
                     }
                     : undefined,
             },

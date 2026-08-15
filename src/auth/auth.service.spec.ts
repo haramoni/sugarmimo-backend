@@ -167,6 +167,26 @@ describe('AuthService', () => {
     expect(signToken).toHaveBeenCalledTimes(1);
   });
 
+  it('passes the referral username through a Sugar Daddy registration', async () => {
+    const daddyUser = {
+      ...baseUser,
+      role: UserRole.SugarDaddy,
+      approvalStatus: 'APPROVED',
+    };
+    usersService.create.mockResolvedValue(daddyUser);
+
+    await service.register({
+      ...registerDto,
+      profileType: 'sugar-daddy',
+      profilePhotos: [],
+      referralUsername: 'Convidadora',
+    });
+
+    expect(usersService.create).toHaveBeenCalledWith(
+      expect.objectContaining({ referralUsername: 'Convidadora' }),
+    );
+  });
+
   it.each(['sugar-mommy', 'sugarmommy', 'mommy'])(
     'creates %s registrations with Sugar Daddy access',
     async (profileType) => {

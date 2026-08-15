@@ -53,11 +53,26 @@ model User {
   likesAsBaby                  ProfileLike[]      @relation("ProfileLikeBaby")
   receivedNotifications        Notification[]     @relation("NotificationRecipient")
   sentNotifications            Notification[]     @relation("NotificationActor")
+  referralsSent                Referral[]         @relation("ReferralInviter")
+  referralReceived             Referral?          @relation("ReferralReferredUser")
 
   @@index([role, approvalStatus, boostedUntil], map: "users_active_boost_idx")
   @@index([role, approvalStatus, isAdminFeatured, lastActiveAt, createdAt], map: "users_admin_featured_rank_idx")
   @@index([role, approvalStatus, createdAt, id], map: "users_pending_review_idx")
   @@map("users")
+}
+
+model Referral {
+  id                      String   @id @default(uuid()) @db.Char(36)
+  inviterId               String   @map("inviter_id") @db.Char(36)
+  referredUserId          String   @unique(map: "referrals_referred_user_unique") @map("referred_user_id") @db.Char(36)
+  inviterUsernameAtSignup String   @map("inviter_username_at_signup") @db.VarChar(50)
+  createdAt               DateTime @default(now()) @map("created_at") @db.Timestamp(0)
+  inviter                 User     @relation("ReferralInviter", fields: [inviterId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "referrals_inviter_id_fkey")
+  referredUser            User     @relation("ReferralReferredUser", fields: [referredUserId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "referrals_referred_user_id_fkey")
+
+  @@index([inviterId, createdAt], map: "referrals_inviter_created_at_idx")
+  @@map("referrals")
 }
 
 model ProfileLike {
@@ -129,14 +144,14 @@ model ChatConversation {
 }
 
 model ChatMessage {
-  id             String           @id @default(uuid()) @db.Char(36)
-  conversationId String           @map("conversation_id") @db.Char(36)
-  senderId       String           @map("sender_id") @db.Char(36)
-  body           String           @db.Text
-  readAt         DateTime?        @map("read_at") @db.Timestamp(0)
-  createdAt      DateTime?        @default(now()) @map("created_at") @db.Timestamp(0)
-  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_messages_conversation_id_fkey")
-  sender         User             @relation("ChatMessageSender", fields: [senderId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_messages_sender_id_fkey")
+  id             String              @id @default(uuid()) @db.Char(36)
+  conversationId String              @map("conversation_id") @db.Char(36)
+  senderId       String              @map("sender_id") @db.Char(36)
+  body           String              @db.Text
+  readAt         DateTime?           @map("read_at") @db.Timestamp(0)
+  createdAt      DateTime?           @default(now()) @map("created_at") @db.Timestamp(0)
+  conversation   ChatConversation    @relation(fields: [conversationId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_messages_conversation_id_fkey")
+  sender         User                @relation("ChatMessageSender", fields: [senderId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "chat_messages_sender_id_fkey")
   reportLinks    ChatReportMessage[]
 
   @@index([conversationId, createdAt], map: "chat_messages_conversation_created_at_idx")

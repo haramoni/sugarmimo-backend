@@ -41,6 +41,7 @@ type CreateUserInput = {
     telegram?: string;
     instagram?: string;
     approvalStatus?: string;
+    referralUsername?: string;
     appearance?: CreateUserAppearanceInput;
     preferences?: CreateUserPreferencesInput;
     photos?: CreateUserPhotoInput[];

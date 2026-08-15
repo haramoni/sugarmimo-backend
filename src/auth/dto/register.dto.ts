@@ -110,6 +110,14 @@ export class RegisterDto {
   source?: string;
 
   @IsOptional()
+  @IsString()
+  @MaxLength(30)
+  @Matches(/^[A-Za-z0-9._-]+$/, {
+    message: 'O username de indicacao e invalido.',
+  })
+  referralUsername?: string;
+
+  @IsOptional()
   @IsBoolean()
   termsAccepted?: boolean;
 

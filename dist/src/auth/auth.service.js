@@ -124,6 +124,7 @@ let AuthService = class AuthService {
                 visibleContactChannels: registerDto.visibleContactChannels,
             },
             approvalStatus,
+            referralUsername: registerDto.referralUsername,
             photos: photos.map((photo, index) => ({
                 dataUrl: photo.dataUrl,
                 fileName: photo.fileName,
