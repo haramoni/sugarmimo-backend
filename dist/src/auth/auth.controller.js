@@ -29,6 +29,7 @@ const login_throttle_1 = require("./login-throttle");
 const registration_throttle_1 = require("./registration-throttle");
 const forgot_password_dto_1 = require("./dto/forgot-password.dto");
 const change_password_dto_1 = require("./dto/change-password.dto");
+const update_search_location_dto_1 = require("./dto/update-search-location.dto");
 let AuthController = class AuthController {
     authService;
     usersService;
@@ -60,11 +61,14 @@ let AuthController = class AuthController {
     presence(request) {
         return this.usersService.touchPresence(request.user.id);
     }
+    updateSearchLocation(request, location) {
+        return this.usersService.updateSearchLocation(request.user.id, location.latitude, location.longitude);
+    }
     boosts(request, page = '1', limit = '6') {
         return this.usersService.findBoostedProfilesForUser(request.user.id, Number(page), Number(limit));
     }
-    matches(request, search = '', page = '1', limit = '9', minAge = '', maxAge = '', gender = '') {
-        return this.usersService.findMatchesForUser(request.user.id, search, Number(page), Number(limit), minAge ? Number(minAge) : undefined, maxAge ? Number(maxAge) : undefined, gender);
+    matches(request, search = '', page = '1', limit = '9', minAge = '', maxAge = '', gender = '', latitude = '', longitude = '') {
+        return this.usersService.findMatchesForUser(request.user.id, search, Number(page), Number(limit), minAge ? Number(minAge) : undefined, maxAge ? Number(maxAge) : undefined, gender, latitude ? Number(latitude) : undefined, longitude ? Number(longitude) : undefined);
     }
     async matchPhoto(request, photoId, variant, response) {
         const photo = await this.usersService.findMatchPhotoForUser(request.user.id, photoId);
@@ -218,6 +222,16 @@ __decorate([
 ], AuthController.prototype, "presence", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Patch)('search-location'),
+    (0, throttler_1.Throttle)({ default: { limit: 12, ttl: 60 * 60_000 } }),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, update_search_location_dto_1.UpdateSearchLocationDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "updateSearchLocation", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('boosts'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Query)('page')),
@@ -236,8 +250,10 @@ __decorate([
     __param(4, (0, common_1.Query)('minAge')),
     __param(5, (0, common_1.Query)('maxAge')),
     __param(6, (0, common_1.Query)('gender')),
+    __param(7, (0, common_1.Query)('latitude')),
+    __param(8, (0, common_1.Query)('longitude')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "matches", null);
 __decorate([

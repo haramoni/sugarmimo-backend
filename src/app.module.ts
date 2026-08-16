@@ -9,6 +9,7 @@ import { AdminModule } from './admin/admin.module';
 import { AuditModule } from './audit/audit.module';
 import { AuthModule } from './auth/auth.module';
 import { ChatModule } from './chat/chat.module';
+import { ContactModule } from './contact/contact.module';
 import { InteractionsModule } from './interactions/interactions.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     AuthModule,
     ChatModule,
+    ContactModule,
     AdminModule,
     InteractionsModule,
   ],

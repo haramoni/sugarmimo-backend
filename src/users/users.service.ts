@@ -7,6 +7,10 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { validateProfilePhotos } from './profile-photo.validation';
+import {
+  rankCandidatesByProximity,
+  type SearchLocation,
+} from './proximity-ranking';
 
 type CreateUserPhotoInput = {
   dataUrl: string;
@@ -120,6 +124,18 @@ export class UsersService {
     return this.prisma.user.update({
       where: { id },
       data: { passwordHash },
+    });
+  }
+
+  updateSearchLocation(id: string, latitude: number, longitude: number) {
+    return this.prisma.user.update({
+      where: { id },
+      data: {
+        searchLatitude: Math.round(latitude * 1000) / 1000,
+        searchLongitude: Math.round(longitude * 1000) / 1000,
+        searchLocationUpdatedAt: new Date(),
+      },
+      select: { searchLocationUpdatedAt: true },
     });
   }
 
@@ -675,10 +691,20 @@ export class UsersService {
     minAge?: number,
     maxAge?: number,
     gender?: string,
+    latitude?: number,
+    longitude?: number,
   ) {
     const viewer = await this.prisma.user.findUnique({
       where: { id: viewerId },
-      select: { role: true, username: true, approvalStatus: true },
+      select: {
+        role: true,
+        username: true,
+        approvalStatus: true,
+        city: true,
+        state: true,
+        searchLatitude: true,
+        searchLongitude: true,
+      },
     });
 
     const targetRole = this.resolveMatchRole(viewer?.role);
@@ -716,6 +742,16 @@ export class UsersService {
     };
 
     const pageStart = (safePage - 1) * safeLimit;
+    const viewerLocation: SearchLocation = {
+      latitude: this.validCoordinate(latitude, -90, 90)
+        ? latitude
+        : viewer.searchLatitude,
+      longitude: this.validCoordinate(longitude, -180, 180)
+        ? longitude
+        : viewer.searchLongitude,
+      city: viewer.city,
+      state: viewer.state,
+    };
 
     if (targetRole === UserRole.SugarDaddy) {
       return this.findDaddyMatchesWithBalancedRanking(
@@ -724,7 +760,58 @@ export class UsersService {
         safePage,
         safeLimit,
         pageStart,
+        viewerLocation,
       );
+    }
+
+    if (this.hasSearchLocation(viewerLocation)) {
+      const candidates = await this.prisma.user.findMany({
+        where,
+        orderBy: [
+          { isAdminFeatured: 'desc' },
+          { lastActiveAt: 'desc' },
+          { createdAt: 'desc' },
+        ],
+        select: {
+          id: true,
+          city: true,
+          state: true,
+          searchLatitude: true,
+          searchLongitude: true,
+        },
+      });
+      const rankedIds = rankCandidatesByProximity(
+        candidates.map((candidate) => ({
+          ...candidate,
+          latitude: candidate.searchLatitude,
+          longitude: candidate.searchLongitude,
+        })),
+        viewerLocation,
+      ).map(({ id }) => id);
+      const pageIds = rankedIds.slice(pageStart, pageStart + safeLimit);
+      const profiles = pageIds.length
+        ? await this.prisma.user.findMany({
+            where: { ...where, id: { in: pageIds } },
+            select: this.publicProfileListSelect(),
+          })
+        : [];
+      const profilesById = new Map(
+        profiles.map((profile) => [profile.id, profile]),
+      );
+
+      return {
+        items: pageIds
+          .map((id) => profilesById.get(id))
+          .filter((profile): profile is NonNullable<typeof profile> =>
+            Boolean(profile),
+          )
+          .map((profile) =>
+            this.sanitizePublicProfile(profile, viewer.username),
+          ),
+        page: safePage,
+        pageSize: safeLimit,
+        hasMore: pageStart + safeLimit < rankedIds.length,
+      };
     }
 
     const matches = await this.prisma.user.findMany({
@@ -757,6 +844,7 @@ export class UsersService {
     page: number,
     pageSize: number,
     pageStart: number,
+    viewerLocation: SearchLocation,
   ) {
     const candidates = await this.prisma.user.findMany({
       where,
@@ -766,9 +854,29 @@ export class UsersService {
         isPremiere: true,
         lastActiveAt: true,
         createdAt: true,
+        city: true,
+        state: true,
+        searchLatitude: true,
+        searchLongitude: true,
       },
     });
-    const rankedIds = this.buildBalancedDaddyRanking(candidates);
+    const balancedIds = this.buildBalancedDaddyRanking(candidates);
+    const candidatesById = new Map(
+      candidates.map((candidate) => [candidate.id, candidate]),
+    );
+    const rankedIds = rankCandidatesByProximity(
+      balancedIds
+        .map((id) => candidatesById.get(id))
+        .filter((candidate): candidate is NonNullable<typeof candidate> =>
+          Boolean(candidate),
+        )
+        .map((candidate) => ({
+          ...candidate,
+          latitude: candidate.searchLatitude,
+          longitude: candidate.searchLongitude,
+        })),
+      viewerLocation,
+    ).map(({ id }) => id);
     const pageIds = rankedIds.slice(pageStart, pageStart + pageSize);
     const profiles = pageIds.length
       ? await this.prisma.user.findMany({
@@ -847,6 +955,28 @@ export class UsersService {
     }
 
     return rankedIds;
+  }
+
+  private validCoordinate(
+    value: number | undefined,
+    minimum: number,
+    maximum: number,
+  ) {
+    return (
+      typeof value === 'number' &&
+      Number.isFinite(value) &&
+      value >= minimum &&
+      value <= maximum
+    );
+  }
+
+  private hasSearchLocation(location: SearchLocation) {
+    return Boolean(
+      (this.validCoordinate(location.latitude ?? undefined, -90, 90) &&
+        this.validCoordinate(location.longitude ?? undefined, -180, 180)) ||
+      location.city?.trim() ||
+      location.state?.trim(),
+    );
   }
 
   async findBoostedProfilesForUser(viewerId: string, page = 1, limit = 6) {

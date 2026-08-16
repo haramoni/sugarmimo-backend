@@ -41,6 +41,7 @@ var __importStar = (this && this.__importStar) || (function () {
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var AuthService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = exports.UserRole = void 0;
 const common_1 = require("@nestjs/common");
@@ -56,10 +57,11 @@ exports.UserRole = {
     Admin: 'ADMIN',
 };
 const MAX_SUGAR_BABY_REGISTRATION_PHOTOS = 3;
-let AuthService = class AuthService {
+let AuthService = AuthService_1 = class AuthService {
     jwtService;
     usersService;
     emailService;
+    logger = new common_1.Logger(AuthService_1.name);
     constructor(jwtService, usersService, emailService) {
         this.jwtService = jwtService;
         this.usersService = usersService;
@@ -132,6 +134,31 @@ let AuthService = class AuthService {
                 sortOrder: index + 1,
             })),
         });
+        if (role === exports.UserRole.SugarDaddy) {
+            try {
+                await this.emailService.sendNewDaddyRegistration({
+                    id: user.id,
+                    username: user.username,
+                    email: user.email,
+                    profileType: registerDto.profileType ?? registerDto.role,
+                    lookingFor,
+                    birthDate: registerDto.birthDate,
+                    country: registerDto.country,
+                    state: registerDto.state,
+                    city: registerDto.city,
+                    whatsapp: registerDto.whatsapp,
+                    telegram: registerDto.telegram,
+                    instagram: registerDto.instagram,
+                    occupation: registerDto.occupation,
+                    source: registerDto.source,
+                    referralUsername: registerDto.referralUsername,
+                    createdAt: user.createdAt,
+                });
+            }
+            catch (error) {
+                this.logger.error(`Nao foi possivel enviar o aviso do novo Daddy ${user.id}.`, error instanceof Error ? error.stack : undefined);
+            }
+        }
         if (approvalStatus === 'PENDING') {
             return {
                 requiresApproval: true,
@@ -306,7 +333,7 @@ let AuthService = class AuthService {
     }
 };
 exports.AuthService = AuthService;
-exports.AuthService = AuthService = __decorate([
+exports.AuthService = AuthService = AuthService_1 = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [jwt_1.JwtService,
         users_service_1.UsersService,

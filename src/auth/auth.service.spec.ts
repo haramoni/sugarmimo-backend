@@ -1,4 +1,8 @@
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthService, UserRole } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -61,6 +65,7 @@ describe('AuthService', () => {
   const emailService = {
     ensureConfigured: jest.fn(),
     sendNewPassword: jest.fn(),
+    sendNewDaddyRegistration: jest.fn(),
   };
 
   let service: AuthService;
@@ -165,6 +170,49 @@ describe('AuthService', () => {
       }),
     );
     expect(signToken).toHaveBeenCalledTimes(1);
+    expect(emailService.sendNewDaddyRegistration).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: daddyUser.id,
+        username: daddyUser.username,
+        email: daddyUser.email,
+        profileType: 'sugar-daddy',
+      }),
+    );
+  });
+
+  it('does not notify the contact inbox about Sugar Baby registrations', async () => {
+    usersService.create.mockResolvedValue(baseUser);
+
+    await service.register(registerDto);
+
+    expect(emailService.sendNewDaddyRegistration).not.toHaveBeenCalled();
+  });
+
+  it('keeps a Daddy registration valid when the notification fails', async () => {
+    const daddyUser = {
+      ...baseUser,
+      role: UserRole.SugarDaddy,
+      gender: 'sugar-daddy',
+      approvalStatus: 'APPROVED',
+    };
+    usersService.create.mockResolvedValue(daddyUser);
+    emailService.sendNewDaddyRegistration.mockRejectedValueOnce(
+      new Error('Resend failed'),
+    );
+    const loggerError = jest
+      .spyOn(Logger.prototype, 'error')
+      .mockImplementation(() => undefined);
+
+    await expect(
+      service.register({
+        ...registerDto,
+        profileType: 'sugar-daddy',
+        profilePhotos: [],
+      }),
+    ).resolves.toMatchObject({ user: daddyUser });
+
+    expect(loggerError).toHaveBeenCalled();
+    loggerError.mockRestore();
   });
 
   it('passes the referral username through a Sugar Daddy registration', async () => {

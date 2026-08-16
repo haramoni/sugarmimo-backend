@@ -26,6 +26,7 @@ import { getLoginThrottleTracker } from './login-throttle';
 import { getRegistrationThrottleTracker } from './registration-throttle';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { UpdateSearchLocationDto } from './dto/update-search-location.dto';
 
 type AuthenticatedRequest = Request & {
   user: {
@@ -129,6 +130,20 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Patch('search-location')
+  @Throttle({ default: { limit: 12, ttl: 60 * 60_000 } })
+  updateSearchLocation(
+    @Req() request: AuthenticatedRequest,
+    @Body() location: UpdateSearchLocationDto,
+  ) {
+    return this.usersService.updateSearchLocation(
+      request.user.id,
+      location.latitude,
+      location.longitude,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('boosts')
   boosts(
     @Req() request: AuthenticatedRequest,
@@ -152,6 +167,8 @@ export class AuthController {
     @Query('minAge') minAge = '',
     @Query('maxAge') maxAge = '',
     @Query('gender') gender = '',
+    @Query('latitude') latitude = '',
+    @Query('longitude') longitude = '',
   ) {
     return this.usersService.findMatchesForUser(
       request.user.id,
@@ -161,6 +178,8 @@ export class AuthController {
       minAge ? Number(minAge) : undefined,
       maxAge ? Number(maxAge) : undefined,
       gender,
+      latitude ? Number(latitude) : undefined,
+      longitude ? Number(longitude) : undefined,
     );
   }
 

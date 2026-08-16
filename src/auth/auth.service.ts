@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   BadRequestException,
   Injectable,
+  Logger,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -24,6 +24,8 @@ const MAX_SUGAR_BABY_REGISTRATION_PHOTOS = 3;
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
@@ -112,6 +114,34 @@ export class AuthService {
         sortOrder: index + 1,
       })),
     });
+
+    if (role === UserRole.SugarDaddy) {
+      try {
+        await this.emailService.sendNewDaddyRegistration({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          profileType: registerDto.profileType ?? registerDto.role,
+          lookingFor,
+          birthDate: registerDto.birthDate,
+          country: registerDto.country,
+          state: registerDto.state,
+          city: registerDto.city,
+          whatsapp: registerDto.whatsapp,
+          telegram: registerDto.telegram,
+          instagram: registerDto.instagram,
+          occupation: registerDto.occupation,
+          source: registerDto.source,
+          referralUsername: registerDto.referralUsername,
+          createdAt: user.createdAt,
+        });
+      } catch (error) {
+        this.logger.error(
+          `Nao foi possivel enviar o aviso do novo Daddy ${user.id}.`,
+          error instanceof Error ? error.stack : undefined,
+        );
+      }
+    }
 
     if (approvalStatus === 'PENDING') {
       return {

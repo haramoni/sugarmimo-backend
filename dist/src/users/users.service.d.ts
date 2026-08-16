@@ -97,6 +97,9 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
+        searchLatitude: number | null;
+        searchLongitude: number | null;
+        searchLocationUpdatedAt: Date | null;
         approvalStatus: string;
         accountStatus: string;
         suspendedUntil: Date | null;
@@ -124,6 +127,9 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
+        searchLatitude: number | null;
+        searchLongitude: number | null;
+        searchLocationUpdatedAt: Date | null;
         approvalStatus: string;
         accountStatus: string;
         suspendedUntil: Date | null;
@@ -151,6 +157,9 @@ export declare class UsersService {
         country: string | null;
         state: string | null;
         city: string | null;
+        searchLatitude: number | null;
+        searchLongitude: number | null;
+        searchLocationUpdatedAt: Date | null;
         approvalStatus: string;
         accountStatus: string;
         suspendedUntil: Date | null;
@@ -162,6 +171,9 @@ export declare class UsersService {
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
         createdAt: Date | null;
+    }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
+    updateSearchLocation(id: string, latitude: number, longitude: number): import("@prisma/client").Prisma.Prisma__UserClient<{
+        searchLocationUpdatedAt: Date | null;
     }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findCredentialsById(id: string): import("@prisma/client").Prisma.Prisma__UserClient<{
         id: string;
@@ -389,7 +401,7 @@ export declare class UsersService {
         id: string;
         removed: boolean;
     }>;
-    findMatchesForUser(viewerId: string, search?: string, page?: number, limit?: number, minAge?: number, maxAge?: number, gender?: string): Promise<{
+    findMatchesForUser(viewerId: string, search?: string, page?: number, limit?: number, minAge?: number, maxAge?: number, gender?: string, latitude?: number, longitude?: number): Promise<{
         items: ({
             whatsapp: string | null;
             telegram: string | null;
@@ -444,6 +456,8 @@ export declare class UsersService {
     }>;
     private findDaddyMatchesWithBalancedRanking;
     private buildBalancedDaddyRanking;
+    private validCoordinate;
+    private hasSearchLocation;
     findBoostedProfilesForUser(viewerId: string, page?: number, limit?: number): Promise<{
         items: ({
             whatsapp: string | null;

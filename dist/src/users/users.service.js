@@ -13,6 +13,7 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const profile_photo_validation_1 = require("./profile-photo.validation");
+const proximity_ranking_1 = require("./proximity-ranking");
 const UserRole = {
     SugarDaddy: 'SUGAR_DADDY',
     SugarBaby: 'SUGAR_BABY',
@@ -36,6 +37,17 @@ let UsersService = class UsersService {
         return this.prisma.user.update({
             where: { id },
             data: { passwordHash },
+        });
+    }
+    updateSearchLocation(id, latitude, longitude) {
+        return this.prisma.user.update({
+            where: { id },
+            data: {
+                searchLatitude: Math.round(latitude * 1000) / 1000,
+                searchLongitude: Math.round(longitude * 1000) / 1000,
+                searchLocationUpdatedAt: new Date(),
+            },
+            select: { searchLocationUpdatedAt: true },
         });
     }
     findCredentialsById(id) {
@@ -503,10 +515,18 @@ let UsersService = class UsersService {
         await this.prisma.userPhoto.delete({ where: { id: photo.id } });
         return { id: photo.id, removed: true };
     }
-    async findMatchesForUser(viewerId, search, page = 1, limit = 9, minAge, maxAge, gender) {
+    async findMatchesForUser(viewerId, search, page = 1, limit = 9, minAge, maxAge, gender, latitude, longitude) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
-            select: { role: true, username: true, approvalStatus: true },
+            select: {
+                role: true,
+                username: true,
+                approvalStatus: true,
+                city: true,
+                state: true,
+                searchLatitude: true,
+                searchLongitude: true,
+            },
         });
         const targetRole = this.resolveMatchRole(viewer?.role);
         const safePage = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1;
@@ -539,8 +559,57 @@ let UsersService = class UsersService {
                 : {}),
         };
         const pageStart = (safePage - 1) * safeLimit;
+        const viewerLocation = {
+            latitude: this.validCoordinate(latitude, -90, 90)
+                ? latitude
+                : viewer.searchLatitude,
+            longitude: this.validCoordinate(longitude, -180, 180)
+                ? longitude
+                : viewer.searchLongitude,
+            city: viewer.city,
+            state: viewer.state,
+        };
         if (targetRole === UserRole.SugarDaddy) {
-            return this.findDaddyMatchesWithBalancedRanking(where, viewer.username, safePage, safeLimit, pageStart);
+            return this.findDaddyMatchesWithBalancedRanking(where, viewer.username, safePage, safeLimit, pageStart, viewerLocation);
+        }
+        if (this.hasSearchLocation(viewerLocation)) {
+            const candidates = await this.prisma.user.findMany({
+                where,
+                orderBy: [
+                    { isAdminFeatured: 'desc' },
+                    { lastActiveAt: 'desc' },
+                    { createdAt: 'desc' },
+                ],
+                select: {
+                    id: true,
+                    city: true,
+                    state: true,
+                    searchLatitude: true,
+                    searchLongitude: true,
+                },
+            });
+            const rankedIds = (0, proximity_ranking_1.rankCandidatesByProximity)(candidates.map((candidate) => ({
+                ...candidate,
+                latitude: candidate.searchLatitude,
+                longitude: candidate.searchLongitude,
+            })), viewerLocation).map(({ id }) => id);
+            const pageIds = rankedIds.slice(pageStart, pageStart + safeLimit);
+            const profiles = pageIds.length
+                ? await this.prisma.user.findMany({
+                    where: { ...where, id: { in: pageIds } },
+                    select: this.publicProfileListSelect(),
+                })
+                : [];
+            const profilesById = new Map(profiles.map((profile) => [profile.id, profile]));
+            return {
+                items: pageIds
+                    .map((id) => profilesById.get(id))
+                    .filter((profile) => Boolean(profile))
+                    .map((profile) => this.sanitizePublicProfile(profile, viewer.username)),
+                page: safePage,
+                pageSize: safeLimit,
+                hasMore: pageStart + safeLimit < rankedIds.length,
+            };
         }
         const matches = await this.prisma.user.findMany({
             where,
@@ -563,7 +632,7 @@ let UsersService = class UsersService {
             hasMore,
         };
     }
-    async findDaddyMatchesWithBalancedRanking(where, viewerUsername, page, pageSize, pageStart) {
+    async findDaddyMatchesWithBalancedRanking(where, viewerUsername, page, pageSize, pageStart, viewerLocation) {
         const candidates = await this.prisma.user.findMany({
             where,
             orderBy: [{ lastActiveAt: 'desc' }, { createdAt: 'desc' }],
@@ -572,9 +641,22 @@ let UsersService = class UsersService {
                 isPremiere: true,
                 lastActiveAt: true,
                 createdAt: true,
+                city: true,
+                state: true,
+                searchLatitude: true,
+                searchLongitude: true,
             },
         });
-        const rankedIds = this.buildBalancedDaddyRanking(candidates);
+        const balancedIds = this.buildBalancedDaddyRanking(candidates);
+        const candidatesById = new Map(candidates.map((candidate) => [candidate.id, candidate]));
+        const rankedIds = (0, proximity_ranking_1.rankCandidatesByProximity)(balancedIds
+            .map((id) => candidatesById.get(id))
+            .filter((candidate) => Boolean(candidate))
+            .map((candidate) => ({
+            ...candidate,
+            latitude: candidate.searchLatitude,
+            longitude: candidate.searchLongitude,
+        })), viewerLocation).map(({ id }) => id);
         const pageIds = rankedIds.slice(pageStart, pageStart + pageSize);
         const profiles = pageIds.length
             ? await this.prisma.user.findMany({
@@ -629,6 +711,18 @@ let UsersService = class UsersService {
             rankedIds.push(selected.id);
         }
         return rankedIds;
+    }
+    validCoordinate(value, minimum, maximum) {
+        return (typeof value === 'number' &&
+            Number.isFinite(value) &&
+            value >= minimum &&
+            value <= maximum);
+    }
+    hasSearchLocation(location) {
+        return Boolean((this.validCoordinate(location.latitude ?? undefined, -90, 90) &&
+            this.validCoordinate(location.longitude ?? undefined, -180, 180)) ||
+            location.city?.trim() ||
+            location.state?.trim());
     }
     async findBoostedProfilesForUser(viewerId, page = 1, limit = 6) {
         const viewer = await this.prisma.user.findUnique({

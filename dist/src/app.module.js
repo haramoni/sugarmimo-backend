@@ -18,6 +18,7 @@ const admin_module_1 = require("./admin/admin.module");
 const audit_module_1 = require("./audit/audit.module");
 const auth_module_1 = require("./auth/auth.module");
 const chat_module_1 = require("./chat/chat.module");
+const contact_module_1 = require("./contact/contact.module");
 const interactions_module_1 = require("./interactions/interactions.module");
 const prisma_module_1 = require("./prisma/prisma.module");
 const users_module_1 = require("./users/users.module");
@@ -40,6 +41,7 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             chat_module_1.ChatModule,
+            contact_module_1.ContactModule,
             admin_module_1.AdminModule,
             interactions_module_1.InteractionsModule,
         ],

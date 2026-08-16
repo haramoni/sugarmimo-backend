@@ -7,6 +7,7 @@ import { RegisterDto } from './dto/register.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { UpdateSearchLocationDto } from './dto/update-search-location.dto';
 type AuthenticatedRequest = Request & {
     user: {
         id: string;
@@ -170,6 +171,9 @@ export declare class AuthController {
     presence(request: AuthenticatedRequest): Promise<{
         online: boolean;
     }>;
+    updateSearchLocation(request: AuthenticatedRequest, location: UpdateSearchLocationDto): import("@prisma/client").Prisma.Prisma__UserClient<{
+        searchLocationUpdatedAt: Date | null;
+    }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     boosts(request: AuthenticatedRequest, page?: string, limit?: string): Promise<{
         items: ({
             whatsapp: string | null;
@@ -223,7 +227,7 @@ export declare class AuthController {
         pageSize: number;
         hasMore: boolean;
     }>;
-    matches(request: AuthenticatedRequest, search?: string, page?: string, limit?: string, minAge?: string, maxAge?: string, gender?: string): Promise<{
+    matches(request: AuthenticatedRequest, search?: string, page?: string, limit?: string, minAge?: string, maxAge?: string, gender?: string, latitude?: string, longitude?: string): Promise<{
         items: ({
             whatsapp: string | null;
             telegram: string | null;
