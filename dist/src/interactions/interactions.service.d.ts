@@ -50,7 +50,6 @@ export declare class InteractionsService {
                 photos: {
                     id: string;
                     sortOrder: number;
-                    dataUrl: string;
                 }[];
             };
         }[];

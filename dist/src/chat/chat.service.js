@@ -515,7 +515,7 @@ let ChatService = class ChatService {
                 where: { isPrivate: false },
                 orderBy: { sortOrder: 'asc' },
                 take: 1,
-                select: { id: true, dataUrl: true, sortOrder: true },
+                select: { id: true, sortOrder: true },
             },
         };
     }

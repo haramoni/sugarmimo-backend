@@ -215,12 +215,12 @@ export class AuthController {
         buffer = await sharp(originalBuffer)
           .rotate()
           .resize({
-            width: 640,
-            height: 640,
+            width: 320,
+            height: 320,
             fit: 'inside',
             withoutEnlargement: true,
           })
-          .webp({ quality: 78, effort: 4 })
+          .webp({ quality: 76, effort: 1 })
           .toBuffer();
         contentType = 'image/webp';
       } catch {

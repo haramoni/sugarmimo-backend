@@ -623,7 +623,7 @@ export class ChatService {
         where: { isPrivate: false },
         orderBy: { sortOrder: 'asc' as const },
         take: 1,
-        select: { id: true, dataUrl: true, sortOrder: true },
+        select: { id: true, sortOrder: true },
       },
     };
   }
@@ -633,7 +633,7 @@ export class ChatService {
     username: string;
     role: string | null;
     lastActiveAt: Date | null;
-    photos: Array<{ id: string; dataUrl: string; sortOrder: number }>;
+    photos: Array<{ id: string; sortOrder: number }>;
   }) {
     return member;
   }

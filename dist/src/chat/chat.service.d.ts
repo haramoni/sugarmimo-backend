@@ -15,7 +15,6 @@ export declare class ChatService {
             lastActiveAt: Date | null;
             photos: Array<{
                 id: string;
-                dataUrl: string;
                 sortOrder: number;
             }>;
         };

@@ -56,7 +56,6 @@ export declare class InteractionsController {
                 photos: {
                     id: string;
                     sortOrder: number;
-                    dataUrl: string;
                 }[];
             };
         }[];

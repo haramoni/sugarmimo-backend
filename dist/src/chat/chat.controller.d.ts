@@ -25,7 +25,6 @@ export declare class ChatController {
             lastActiveAt: Date | null;
             photos: Array<{
                 id: string;
-                dataUrl: string;
                 sortOrder: number;
             }>;
         };
