@@ -35,22 +35,33 @@ let ChatService = class ChatService {
                 messages: { orderBy: { createdAt: 'desc' }, take: 1 },
             },
         });
-        const blocks = await this.prisma.userBlock.findMany({
-            where: { OR: [{ blockerId: userId }, { blockedId: userId }] },
-            select: { blockerId: true, blockedId: true },
-        });
+        const conversationIds = conversations.map(({ id }) => id);
+        const [blocks, unreadCounts] = await Promise.all([
+            this.prisma.userBlock.findMany({
+                where: { OR: [{ blockerId: userId }, { blockedId: userId }] },
+                select: { blockerId: true, blockedId: true },
+            }),
+            conversationIds.length
+                ? this.prisma.chatMessage.groupBy({
+                    by: ['conversationId'],
+                    where: {
+                        conversationId: { in: conversationIds },
+                        senderId: { not: userId },
+                        readAt: null,
+                    },
+                    _count: { _all: true },
+                })
+                : Promise.resolve([]),
+        ]);
         const blockedUserIds = new Set(blocks.map((block) => block.blockerId === userId ? block.blockedId : block.blockerId));
-        return Promise.all(conversations.map(async (conversation) => {
+        const unreadCountByConversation = new Map(unreadCounts.map(({ conversationId, _count }) => [
+            conversationId,
+            _count._all,
+        ]));
+        return conversations.map((conversation) => {
             const other = conversation.memberOneId === userId
                 ? conversation.memberTwo
                 : conversation.memberOne;
-            const unreadCount = await this.prisma.chatMessage.count({
-                where: {
-                    conversationId: conversation.id,
-                    senderId: { not: userId },
-                    readAt: null,
-                },
-            });
             const lastMessage = conversation.messages[0];
             return {
                 id: conversation.id,
@@ -61,11 +72,23 @@ let ChatService = class ChatService {
                         body: this.crypto.decrypt(lastMessage.body),
                     }
                     : null,
-                unreadCount,
+                unreadCount: unreadCountByConversation.get(conversation.id) ?? 0,
                 blocked: blockedUserIds.has(other.id),
                 updatedAt: conversation.updatedAt,
             };
-        }));
+        });
+    }
+    async getUnreadCount(userId) {
+        const unreadCount = await this.prisma.chatMessage.count({
+            where: {
+                senderId: { not: userId },
+                readAt: null,
+                conversation: {
+                    OR: [{ memberOneId: userId }, { memberTwoId: userId }],
+                },
+            },
+        });
+        return { unreadCount };
     }
     async openConversation(userId, otherUserId) {
         if (userId === otherUserId) {
@@ -407,14 +430,13 @@ let ChatService = class ChatService {
         if (!likes.length) {
             return;
         }
-        await this.prisma.$transaction(likes.map(({ daddyId, babyId }) => {
-            const [memberOneId, memberTwoId] = [daddyId, babyId].sort();
-            return this.prisma.chatConversation.upsert({
-                where: { memberOneId_memberTwoId: { memberOneId, memberTwoId } },
-                update: {},
-                create: { memberOneId, memberTwoId },
-            });
-        }));
+        await this.prisma.chatConversation.createMany({
+            data: likes.map(({ daddyId, babyId }) => {
+                const [memberOneId, memberTwoId] = [daddyId, babyId].sort();
+                return { memberOneId, memberTwoId };
+            }),
+            skipDuplicates: true,
+        });
     }
     async assertCanChat(userId, otherUserId) {
         const [currentUser, otherUser, block] = await Promise.all([

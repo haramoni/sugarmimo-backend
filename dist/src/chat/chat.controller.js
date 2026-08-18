@@ -33,6 +33,9 @@ let ChatController = class ChatController {
     listConversations(request) {
         return this.chatService.listConversations(request.user.id);
     }
+    getUnreadCount(request) {
+        return this.chatService.getUnreadCount(request.user.id);
+    }
     getMessageAccess(request) {
         return this.chatService.getMessageAccess(request.user.id);
     }
@@ -85,6 +88,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], ChatController.prototype, "listConversations", null);
+__decorate([
+    (0, common_1.Get)('unread-count'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], ChatController.prototype, "getUnreadCount", null);
 __decorate([
     (0, common_1.Get)('message-access'),
     __param(0, (0, common_1.Req)()),

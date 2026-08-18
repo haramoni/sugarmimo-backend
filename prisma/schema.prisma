@@ -108,6 +108,7 @@ model Notification {
   profileLike   ProfileLike? @relation(fields: [profileLikeId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "notifications_profile_like_id_fkey")
 
   @@index([recipientId, createdAt], map: "notifications_recipient_created_at_idx")
+  @@index([recipientId, readAt], map: "notifications_recipient_read_at_idx")
   @@index([profileLikeId], map: "notifications_profile_like_id_idx")
   @@map("notifications")
 }
@@ -158,6 +159,7 @@ model ChatMessage {
   reportLinks    ChatReportMessage[]
 
   @@index([conversationId, createdAt], map: "chat_messages_conversation_created_at_idx")
+  @@index([conversationId, readAt, senderId], map: "chat_messages_unread_idx")
   @@index([senderId], map: "chat_messages_sender_id_idx")
   @@map("chat_messages")
 }

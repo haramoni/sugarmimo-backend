@@ -33,6 +33,9 @@ let InteractionsController = class InteractionsController {
     notifications(request) {
         return this.interactionsService.listNotifications(request.user.id);
     }
+    unreadNotificationCount(request) {
+        return this.interactionsService.getUnreadNotificationCount(request.user.id);
+    }
     markNotificationRead(request, id) {
         return this.interactionsService.markNotificationRead(request.user.id, id);
     }
@@ -69,6 +72,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], InteractionsController.prototype, "notifications", null);
+__decorate([
+    (0, common_1.Get)('notifications/unread-count'),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], InteractionsController.prototype, "unreadNotificationCount", null);
 __decorate([
     (0, common_1.Patch)('notifications/:id/read'),
     __param(0, (0, common_1.Req)()),

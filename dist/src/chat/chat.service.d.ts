@@ -31,6 +31,9 @@ export declare class ChatService {
         blocked: boolean;
         updatedAt: Date | null;
     }[]>;
+    getUnreadCount(userId: string): Promise<{
+        unreadCount: number;
+    }>;
     openConversation(userId: string, otherUserId: string): Promise<{
         id: string;
     }>;

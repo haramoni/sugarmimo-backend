@@ -41,6 +41,9 @@ export declare class ChatController {
         blocked: boolean;
         updatedAt: Date | null;
     }[]>;
+    getUnreadCount(request: AuthenticatedRequest): Promise<{
+        unreadCount: number;
+    }>;
     getMessageAccess(request: AuthenticatedRequest): Promise<{
         canSend: boolean;
         isTrial: boolean;

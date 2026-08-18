@@ -308,6 +308,12 @@ let InteractionsService = class InteractionsService {
         ]);
         return { items, unreadCount };
     }
+    async getUnreadNotificationCount(userId) {
+        const unreadCount = await this.prisma.notification.count({
+            where: { recipientId: userId, readAt: null },
+        });
+        return { unreadCount };
+    }
     async markNotificationRead(userId, notificationId) {
         const result = await this.prisma.notification.updateMany({
             where: { id: notificationId, recipientId: userId },

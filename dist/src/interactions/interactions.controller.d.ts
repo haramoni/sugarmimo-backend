@@ -62,6 +62,9 @@ export declare class InteractionsController {
         }[];
         unreadCount: number;
     }>;
+    unreadNotificationCount(request: AuthenticatedRequest): Promise<{
+        unreadCount: number;
+    }>;
     markNotificationRead(request: AuthenticatedRequest, id: string): Promise<{
         success: boolean;
     }>;

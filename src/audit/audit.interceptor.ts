@@ -98,7 +98,10 @@ export class AuditInterceptor implements NestInterceptor {
 
     if (
       (method === 'GET' && routePath === '/auth/availability') ||
-      (method === 'POST' && routePath === '/auth/presence')
+      (method === 'POST' && routePath === '/auth/presence') ||
+      (method === 'GET' && routePath === '/chat/unread-count') ||
+      (method === 'GET' &&
+        routePath === '/interactions/notifications/unread-count')
     ) {
       return null;
     }

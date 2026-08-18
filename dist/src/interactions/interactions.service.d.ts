@@ -56,6 +56,9 @@ export declare class InteractionsService {
         }[];
         unreadCount: number;
     }>;
+    getUnreadNotificationCount(userId: string): Promise<{
+        unreadCount: number;
+    }>;
     markNotificationRead(userId: string, notificationId: string): Promise<{
         success: boolean;
     }>;

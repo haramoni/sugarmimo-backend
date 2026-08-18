@@ -52,6 +52,11 @@ export class InteractionsController {
     return this.interactionsService.listNotifications(request.user.id);
   }
 
+  @Get('notifications/unread-count')
+  unreadNotificationCount(@Req() request: AuthenticatedRequest) {
+    return this.interactionsService.getUnreadNotificationCount(request.user.id);
+  }
+
   @Patch('notifications/:id/read')
   markNotificationRead(
     @Req() request: AuthenticatedRequest,

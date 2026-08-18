@@ -36,6 +36,11 @@ export class ChatController {
     return this.chatService.listConversations(request.user.id);
   }
 
+  @Get('unread-count')
+  getUnreadCount(@Req() request: AuthenticatedRequest) {
+    return this.chatService.getUnreadCount(request.user.id);
+  }
+
   @Get('message-access')
   getMessageAccess(@Req() request: AuthenticatedRequest) {
     return this.chatService.getMessageAccess(request.user.id);
