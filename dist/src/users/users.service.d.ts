@@ -1,6 +1,7 @@
 import { PrismaService } from '../prisma/prisma.service';
 type CreateUserPhotoInput = {
     dataUrl: string;
+    cardDataUrl?: string;
     fileName?: string;
     mimeType?: string;
     sortOrder: number;
@@ -33,6 +34,7 @@ type CreateUserInput = {
     role?: string;
     gender?: string;
     lookingFor?: string;
+    relationshipIntent?: string;
     birthDate?: Date;
     country?: string;
     state?: string;
@@ -41,6 +43,8 @@ type CreateUserInput = {
     telegram?: string;
     instagram?: string;
     approvalStatus?: string;
+    privacyPolicyVersion?: string;
+    privacyPolicyAcceptedAt?: Date;
     referralUsername?: string;
     appearance?: CreateUserAppearanceInput;
     preferences?: CreateUserPreferencesInput;
@@ -52,6 +56,7 @@ type UpdateUserPhotoInput = CreateUserPhotoInput & {
 type UpdateUserProfileInput = {
     username?: string;
     lookingFor?: string;
+    relationshipIntent?: string;
     birthDate?: string;
     country?: string;
     state?: string;
@@ -93,6 +98,7 @@ export declare class UsersService {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -110,6 +116,8 @@ export declare class UsersService {
         boostedUntil: Date | null;
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
         createdAt: Date | null;
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findByUsername(username: string): import("@prisma/client").Prisma.Prisma__UserClient<{
@@ -123,6 +131,7 @@ export declare class UsersService {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -140,6 +149,8 @@ export declare class UsersService {
         boostedUntil: Date | null;
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
         createdAt: Date | null;
     } | null, null, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     updatePasswordHash(id: string, passwordHash: string): import("@prisma/client").Prisma.Prisma__UserClient<{
@@ -153,6 +164,7 @@ export declare class UsersService {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -170,6 +182,8 @@ export declare class UsersService {
         boostedUntil: Date | null;
         reviewedAt: Date | null;
         lastActiveAt: Date | null;
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
         createdAt: Date | null;
     }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     updateSearchLocation(id: string, latitude: number, longitude: number): import("@prisma/client").Prisma.Prisma__UserClient<{
@@ -201,6 +215,7 @@ export declare class UsersService {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -209,6 +224,8 @@ export declare class UsersService {
         isPremium: boolean;
         isPremiere: boolean;
         reviewedAt: Date | null;
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;
@@ -242,6 +259,7 @@ export declare class UsersService {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -250,6 +268,8 @@ export declare class UsersService {
         isPremium: boolean;
         isPremiere: boolean;
         reviewedAt: Date | null;
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
         createdAt: Date | null;
         photos: {
             id: string;
@@ -259,6 +279,10 @@ export declare class UsersService {
             mimeType: string | null;
         }[];
     }>;
+    acceptPrivacyPolicy(id: string, version: string): import("@prisma/client").Prisma.Prisma__UserClient<{
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
+    }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     findPendingBabies(page?: number, pageSize?: number): Promise<{
         items: {
             whatsapp: string | null;
@@ -270,6 +294,7 @@ export declare class UsersService {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -304,6 +329,7 @@ export declare class UsersService {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -401,7 +427,7 @@ export declare class UsersService {
         id: string;
         removed: boolean;
     }>;
-    findMatchesForUser(viewerId: string, search?: string, page?: number, limit?: number, minAge?: number, maxAge?: number, gender?: string, latitude?: number, longitude?: number): Promise<{
+    findMatchesForUser(viewerId: string, search?: string, page?: number, limit?: number, minAge?: number, maxAge?: number, gender?: string, latitude?: number, longitude?: number, relationshipMode?: string): Promise<{
         items: ({
             whatsapp: string | null;
             telegram: string | null;
@@ -411,6 +437,7 @@ export declare class UsersService {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -468,6 +495,7 @@ export declare class UsersService {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -511,7 +539,7 @@ export declare class UsersService {
         pageSize: number;
         hasMore: boolean;
     }>;
-    findMatchPhotoForUser(viewerId: string, photoId: string): Promise<{
+    findMatchPhotoForUser(viewerId: string, photoId: string, variant?: string): Promise<{
         id: string;
         dataUrl: string;
         mimeType: string | null;
@@ -551,6 +579,7 @@ export declare class UsersService {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -596,6 +625,7 @@ export declare class UsersService {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -604,6 +634,8 @@ export declare class UsersService {
         isPremium: boolean;
         isPremiere: boolean;
         reviewedAt: Date | null;
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;

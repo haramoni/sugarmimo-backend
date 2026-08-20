@@ -53,6 +53,7 @@ __decorate([
 class UpdateProfileDto {
     username;
     lookingFor;
+    relationshipIntent;
     birthDate;
     country;
     state;
@@ -91,6 +92,12 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateProfileDto.prototype, "lookingFor", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsIn)(['SUGAR', 'TRADITIONAL', 'BOTH']),
+    __metadata("design:type", String)
+], UpdateProfileDto.prototype, "relationshipIntent", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsDateString)(),

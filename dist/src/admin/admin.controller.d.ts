@@ -18,6 +18,7 @@ export declare class AdminController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -52,6 +53,7 @@ export declare class AdminController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;

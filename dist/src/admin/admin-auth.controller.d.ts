@@ -12,6 +12,7 @@ export declare class AdminAuthController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -22,6 +23,8 @@ export declare class AdminAuthController {
             approvalStatus: string;
             isPremium: boolean;
             isPremiere: boolean;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };

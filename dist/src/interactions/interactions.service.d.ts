@@ -62,4 +62,5 @@ export declare class InteractionsService {
         success: boolean;
     }>;
     private serializeLike;
+    private ensureCompatibleRelationshipIntents;
 }

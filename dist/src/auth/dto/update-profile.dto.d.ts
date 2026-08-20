@@ -10,6 +10,7 @@ type VisibleContactChannel = 'whatsapp' | 'telegram' | 'instagram';
 export declare class UpdateProfileDto {
     username?: string;
     lookingFor?: string;
+    relationshipIntent?: string;
     birthDate?: string;
     country?: string;
     state?: string;

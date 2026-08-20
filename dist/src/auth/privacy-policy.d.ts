@@ -1,0 +1,1 @@
+export declare const CURRENT_PRIVACY_POLICY_VERSION = "2026-08-15";

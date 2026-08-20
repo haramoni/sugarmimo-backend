@@ -11,7 +11,12 @@ import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { validateProfilePhotos } from '../users/profile-photo.validation';
+import { createCardThumbnailDataUrl } from '../users/profile-photo-thumbnail';
 import { EmailService } from './email.service';
+import {
+  normalizeRelationshipIntent,
+  RelationshipIntent,
+} from '../users/relationship-intent';
 
 export const UserRole = {
   SugarDaddy: 'SUGAR_DADDY',
@@ -67,6 +72,15 @@ export class AuthService {
       );
     }
     validateProfilePhotos(photos);
+    const preparedPhotos = await Promise.all(
+      photos.map(async (photo, index) => ({
+        dataUrl: photo.dataUrl,
+        cardDataUrl: await createCardThumbnailDataUrl(photo.dataUrl),
+        fileName: photo.fileName,
+        mimeType: photo.mimeType,
+        sortOrder: index + 1,
+      })),
+    );
 
     const passwordHash = await bcrypt.hash(registerDto.password, 10);
     const approvalStatus = this.getInitialApprovalStatus(role);
@@ -78,6 +92,9 @@ export class AuthService {
       role,
       gender: registerDto.profileType,
       lookingFor,
+      relationshipIntent: normalizeRelationshipIntent(
+        registerDto.relationshipIntent ?? RelationshipIntent.Sugar,
+      ),
       birthDate: registerDto.birthDate
         ? new Date(`${registerDto.birthDate}T00:00:00.000Z`)
         : undefined,
@@ -107,12 +124,7 @@ export class AuthService {
       },
       approvalStatus,
       referralUsername: registerDto.referralUsername,
-      photos: photos.map((photo, index) => ({
-        dataUrl: photo.dataUrl,
-        fileName: photo.fileName,
-        mimeType: photo.mimeType,
-        sortOrder: index + 1,
-      })),
+      photos: preparedPhotos,
     });
 
     if (role === UserRole.SugarDaddy) {
@@ -210,6 +222,7 @@ export class AuthService {
       role: user.role,
       gender: user.gender,
       lookingFor: user.lookingFor,
+      relationshipIntent: user.relationshipIntent,
       birthDate: user.birthDate,
       country: user.country,
       state: user.state,
@@ -220,6 +233,8 @@ export class AuthService {
       approvalStatus: user.approvalStatus,
       isPremium: user.isPremium,
       isPremiere: user.isPremiere,
+      privacyPolicyVersion: user.privacyPolicyVersion,
+      privacyPolicyAcceptedAt: user.privacyPolicyAcceptedAt,
       reviewedAt: user.reviewedAt,
       createdAt: user.createdAt,
     });
@@ -310,6 +325,7 @@ export class AuthService {
     role: string | null;
     gender: string | null;
     lookingFor: string | null;
+    relationshipIntent: string;
     birthDate: Date | null;
     country: string | null;
     state: string | null;
@@ -320,6 +336,8 @@ export class AuthService {
     approvalStatus: string;
     isPremium: boolean;
     isPremiere: boolean;
+    privacyPolicyVersion: string | null;
+    privacyPolicyAcceptedAt: Date | null;
     reviewedAt: Date | null;
     createdAt: Date | null;
   }) {

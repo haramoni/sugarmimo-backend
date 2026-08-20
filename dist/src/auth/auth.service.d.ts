@@ -23,6 +23,7 @@ export declare class AuthService {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -33,6 +34,8 @@ export declare class AuthService {
             approvalStatus: string;
             isPremium: boolean;
             isPremiere: boolean;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -48,6 +51,7 @@ export declare class AuthService {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -56,6 +60,8 @@ export declare class AuthService {
             isPremium: boolean;
             isPremiere: boolean;
             reviewedAt: Date | null;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             createdAt: Date | null;
             photos: {
                 id: string;
@@ -75,6 +81,7 @@ export declare class AuthService {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -85,6 +92,8 @@ export declare class AuthService {
             approvalStatus: string;
             isPremium: boolean;
             isPremiere: boolean;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -98,6 +107,7 @@ export declare class AuthService {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -108,6 +118,8 @@ export declare class AuthService {
             approvalStatus: string;
             isPremium: boolean;
             isPremiere: boolean;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -15,7 +16,6 @@ import {
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import type { Request, Response } from 'express';
-import sharp from 'sharp';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -27,6 +27,8 @@ import { getRegistrationThrottleTracker } from './registration-throttle';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateSearchLocationDto } from './dto/update-search-location.dto';
+import { AcceptPrivacyPolicyDto } from './dto/accept-privacy-policy.dto';
+import { CURRENT_PRIVACY_POLICY_VERSION } from './privacy-policy';
 
 type AuthenticatedRequest = Request & {
   user: {
@@ -130,6 +132,25 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('privacy-policy/accept')
+  @HttpCode(200)
+  acceptPrivacyPolicy(
+    @Req() request: AuthenticatedRequest,
+    @Body() acceptance: AcceptPrivacyPolicyDto,
+  ) {
+    if (acceptance.version !== CURRENT_PRIVACY_POLICY_VERSION) {
+      throw new BadRequestException(
+        'A versao informada nao corresponde a Politica de Privacidade atual.',
+      );
+    }
+
+    return this.usersService.acceptPrivacyPolicy(
+      request.user.id,
+      CURRENT_PRIVACY_POLICY_VERSION,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Patch('search-location')
   @Throttle({ default: { limit: 12, ttl: 60 * 60_000 } })
   updateSearchLocation(
@@ -169,6 +190,7 @@ export class AuthController {
     @Query('gender') gender = '',
     @Query('latitude') latitude = '',
     @Query('longitude') longitude = '',
+    @Query('relationshipMode') relationshipMode = '',
   ) {
     return this.usersService.findMatchesForUser(
       request.user.id,
@@ -180,6 +202,7 @@ export class AuthController {
       gender,
       latitude ? Number(latitude) : undefined,
       longitude ? Number(longitude) : undefined,
+      relationshipMode,
     );
   }
 
@@ -194,6 +217,7 @@ export class AuthController {
     const photo = await this.usersService.findMatchPhotoForUser(
       request.user.id,
       photoId,
+      variant,
     );
 
     if (!photo) {
@@ -206,29 +230,17 @@ export class AuthController {
       throw new NotFoundException('Foto nao encontrada.');
     }
 
-    const originalBuffer = Buffer.from(match[2], 'base64');
-    let buffer: Buffer<ArrayBufferLike> = originalBuffer;
-    let contentType = photo.mimeType || match[1] || 'application/octet-stream';
+    const buffer = Buffer.from(match[2], 'base64');
+    const contentType =
+      photo.mimeType || match[1] || 'application/octet-stream';
 
-    if (variant === 'card') {
-      try {
-        buffer = await sharp(originalBuffer)
-          .rotate()
-          .resize({
-            width: 320,
-            height: 320,
-            fit: 'inside',
-            withoutEnlargement: true,
-          })
-          .webp({ quality: 76, effort: 1 })
-          .toBuffer();
-        contentType = 'image/webp';
-      } catch {
-        // Keep serving the original if an old upload cannot be processed.
-      }
-    }
-
-    response.setHeader('Cache-Control', 'private, max-age=3600, immutable');
+    response.setHeader(
+      'Cache-Control',
+      variant === 'card'
+        ? 'private, max-age=31536000, immutable'
+        : 'private, max-age=3600',
+    );
+    response.setHeader('ETag', `"${photo.id}-${variant ?? 'original'}"`);
 
     return new StreamableFile(buffer, {
       type: contentType,

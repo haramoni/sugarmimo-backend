@@ -13,6 +13,8 @@ describe('UsersService', () => {
     },
     userPhoto: {
       findFirst: jest.fn(),
+      findUnique: jest.fn(),
+      update: jest.fn(),
       delete: jest.fn(),
     },
     userBlock: {
@@ -187,10 +189,44 @@ describe('UsersService', () => {
           user: {
             role: 'SUGAR_BABY',
             approvalStatus: 'APPROVED',
+            relationshipIntent: { in: ['SUGAR', 'BOTH'] },
           },
         },
       }),
     );
+  });
+
+  it('serves a persisted card thumbnail without loading the original photo', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_DADDY',
+      approvalStatus: 'APPROVED',
+      relationshipIntent: 'SUGAR',
+    });
+    prisma.userPhoto.findFirst.mockResolvedValue({
+      id: 'photo-card-1',
+      cardDataUrl: 'data:image/webp;base64,UklGRg==',
+      mimeType: 'image/jpeg',
+      isPrivate: false,
+      user: { preferences: null },
+    });
+
+    await expect(
+      service.findMatchPhotoForUser('daddy-1', 'photo-card-1', 'card'),
+    ).resolves.toEqual({
+      id: 'photo-card-1',
+      dataUrl: 'data:image/webp;base64,UklGRg==',
+      mimeType: 'image/webp',
+    });
+    expect(prisma.userPhoto.findFirst).toHaveBeenCalledWith(
+      expect.objectContaining({
+        select: expect.objectContaining({
+          dataUrl: false,
+          cardDataUrl: true,
+        }) as object,
+      }),
+    );
+    expect(prisma.userPhoto.findUnique).not.toHaveBeenCalled();
+    expect(prisma.userPhoto.update).not.toHaveBeenCalled();
   });
 
   it('allows a private photo only for an explicitly authorized username', async () => {

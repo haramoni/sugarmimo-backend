@@ -40,6 +40,7 @@ class RegisterDto {
     profileType;
     interest;
     lookingFor;
+    relationshipIntent;
     birthDate;
     country;
     state;
@@ -107,6 +108,12 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], RegisterDto.prototype, "lookingFor", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsIn)(['SUGAR', 'TRADITIONAL', 'BOTH']),
+    __metadata("design:type", String)
+], RegisterDto.prototype, "relationshipIntent", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsDateString)(),

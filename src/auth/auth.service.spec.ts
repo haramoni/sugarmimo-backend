@@ -24,6 +24,8 @@ const baseUser = {
   approvalStatus: 'PENDING',
   isPremium: false,
   isPremiere: false,
+  privacyPolicyVersion: null,
+  privacyPolicyAcceptedAt: null,
   reviewedAt: null,
   createdAt: null,
 };

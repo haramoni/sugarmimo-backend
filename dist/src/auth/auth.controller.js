@@ -11,14 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const throttler_1 = require("@nestjs/throttler");
-const sharp_1 = __importDefault(require("sharp"));
 const users_service_1 = require("../users/users.service");
 const auth_service_1 = require("./auth.service");
 const login_dto_1 = require("./dto/login.dto");
@@ -30,6 +26,8 @@ const registration_throttle_1 = require("./registration-throttle");
 const forgot_password_dto_1 = require("./dto/forgot-password.dto");
 const change_password_dto_1 = require("./dto/change-password.dto");
 const update_search_location_dto_1 = require("./dto/update-search-location.dto");
+const accept_privacy_policy_dto_1 = require("./dto/accept-privacy-policy.dto");
+const privacy_policy_1 = require("./privacy-policy");
 let AuthController = class AuthController {
     authService;
     usersService;
@@ -61,17 +59,23 @@ let AuthController = class AuthController {
     presence(request) {
         return this.usersService.touchPresence(request.user.id);
     }
+    acceptPrivacyPolicy(request, acceptance) {
+        if (acceptance.version !== privacy_policy_1.CURRENT_PRIVACY_POLICY_VERSION) {
+            throw new common_1.BadRequestException('A versao informada nao corresponde a Politica de Privacidade atual.');
+        }
+        return this.usersService.acceptPrivacyPolicy(request.user.id, privacy_policy_1.CURRENT_PRIVACY_POLICY_VERSION);
+    }
     updateSearchLocation(request, location) {
         return this.usersService.updateSearchLocation(request.user.id, location.latitude, location.longitude);
     }
     boosts(request, page = '1', limit = '6') {
         return this.usersService.findBoostedProfilesForUser(request.user.id, Number(page), Number(limit));
     }
-    matches(request, search = '', page = '1', limit = '9', minAge = '', maxAge = '', gender = '', latitude = '', longitude = '') {
-        return this.usersService.findMatchesForUser(request.user.id, search, Number(page), Number(limit), minAge ? Number(minAge) : undefined, maxAge ? Number(maxAge) : undefined, gender, latitude ? Number(latitude) : undefined, longitude ? Number(longitude) : undefined);
+    matches(request, search = '', page = '1', limit = '9', minAge = '', maxAge = '', gender = '', latitude = '', longitude = '', relationshipMode = '') {
+        return this.usersService.findMatchesForUser(request.user.id, search, Number(page), Number(limit), minAge ? Number(minAge) : undefined, maxAge ? Number(maxAge) : undefined, gender, latitude ? Number(latitude) : undefined, longitude ? Number(longitude) : undefined, relationshipMode);
     }
     async matchPhoto(request, photoId, variant, response) {
-        const photo = await this.usersService.findMatchPhotoForUser(request.user.id, photoId);
+        const photo = await this.usersService.findMatchPhotoForUser(request.user.id, photoId, variant);
         if (!photo) {
             throw new common_1.NotFoundException('Foto nao encontrada.');
         }
@@ -79,27 +83,12 @@ let AuthController = class AuthController {
         if (!match) {
             throw new common_1.NotFoundException('Foto nao encontrada.');
         }
-        const originalBuffer = Buffer.from(match[2], 'base64');
-        let buffer = originalBuffer;
-        let contentType = photo.mimeType || match[1] || 'application/octet-stream';
-        if (variant === 'card') {
-            try {
-                buffer = await (0, sharp_1.default)(originalBuffer)
-                    .rotate()
-                    .resize({
-                    width: 320,
-                    height: 320,
-                    fit: 'inside',
-                    withoutEnlargement: true,
-                })
-                    .webp({ quality: 76, effort: 1 })
-                    .toBuffer();
-                contentType = 'image/webp';
-            }
-            catch {
-            }
-        }
-        response.setHeader('Cache-Control', 'private, max-age=3600, immutable');
+        const buffer = Buffer.from(match[2], 'base64');
+        const contentType = photo.mimeType || match[1] || 'application/octet-stream';
+        response.setHeader('Cache-Control', variant === 'card'
+            ? 'private, max-age=31536000, immutable'
+            : 'private, max-age=3600');
+        response.setHeader('ETag', `"${photo.id}-${variant ?? 'original'}"`);
         return new common_1.StreamableFile(buffer, {
             type: contentType,
             length: buffer.byteLength,
@@ -222,6 +211,16 @@ __decorate([
 ], AuthController.prototype, "presence", null);
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Post)('privacy-policy/accept'),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, accept_privacy_policy_dto_1.AcceptPrivacyPolicyDto]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "acceptPrivacyPolicy", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Patch)('search-location'),
     (0, throttler_1.Throttle)({ default: { limit: 12, ttl: 60 * 60_000 } }),
     __param(0, (0, common_1.Req)()),
@@ -252,8 +251,9 @@ __decorate([
     __param(6, (0, common_1.Query)('gender')),
     __param(7, (0, common_1.Query)('latitude')),
     __param(8, (0, common_1.Query)('longitude')),
+    __param(9, (0, common_1.Query)('relationshipMode')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object, Object, Object, Object, Object, Object, Object, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "matches", null);
 __decorate([

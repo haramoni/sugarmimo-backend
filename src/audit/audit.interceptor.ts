@@ -113,6 +113,7 @@ export class AuditInterceptor implements NestInterceptor {
       'POST /admin/login': 'ADMIN_LOGIN',
       'GET /auth/me': 'CURRENT_USER_VIEWED',
       'PATCH /auth/me': 'PROFILE_UPDATED',
+      'POST /auth/privacy-policy/accept': 'PRIVACY_POLICY_ACCEPTED',
       'GET /auth/matches': 'MATCHES_VIEWED',
       'GET /auth/contact-viewers': 'CONTACT_VIEWERS_SEARCHED',
       'GET /auth/matches/:identifier': 'PROFILE_VIEWED',

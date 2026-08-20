@@ -50,7 +50,9 @@ const bcrypt = __importStar(require("bcrypt"));
 const node_crypto_1 = require("node:crypto");
 const users_service_1 = require("../users/users.service");
 const profile_photo_validation_1 = require("../users/profile-photo.validation");
+const profile_photo_thumbnail_1 = require("../users/profile-photo-thumbnail");
 const email_service_1 = require("./email.service");
+const relationship_intent_1 = require("../users/relationship-intent");
 exports.UserRole = {
     SugarDaddy: 'SUGAR_DADDY',
     SugarBaby: 'SUGAR_BABY',
@@ -89,6 +91,13 @@ let AuthService = AuthService_1 = class AuthService {
             throw new common_1.BadRequestException(`Sugar Babies podem enviar no máximo ${MAX_SUGAR_BABY_REGISTRATION_PHOTOS} fotos no cadastro.`);
         }
         (0, profile_photo_validation_1.validateProfilePhotos)(photos);
+        const preparedPhotos = await Promise.all(photos.map(async (photo, index) => ({
+            dataUrl: photo.dataUrl,
+            cardDataUrl: await (0, profile_photo_thumbnail_1.createCardThumbnailDataUrl)(photo.dataUrl),
+            fileName: photo.fileName,
+            mimeType: photo.mimeType,
+            sortOrder: index + 1,
+        })));
         const passwordHash = await bcrypt.hash(registerDto.password, 10);
         const approvalStatus = this.getInitialApprovalStatus(role);
         const user = await this.usersService.create({
@@ -98,6 +107,7 @@ let AuthService = AuthService_1 = class AuthService {
             role,
             gender: registerDto.profileType,
             lookingFor,
+            relationshipIntent: (0, relationship_intent_1.normalizeRelationshipIntent)(registerDto.relationshipIntent ?? relationship_intent_1.RelationshipIntent.Sugar),
             birthDate: registerDto.birthDate
                 ? new Date(`${registerDto.birthDate}T00:00:00.000Z`)
                 : undefined,
@@ -127,12 +137,7 @@ let AuthService = AuthService_1 = class AuthService {
             },
             approvalStatus,
             referralUsername: registerDto.referralUsername,
-            photos: photos.map((photo, index) => ({
-                dataUrl: photo.dataUrl,
-                fileName: photo.fileName,
-                mimeType: photo.mimeType,
-                sortOrder: index + 1,
-            })),
+            photos: preparedPhotos,
         });
         if (role === exports.UserRole.SugarDaddy) {
             try {
@@ -205,6 +210,7 @@ let AuthService = AuthService_1 = class AuthService {
             role: user.role,
             gender: user.gender,
             lookingFor: user.lookingFor,
+            relationshipIntent: user.relationshipIntent,
             birthDate: user.birthDate,
             country: user.country,
             state: user.state,
@@ -215,6 +221,8 @@ let AuthService = AuthService_1 = class AuthService {
             approvalStatus: user.approvalStatus,
             isPremium: user.isPremium,
             isPremiere: user.isPremiere,
+            privacyPolicyVersion: user.privacyPolicyVersion,
+            privacyPolicyAcceptedAt: user.privacyPolicyAcceptedAt,
             reviewedAt: user.reviewedAt,
             createdAt: user.createdAt,
         });

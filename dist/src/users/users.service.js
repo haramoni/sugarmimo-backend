@@ -13,7 +13,9 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const profile_photo_validation_1 = require("./profile-photo.validation");
+const profile_photo_thumbnail_1 = require("./profile-photo-thumbnail");
 const proximity_ranking_1 = require("./proximity-ranking");
+const relationship_intent_1 = require("./relationship-intent");
 const UserRole = {
     SugarDaddy: 'SUGAR_DADDY',
     SugarBaby: 'SUGAR_BABY',
@@ -101,6 +103,7 @@ let UsersService = class UsersService {
                 role: true,
                 gender: true,
                 lookingFor: true,
+                relationshipIntent: true,
                 birthDate: true,
                 country: true,
                 state: true,
@@ -111,6 +114,8 @@ let UsersService = class UsersService {
                 approvalStatus: true,
                 isPremium: true,
                 isPremiere: true,
+                privacyPolicyVersion: true,
+                privacyPolicyAcceptedAt: true,
                 reviewedAt: true,
                 createdAt: true,
                 photos: {
@@ -212,6 +217,7 @@ let UsersService = class UsersService {
                 role: true,
                 gender: true,
                 lookingFor: true,
+                relationshipIntent: true,
                 birthDate: true,
                 country: true,
                 state: true,
@@ -222,6 +228,8 @@ let UsersService = class UsersService {
                 approvalStatus: true,
                 isPremium: true,
                 isPremiere: true,
+                privacyPolicyVersion: true,
+                privacyPolicyAcceptedAt: true,
                 reviewedAt: true,
                 createdAt: true,
                 photos: {
@@ -234,6 +242,19 @@ let UsersService = class UsersService {
                         sortOrder: true,
                     },
                 },
+            },
+        });
+    }
+    acceptPrivacyPolicy(id, version) {
+        return this.prisma.user.update({
+            where: { id },
+            data: {
+                privacyPolicyVersion: version,
+                privacyPolicyAcceptedAt: new Date(),
+            },
+            select: {
+                privacyPolicyVersion: true,
+                privacyPolicyAcceptedAt: true,
             },
         });
     }
@@ -265,6 +286,7 @@ let UsersService = class UsersService {
                     role: true,
                     gender: true,
                     lookingFor: true,
+                    relationshipIntent: true,
                     birthDate: true,
                     country: true,
                     state: true,
@@ -515,13 +537,14 @@ let UsersService = class UsersService {
         await this.prisma.userPhoto.delete({ where: { id: photo.id } });
         return { id: photo.id, removed: true };
     }
-    async findMatchesForUser(viewerId, search, page = 1, limit = 9, minAge, maxAge, gender, latitude, longitude) {
+    async findMatchesForUser(viewerId, search, page = 1, limit = 9, minAge, maxAge, gender, latitude, longitude, relationshipMode) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
             select: {
                 role: true,
                 username: true,
                 approvalStatus: true,
+                relationshipIntent: true,
                 city: true,
                 state: true,
                 searchLatitude: true,
@@ -547,6 +570,9 @@ let UsersService = class UsersService {
             id: { not: viewerId, notIn: blockedUserIds },
             role: targetRole,
             approvalStatus: 'APPROVED',
+            relationshipIntent: {
+                in: (0, relationship_intent_1.resolveCompatibleRelationshipIntents)(viewer.relationshipIntent, relationshipMode),
+            },
             ...this.matchDemographicFilter(viewer.role, minAge, maxAge, gender),
             ...(normalizedSearch
                 ? {
@@ -727,7 +753,12 @@ let UsersService = class UsersService {
     async findBoostedProfilesForUser(viewerId, page = 1, limit = 6) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
-            select: { role: true, username: true, approvalStatus: true },
+            select: {
+                role: true,
+                username: true,
+                approvalStatus: true,
+                relationshipIntent: true,
+            },
         });
         const targetRole = this.resolveMatchRole(viewer?.role);
         const safePage = Number.isFinite(page) ? Math.max(1, Math.floor(page)) : 1;
@@ -749,6 +780,9 @@ let UsersService = class UsersService {
             },
             role: targetRole,
             approvalStatus: 'APPROVED',
+            relationshipIntent: {
+                in: (0, relationship_intent_1.resolveCompatibleRelationshipIntents)(viewer.relationshipIntent),
+            },
             ...this.matchDemographicFilter(viewer.role),
             boostedUntil: { gt: new Date() },
         };
@@ -769,10 +803,15 @@ let UsersService = class UsersService {
             hasMore,
         };
     }
-    async findMatchPhotoForUser(viewerId, photoId) {
+    async findMatchPhotoForUser(viewerId, photoId, variant) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
-            select: { role: true, username: true, approvalStatus: true },
+            select: {
+                role: true,
+                username: true,
+                approvalStatus: true,
+                relationshipIntent: true,
+            },
         });
         const targetRole = this.resolveMatchRole(viewer?.role);
         if (!targetRole || viewer?.approvalStatus !== 'APPROVED') {
@@ -784,11 +823,15 @@ let UsersService = class UsersService {
                 user: {
                     role: targetRole,
                     approvalStatus: 'APPROVED',
+                    relationshipIntent: {
+                        in: (0, relationship_intent_1.resolveCompatibleRelationshipIntents)(viewer.relationshipIntent),
+                    },
                 },
             },
             select: {
                 id: true,
-                dataUrl: true,
+                dataUrl: variant !== 'card',
+                cardDataUrl: variant === 'card',
                 mimeType: true,
                 isPrivate: true,
                 user: {
@@ -811,6 +854,32 @@ let UsersService = class UsersService {
         if (photo.isPrivate &&
             !privatePhotoViewerUsernames.includes(viewer?.username?.toLowerCase())) {
             return null;
+        }
+        if (variant === 'card') {
+            const originalPhoto = photo.cardDataUrl
+                ? null
+                : await this.prisma.userPhoto.findUnique({
+                    where: { id: photo.id },
+                    select: { dataUrl: true },
+                });
+            const cardDataUrl = photo.cardDataUrl ??
+                (originalPhoto
+                    ? await (0, profile_photo_thumbnail_1.createCardThumbnailDataUrl)(originalPhoto.dataUrl)
+                    : undefined);
+            if (cardDataUrl && !photo.cardDataUrl) {
+                await this.prisma.userPhoto.update({
+                    where: { id: photo.id },
+                    data: { cardDataUrl },
+                    select: { id: true },
+                });
+            }
+            if (cardDataUrl) {
+                return {
+                    id: photo.id,
+                    dataUrl: cardDataUrl,
+                    mimeType: 'image/webp',
+                };
+            }
         }
         return {
             id: photo.id,
@@ -885,7 +954,12 @@ let UsersService = class UsersService {
     async findMatchProfileForUser(viewerId, identifier) {
         const viewer = await this.prisma.user.findUnique({
             where: { id: viewerId },
-            select: { role: true, username: true, approvalStatus: true },
+            select: {
+                role: true,
+                username: true,
+                approvalStatus: true,
+                relationshipIntent: true,
+            },
         });
         const targetRole = this.resolveMatchRole(viewer?.role);
         if (!targetRole ||
@@ -904,6 +978,9 @@ let UsersService = class UsersService {
                 ],
                 role: targetRole,
                 approvalStatus: 'APPROVED',
+                relationshipIntent: {
+                    in: (0, relationship_intent_1.resolveCompatibleRelationshipIntents)(viewer.relationshipIntent),
+                },
             },
             select: this.publicProfileSelect(),
         });
@@ -988,12 +1065,32 @@ let UsersService = class UsersService {
             data.eyeColor,
             data.heightCm,
         ].some((value) => value !== undefined && value !== '');
+        let preparedProfilePhotos;
+        if (data.profilePhotos) {
+            const publicPhotos = data.profilePhotos.filter((photo) => !photo.isPrivate);
+            const privatePhotos = data.profilePhotos.filter((photo) => photo.isPrivate);
+            if (publicPhotos.length > 6 || privatePhotos.length > 6) {
+                throw new common_1.BadRequestException('Voce pode manter no maximo 6 fotos publicas e 6 privadas.');
+            }
+            if (currentUser.role === UserRole.SugarBaby &&
+                publicPhotos.length === 0) {
+                throw new common_1.BadRequestException('Sugar Babies precisam manter pelo menos uma foto.');
+            }
+            (0, profile_photo_validation_1.validateProfilePhotos)(data.profilePhotos);
+            preparedProfilePhotos = await Promise.all(data.profilePhotos.map(async (photo) => ({
+                ...photo,
+                cardDataUrl: await (0, profile_photo_thumbnail_1.createCardThumbnailDataUrl)(photo.dataUrl),
+            })));
+        }
         await this.prisma.$transaction(async (tx) => {
             await tx.user.update({
                 where: { id },
                 data: {
                     username: data.username?.toLowerCase(),
                     lookingFor: data.lookingFor,
+                    relationshipIntent: data.relationshipIntent === undefined
+                        ? undefined
+                        : (0, relationship_intent_1.normalizeRelationshipIntent)(data.relationshipIntent),
                     birthDate: data.birthDate
                         ? new Date(`${data.birthDate}T00:00:00.000Z`)
                         : undefined,
@@ -1048,23 +1145,14 @@ let UsersService = class UsersService {
                     lookingFor: data.lookingForText,
                 },
             });
-            if (data.profilePhotos) {
-                const publicPhotos = data.profilePhotos.filter((photo) => !photo.isPrivate);
-                const privatePhotos = data.profilePhotos.filter((photo) => photo.isPrivate);
-                if (publicPhotos.length > 6 || privatePhotos.length > 6) {
-                    throw new common_1.BadRequestException('Voce pode manter no maximo 6 fotos publicas e 6 privadas.');
-                }
-                if (currentUser.role === UserRole.SugarBaby &&
-                    publicPhotos.length === 0) {
-                    throw new common_1.BadRequestException('Sugar Babies precisam manter pelo menos uma foto.');
-                }
-                (0, profile_photo_validation_1.validateProfilePhotos)(data.profilePhotos);
+            if (preparedProfilePhotos) {
                 await tx.userPhoto.deleteMany({ where: { userId: id } });
-                if (data.profilePhotos.length > 0) {
+                if (preparedProfilePhotos.length > 0) {
                     await tx.userPhoto.createMany({
-                        data: data.profilePhotos.map((photo, index) => ({
+                        data: preparedProfilePhotos.map((photo, index) => ({
                             userId: id,
                             dataUrl: photo.dataUrl,
+                            cardDataUrl: photo.cardDataUrl,
                             fileName: photo.fileName,
                             mimeType: photo.mimeType,
                             sortOrder: photo.sortOrder ?? index + 1,
@@ -1159,6 +1247,7 @@ let UsersService = class UsersService {
             role: true,
             gender: true,
             lookingFor: true,
+            relationshipIntent: true,
             birthDate: true,
             country: true,
             state: true,

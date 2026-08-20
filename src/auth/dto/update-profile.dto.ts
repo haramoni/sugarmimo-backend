@@ -52,6 +52,11 @@ export class UpdateProfileDto {
   lookingFor?: string;
 
   @IsOptional()
+  @IsString()
+  @IsIn(['SUGAR', 'TRADITIONAL', 'BOTH'])
+  relationshipIntent?: string;
+
+  @IsOptional()
   @IsDateString()
   birthDate?: string;
 

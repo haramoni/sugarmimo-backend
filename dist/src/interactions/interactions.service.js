@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.InteractionsService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
+const relationship_intent_1 = require("../users/relationship-intent");
 const UserRole = {
     SugarDaddy: 'SUGAR_DADDY',
     SugarBaby: 'SUGAR_BABY',
@@ -37,18 +38,25 @@ let InteractionsService = class InteractionsService {
                     id: true,
                     role: true,
                     approvalStatus: true,
+                    relationshipIntent: true,
                     isPremium: true,
                     isPremiere: true,
                 },
             }),
             this.prisma.user.findUnique({
                 where: { id: babyId },
-                select: { id: true, role: true, approvalStatus: true },
+                select: {
+                    id: true,
+                    role: true,
+                    approvalStatus: true,
+                    relationshipIntent: true,
+                },
             }),
         ]);
         if (!daddy || !baby) {
             throw new common_1.NotFoundException('Perfil nao encontrado.');
         }
+        this.ensureCompatibleRelationshipIntents(daddy.relationshipIntent, baby.relationshipIntent);
         if (daddy.role !== UserRole.SugarDaddy ||
             daddy.approvalStatus !== 'APPROVED') {
             throw new common_1.ForbiddenException('Apenas Sugar Daddies ativos podem curtir.');
@@ -95,6 +103,7 @@ let InteractionsService = class InteractionsService {
                     id: true,
                     role: true,
                     approvalStatus: true,
+                    relationshipIntent: true,
                     preferences: { select: { preferences: true } },
                 },
             }),
@@ -105,6 +114,7 @@ let InteractionsService = class InteractionsService {
                     username: true,
                     role: true,
                     approvalStatus: true,
+                    relationshipIntent: true,
                     isPremium: true,
                     isPremiere: true,
                 },
@@ -113,6 +123,7 @@ let InteractionsService = class InteractionsService {
         if (!baby || !daddy) {
             throw new common_1.NotFoundException('Perfil nao encontrado.');
         }
+        this.ensureCompatibleRelationshipIntents(baby.relationshipIntent, daddy.relationshipIntent);
         if (baby.role !== UserRole.SugarBaby ||
             baby.approvalStatus !== 'APPROVED') {
             throw new common_1.ForbiddenException('Apenas Sugar Babies aprovadas podem liberar contatos.');
@@ -183,6 +194,7 @@ let InteractionsService = class InteractionsService {
                     id: true,
                     role: true,
                     approvalStatus: true,
+                    relationshipIntent: true,
                     preferences: { select: { preferences: true } },
                 },
             }),
@@ -193,6 +205,7 @@ let InteractionsService = class InteractionsService {
                     username: true,
                     role: true,
                     approvalStatus: true,
+                    relationshipIntent: true,
                     isPremium: true,
                     isPremiere: true,
                 },
@@ -201,6 +214,7 @@ let InteractionsService = class InteractionsService {
         if (!baby || !daddy) {
             throw new common_1.NotFoundException('Perfil nao encontrado.');
         }
+        this.ensureCompatibleRelationshipIntents(baby.relationshipIntent, daddy.relationshipIntent);
         if (baby.role !== UserRole.SugarBaby ||
             baby.approvalStatus !== 'APPROVED') {
             throw new common_1.ForbiddenException('Apenas Sugar Babies aprovadas podem curtir e liberar contatos.');
@@ -336,6 +350,11 @@ let InteractionsService = class InteractionsService {
             contactsReleased: Boolean(profileLike.contactsReleasedAt),
             contactsReleasedAt: profileLike.contactsReleasedAt,
         };
+    }
+    ensureCompatibleRelationshipIntents(firstIntent, secondIntent) {
+        if (!(0, relationship_intent_1.haveCompatibleRelationshipIntents)(firstIntent, secondIntent)) {
+            throw new common_1.ForbiddenException('Os perfis nao possuem uma intencao de relacionamento compativel.');
+        }
     }
 };
 exports.InteractionsService = InteractionsService;

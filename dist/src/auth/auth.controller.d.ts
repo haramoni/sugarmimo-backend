@@ -8,6 +8,7 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { UpdateSearchLocationDto } from './dto/update-search-location.dto';
+import { AcceptPrivacyPolicyDto } from './dto/accept-privacy-policy.dto';
 type AuthenticatedRequest = Request & {
     user: {
         id: string;
@@ -28,6 +29,7 @@ export declare class AuthController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -38,6 +40,8 @@ export declare class AuthController {
             approvalStatus: string;
             isPremium: boolean;
             isPremiere: boolean;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -53,6 +57,7 @@ export declare class AuthController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -61,6 +66,8 @@ export declare class AuthController {
             isPremium: boolean;
             isPremiere: boolean;
             reviewedAt: Date | null;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             createdAt: Date | null;
             photos: {
                 id: string;
@@ -80,6 +87,7 @@ export declare class AuthController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -90,6 +98,8 @@ export declare class AuthController {
             approvalStatus: string;
             isPremium: boolean;
             isPremiere: boolean;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -110,6 +120,7 @@ export declare class AuthController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -120,6 +131,8 @@ export declare class AuthController {
             approvalStatus: string;
             isPremium: boolean;
             isPremiere: boolean;
+            privacyPolicyVersion: string | null;
+            privacyPolicyAcceptedAt: Date | null;
             reviewedAt: Date | null;
             createdAt: Date | null;
         };
@@ -134,6 +147,7 @@ export declare class AuthController {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -142,6 +156,8 @@ export declare class AuthController {
         isPremium: boolean;
         isPremiere: boolean;
         reviewedAt: Date | null;
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;
@@ -171,6 +187,10 @@ export declare class AuthController {
     presence(request: AuthenticatedRequest): Promise<{
         online: boolean;
     }>;
+    acceptPrivacyPolicy(request: AuthenticatedRequest, acceptance: AcceptPrivacyPolicyDto): import("@prisma/client").Prisma.Prisma__UserClient<{
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
+    }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
     updateSearchLocation(request: AuthenticatedRequest, location: UpdateSearchLocationDto): import("@prisma/client").Prisma.Prisma__UserClient<{
         searchLocationUpdatedAt: Date | null;
     }, never, import("@prisma/client/runtime/client").DefaultArgs, import("@prisma/client").Prisma.PrismaClientOptions>;
@@ -184,6 +204,7 @@ export declare class AuthController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -227,7 +248,7 @@ export declare class AuthController {
         pageSize: number;
         hasMore: boolean;
     }>;
-    matches(request: AuthenticatedRequest, search?: string, page?: string, limit?: string, minAge?: string, maxAge?: string, gender?: string, latitude?: string, longitude?: string): Promise<{
+    matches(request: AuthenticatedRequest, search?: string, page?: string, limit?: string, minAge?: string, maxAge?: string, gender?: string, latitude?: string, longitude?: string, relationshipMode?: string): Promise<{
         items: ({
             whatsapp: string | null;
             telegram: string | null;
@@ -237,6 +258,7 @@ export declare class AuthController {
             role: string | null;
             gender: string | null;
             lookingFor: string | null;
+            relationshipIntent: string;
             birthDate: Date | null;
             country: string | null;
             state: string | null;
@@ -313,6 +335,7 @@ export declare class AuthController {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -358,6 +381,7 @@ export declare class AuthController {
         role: string | null;
         gender: string | null;
         lookingFor: string | null;
+        relationshipIntent: string;
         birthDate: Date | null;
         country: string | null;
         state: string | null;
@@ -366,6 +390,8 @@ export declare class AuthController {
         isPremium: boolean;
         isPremiere: boolean;
         reviewedAt: Date | null;
+        privacyPolicyVersion: string | null;
+        privacyPolicyAcceptedAt: Date | null;
         createdAt: Date | null;
         appearance: {
             bodyType: string | null;

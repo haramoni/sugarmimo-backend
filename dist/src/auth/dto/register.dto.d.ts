@@ -12,6 +12,7 @@ export declare class RegisterDto {
     profileType?: string;
     interest?: string;
     lookingFor?: string;
+    relationshipIntent?: string;
     birthDate?: string;
     country?: string;
     state?: string;

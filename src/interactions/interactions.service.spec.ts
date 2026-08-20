@@ -91,6 +91,28 @@ describe('InteractionsService', () => {
     );
   });
 
+  it('rejects a like when the relationship intentions do not overlap', async () => {
+    prisma.user.findUnique
+      .mockResolvedValueOnce({
+        id: 'daddy-1',
+        role: 'SUGAR_DADDY',
+        approvalStatus: 'APPROVED',
+        relationshipIntent: 'SUGAR',
+        isPremium: true,
+      })
+      .mockResolvedValueOnce({
+        id: 'baby-1',
+        role: 'SUGAR_BABY',
+        approvalStatus: 'APPROVED',
+        relationshipIntent: 'TRADITIONAL',
+      });
+
+    await expect(service.likeProfile('daddy-1', 'baby-1')).rejects.toThrow(
+      'Os perfis nao possuem uma intencao de relacionamento compativel.',
+    );
+    expect(prisma.profileLike.findUnique).not.toHaveBeenCalled();
+  });
+
   it('does not release contacts when the Daddy has not liked first', async () => {
     prisma.user.findUnique
       .mockResolvedValueOnce({
