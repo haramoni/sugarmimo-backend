@@ -79,7 +79,9 @@ let AuthController = class AuthController {
         if (!photo) {
             throw new common_1.NotFoundException('Foto nao encontrada.');
         }
-        const match = photo.dataUrl.match(/^data:([^;]+);base64,(.+)$/s);
+        const match = typeof photo.dataUrl === 'string'
+            ? photo.dataUrl.match(/^data:([^;]+);base64,(.+)$/s)
+            : null;
         if (!match) {
             throw new common_1.NotFoundException('Foto nao encontrada.');
         }

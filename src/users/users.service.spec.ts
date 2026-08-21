@@ -229,6 +229,33 @@ describe('UsersService', () => {
     expect(prisma.userPhoto.update).not.toHaveBeenCalled();
   });
 
+  it('falls back to the original card photo when thumbnail generation fails', async () => {
+    prisma.user.findUnique.mockResolvedValue({
+      role: 'SUGAR_DADDY',
+      approvalStatus: 'APPROVED',
+      relationshipIntent: 'SUGAR',
+    });
+    prisma.userPhoto.findFirst.mockResolvedValue({
+      id: 'legacy-photo-1',
+      cardDataUrl: null,
+      mimeType: 'image/jpeg',
+      isPrivate: false,
+      user: { preferences: null },
+    });
+    prisma.userPhoto.findUnique.mockResolvedValue({
+      dataUrl: 'data:image/jpeg;base64,invalid-image',
+    });
+
+    await expect(
+      service.findMatchPhotoForUser('daddy-1', 'legacy-photo-1', 'card'),
+    ).resolves.toEqual({
+      id: 'legacy-photo-1',
+      dataUrl: 'data:image/jpeg;base64,invalid-image',
+      mimeType: 'image/jpeg',
+    });
+    expect(prisma.userPhoto.update).not.toHaveBeenCalled();
+  });
+
   it('allows a private photo only for an explicitly authorized username', async () => {
     prisma.user.findUnique.mockResolvedValue({
       role: 'SUGAR_DADDY',

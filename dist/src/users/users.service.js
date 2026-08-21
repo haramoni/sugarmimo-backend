@@ -880,6 +880,14 @@ let UsersService = class UsersService {
                     mimeType: 'image/webp',
                 };
             }
+            if (originalPhoto?.dataUrl) {
+                return {
+                    id: photo.id,
+                    dataUrl: originalPhoto.dataUrl,
+                    mimeType: photo.mimeType,
+                };
+            }
+            return null;
         }
         return {
             id: photo.id,

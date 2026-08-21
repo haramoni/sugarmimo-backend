@@ -224,7 +224,10 @@ export class AuthController {
       throw new NotFoundException('Foto nao encontrada.');
     }
 
-    const match = photo.dataUrl.match(/^data:([^;]+);base64,(.+)$/s);
+    const match =
+      typeof photo.dataUrl === 'string'
+        ? photo.dataUrl.match(/^data:([^;]+);base64,(.+)$/s)
+        : null;
 
     if (!match) {
       throw new NotFoundException('Foto nao encontrada.');

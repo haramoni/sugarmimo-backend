@@ -7,6 +7,9 @@ exports.createCardThumbnailDataUrl = createCardThumbnailDataUrl;
 const sharp_1 = __importDefault(require("sharp"));
 const DATA_URL_PATTERN = /^data:([^;]+);base64,(.+)$/s;
 async function createCardThumbnailDataUrl(dataUrl) {
+    if (typeof dataUrl !== 'string') {
+        return undefined;
+    }
     const match = dataUrl.match(DATA_URL_PATTERN);
     if (!match) {
         return undefined;
@@ -17,9 +20,8 @@ async function createCardThumbnailDataUrl(dataUrl) {
             .rotate()
             .resize({
             width: 480,
-            height: 360,
-            fit: 'cover',
-            position: 'attention',
+            height: 600,
+            fit: 'inside',
             withoutEnlargement: true,
         })
             .webp({ quality: 72, effort: 2 })

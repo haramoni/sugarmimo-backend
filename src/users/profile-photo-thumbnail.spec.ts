@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import { createCardThumbnailDataUrl } from './profile-photo-thumbnail';
 
 describe('profile card thumbnail', () => {
-  it('creates a compact WebP card image', async () => {
+  it('creates a compact WebP card image without cropping the original ratio', async () => {
     const original = await sharp({
       create: {
         width: 900,
@@ -21,8 +21,8 @@ describe('profile card thumbnail', () => {
     const metadata = await sharp(thumbnail).metadata();
 
     expect(result).toMatch(/^data:image\/webp;base64,/);
-    expect(metadata.width).toBe(480);
-    expect(metadata.height).toBe(360);
+    expect(metadata.width).toBe(450);
+    expect(metadata.height).toBe(600);
     expect(thumbnail.byteLength).toBeLessThan(original.byteLength);
   });
 
